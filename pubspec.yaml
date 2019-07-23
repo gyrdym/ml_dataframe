@@ -1,0 +1,21 @@
+name: ml_dataframe
+description: Dataframe - a way to store and effectively manipulate data
+version: 0.0.1
+author: Ilia Gyrdymov <ilgyrd@gmail.com>
+homepage: https://github.com/gyrdym/ml_dataframe
+
+environment:
+  sdk: '>=2.3.0 <3.0.0'
+
+dependencies:
+  ml_linalg: ^10.3.5
+  xrange: ^0.0.6
+  quiver: ^2.0.2
+
+dev_dependencies:
+  benchmark_harness: ">=1.0.0 <2.0.0"
+  test: ^1.2.0
+  mockito: ^3.0.0
+  build_runner: ^1.1.2
+  build_test: ^0.10.2
+  pedantic: 1.1.0
