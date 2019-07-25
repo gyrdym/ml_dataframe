@@ -44,6 +44,20 @@ void main() {
       ]));
     });
 
+    test('should consider last columns as outcome column if outcome column '
+        'indices range is not provided', () {
+      final dataSet = DataSet(Matrix.fromList([
+        [10, 20, 33],
+        [22, 10, 39],
+        [90, 26, 14],
+      ]));
+      expect(dataSet.outcome, equals([
+        [33],
+        [39],
+        [14],
+      ]));
+    });
+
     test('should extract features', () {
       expect(dataSet.features, equals([
         [10, 20, 33, 0, 0, 0, 1, 10],

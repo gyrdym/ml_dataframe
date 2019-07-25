@@ -4,17 +4,20 @@ import 'package:xrange/zrange.dart';
 
 class DataSet {
   DataSet(this._records, {
-    this.outcomeRange,
+    ZRange outcomeRange,
     this.columnIdsToDecodingMap,
     this.header,
   }) {
+    final firstOutcomeIdx = outcomeRange != null
+        ? outcomeRange.firstValue
+        : _records.columnsNum - 1;
     _features = _records
-        .submatrix(columns: ZRange.closedOpen(0, outcomeRange.firstValue));
-    _outcome = _records.submatrix(columns: outcomeRange);
+        .submatrix(columns: ZRange.closedOpen(0, firstOutcomeIdx));
+    _outcome = _records.submatrix(columns: outcomeRange
+        ?? ZRange.singleton(firstOutcomeIdx));
   }
 
   final List<String> header;
-  final ZRange outcomeRange;
   final Map<ZRange, Map<Vector, String>> columnIdsToDecodingMap;
   final Matrix _records;
 
