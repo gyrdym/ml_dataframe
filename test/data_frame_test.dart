@@ -1,38 +1,55 @@
-import 'package:ml_dataframe/data_frame.dart';
+import 'package:ml_dataframe/data_set.dart';
 import 'package:ml_linalg/linalg.dart';
 import 'package:test/test.dart';
 import 'package:xrange/zrange.dart';
 
 void main() {
-  group('DataFrame', () {
+  group('DataSet', () {
     final observations = Matrix.fromList(([
       [10, 20, 33, 0, 0, 0, 1, 10, 0, 0, 1],
       [22, 10, 39, 1, 0, 0, 0, 20, 0, 1, 0],
       [90, 26, 14, 0, 1, 0, 0, 65, 0, 0, 1],
     ]));
 
-    final rangeToEncoded = {
-      ZRange.closed(3, 6): [
-        Vector.fromList([0, 0, 0, 1]),
-        Vector.fromList([0, 0, 1, 0]),
-        Vector.fromList([0, 1, 0, 0]),
-        Vector.fromList([1, 0, 0, 0]),
-      ],
-      ZRange.closed(8, 10): [
-        Vector.fromList([0, 0, 1]),
-        Vector.fromList([0, 1, 0]),
-        Vector.fromList([1, 0, 0]),
-      ]
+    final outcomeRange = ZRange.closed(8, 10);
+
+    final columnIdsToEncodingMap = {
+      ZRange.closed(3, 6): {
+        Vector.fromList([0, 0, 0, 1]): '1',
+        Vector.fromList([0, 0, 1, 0]): '2',
+        Vector.fromList([0, 1, 0, 0]): '3',
+        Vector.fromList([1, 0, 0, 0]): '4',
+      },
+      outcomeRange: {
+        Vector.fromList([0, 0, 1]): 'how_doth',
+        Vector.fromList([0, 1, 0]): 'the_little',
+        Vector.fromList([1, 0, 0]): 'crocodile',
+      },
     };
 
-    final dataFrame = DataFrame(observations);
+    final dataSet = DataSet(observations,
+        outcomeRange: outcomeRange,
+        columnIdsToEncodingMap: columnIdsToEncodingMap
+    );
 
     test('should store nominal feature ranges with their encoded values', () {
-      expect(dataFrame.rangeToEncoded, equals(rangeToEncoded));
+      expect(dataSet.columnIdsToEncodingMap, equals(columnIdsToEncodingMap));
     });
 
-    test('should store outcome variable column range', () {
-      expect(dataFrame.toMatrix(), equals(observations));
+    test('should extract outcome values', () {
+      expect(dataSet.outcome, equals([
+        [0, 0, 1],
+        [0, 1, 0],
+        [0, 0, 1],
+      ]));
+    });
+
+    test('should extract features', () {
+      expect(dataSet.features, equals([
+        [10, 20, 33, 0, 0, 0, 1, 10],
+        [22, 10, 39, 1, 0, 0, 0, 20],
+        [90, 26, 14, 0, 1, 0, 0, 65],
+      ]));
     });
   });
 }
