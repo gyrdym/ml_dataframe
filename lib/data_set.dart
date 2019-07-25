@@ -5,8 +5,7 @@ import 'package:xrange/zrange.dart';
 class DataSet {
   DataSet(this._records, {
     this.outcomeRange,
-    this.columnIdToEncodingMap,
-    this.columnIdsToEncodingMap,
+    this.columnIdsToDecodingMap,
     this.header,
   }) {
     _features = _records
@@ -16,8 +15,7 @@ class DataSet {
 
   final List<String> header;
   final ZRange outcomeRange;
-  final Map<int, Map<num, String>> columnIdToEncodingMap;
-  final Map<ZRange, Map<Vector, String>> columnIdsToEncodingMap;
+  final Map<ZRange, Map<Vector, String>> columnIdsToDecodingMap;
   final Matrix _records;
 
   Matrix get features => _features;
@@ -26,7 +24,7 @@ class DataSet {
   Matrix get outcome => _outcome;
   Matrix _outcome;
 
-  bool isColumnNominal(ZRange range)  => columnIdsToEncodingMap
+  bool isColumnNominal(ZRange range)  => columnIdsToDecodingMap
       ?.containsKey(range) == true;
 
   Matrix toMatrix() => _records;

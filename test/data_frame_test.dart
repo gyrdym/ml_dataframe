@@ -13,7 +13,7 @@ void main() {
 
     final outcomeRange = ZRange.closed(8, 10);
 
-    final columnIdsToEncodingMap = {
+    final columnIdsToDecodingMap = {
       ZRange.closed(3, 6): {
         Vector.fromList([0, 0, 0, 1]): '1',
         Vector.fromList([0, 0, 1, 0]): '2',
@@ -29,11 +29,11 @@ void main() {
 
     final dataSet = DataSet(observations,
         outcomeRange: outcomeRange,
-        columnIdsToEncodingMap: columnIdsToEncodingMap
+        columnIdsToDecodingMap: columnIdsToDecodingMap
     );
 
-    test('should store nominal feature ranges with their encoded values', () {
-      expect(dataSet.columnIdsToEncodingMap, equals(columnIdsToEncodingMap));
+    test('should store nominal feature ranges with their decoding maps', () {
+      expect(dataSet.columnIdsToDecodingMap, equals(columnIdsToDecodingMap));
     });
 
     test('should extract outcome values', () {
