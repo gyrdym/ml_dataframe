@@ -12,7 +12,7 @@ Iterable<Series> convertRowsToSeries(
   while (headersIterator.moveNext()) {
     final column = rowIterators
         .where((iterator) => iterator.moveNext())
-        .map((iterator) => iterator.current);
+        .map<dynamic>((iterator) => iterator.current);
     yield Series(headersIterator.current, column);
   }
 }
@@ -23,6 +23,6 @@ Iterable<Iterable<dynamic>> convertSeriesToRows(Iterable<Series> series) sync* {
       .toList(growable: false);
 
   while (iterators.fold(true, (isActive, iterator) => iterator.moveNext())) {
-    yield iterators.map((iterator) => iterator.current);
+    yield iterators.map<dynamic>((iterator) => iterator.current);
   }
 }

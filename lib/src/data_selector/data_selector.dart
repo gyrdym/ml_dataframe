@@ -17,7 +17,7 @@ class DataSelector {
     _columnIndices.isEmpty
         ? data
         : data.map((row) =>
-            enumerate(row)
+            enumerate<dynamic>(row)
                 .where((indexed) => _columnIndices.contains(indexed.index))
-                .map((indexed) => indexed.value));
+                .map<dynamic>((indexed) => indexed.value));
 }

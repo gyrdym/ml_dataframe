@@ -84,9 +84,9 @@ void main() {
       test('should extract rows (transpose series columns) from the given '
           'series collection', () {
         final series = [
-          Series('col_1', [1, 2, 3, null, 33]),
-          Series('col_2', [true, false, true, true, null]),
-          Series('col_3', ['1', '2', '3', '22', '33']),
+          Series('col_1', <dynamic>[1, 2, 3, null, 33]),
+          Series('col_2', <dynamic>[true, false, true, true, null]),
+          Series('col_3', <dynamic>['1', '2', '3', '22', '33']),
         ];
 
         final rows = convertSeriesToRows(series);

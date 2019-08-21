@@ -14,7 +14,7 @@ class NumericalConverterImpl implements NumericalConverter {
 
   @override
   Iterable<Iterable<double>> convertRawData(Iterable<Iterable> data) =>
-    data.map((row) => row.map((value) => _convertSingle(value)));
+    data.map((row) => row.map(_convertSingle));
 
   double _convertSingle(dynamic value) {
     if (value is String) {
@@ -39,6 +39,6 @@ class NumericalConverterImpl implements NumericalConverter {
       }
       return null;
     }
-    return value * 1.0;
+    return value * 1.0 as double;
   }
 }

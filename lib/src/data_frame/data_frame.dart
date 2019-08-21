@@ -24,18 +24,18 @@ abstract class DataFrame {
     Iterable<String> columnNames,
   }) {
     final originalHeader = headerExists
-        ? data.first.map((name) => name.toString().trim())
+        ? data.first.map((dynamic name) => name.toString().trim())
         : <String>[];
 
     final selected = DataSelector(columns, columnNames, originalHeader)
         .select(data);
 
     final defaultHeader = header ??
-        enumerate(selected.first)
+        enumerate<dynamic>(selected.first)
             .map((indexed) => '${autoHeaderPrefix}${indexed.index}');
 
     final processedHeader = headerExists
-        ? selected.first.map((name) => name.toString().trim())
+        ? selected.first.map((dynamic name) => name.toString().trim())
         : defaultHeader;
 
     final headLessData = headerExists
