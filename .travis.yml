@@ -6,4 +6,4 @@ install: pub get
 #  - dartanalyzer: true
 #  - dartfmt: true
 script: pub run grinder test
-after_success: pub run grinder uploadCoverage
+after_success: pub run grinder coverage
