@@ -20,4 +20,6 @@ dev_dependencies:
   mockito: ^3.0.0
   build_runner: ^1.1.2
   build_test: ^0.10.2
+  coverage: ^0.13.2
   grinder: ^0.8.3
+  grinder_coveralls: ^1.1.1
