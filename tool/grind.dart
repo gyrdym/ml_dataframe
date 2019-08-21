@@ -4,7 +4,7 @@ import 'package:ml_tech/grind.dart' as ml_tech;
 Future<void> main(List<String> args) => grind(args);
 
 @Task()
-Future<void> coverage() => ml_tech.uploadCoverage();
+Future<void> start() => ml_tech.start();
 
 @Task()
-Future<void> test() => ml_tech.test();
+Future<void> finish() => ml_tech.finish();

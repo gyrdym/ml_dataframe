@@ -1,9 +1,5 @@
 language: dart
 dart:
   - "2.4.1"
-install: pub get
-#dart_task:
-#  - dartanalyzer: true
-#  - dartfmt: true
-script: pub run grinder test
-after_success: pub run grinder coverage
+script: pub run grinder start
+after_success: pub run grinder finish
