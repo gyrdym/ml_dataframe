@@ -1,10 +1,15 @@
 import 'package:grinder/grinder.dart';
-import 'package:ml_tech/grind.dart' as ml_tech;
+import 'package:ml_tech/ml_tech.dart' as ml_tech;
 
 Future<void> main(List<String> args) => grind(args);
 
 @Task()
-Future<void> start() => ml_tech.start();
+Future<void> start() async {
+  ml_tech.analyze();
+  await ml_tech.test();
+}
 
 @Task()
-Future<void> finish() => ml_tech.finish();
+Future<void> finish() async {
+  await ml_tech.uploadCoverage();
+}
