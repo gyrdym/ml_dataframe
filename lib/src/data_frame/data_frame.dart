@@ -55,7 +55,7 @@ abstract class DataFrame {
 
   Iterable<Series> get series;
 
-  Map<String, Series> get seriesByName
+  Map<String, Series> get seriesByName;
 
   /// Converts the data_frame into Matrix
   Matrix toMatrix([DType dtype = DType.float32]);
