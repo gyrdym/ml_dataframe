@@ -15,5 +15,27 @@ void main() {
           equals(['Pakistan', 928, 963, 'AFC', 3740.607865, 160905794,
             'World Bank', 'World Bank']));
     });
+
+    test('should consider `columns` parameter', () async {
+      final data = await fromCsv('test/data_frame/factories/elo_blatter.csv',
+          columns: [0, 2, 3]);
+
+      expect(data.series, hasLength(3));
+      expect(data.header, equals(['country', 'elo15', 'confederation']));
+      expect(data.series.map((series) => series.data.length),
+          equals(List.filled(3, 209)));
+      expect(data.rows.elementAt(141), equals(['Pakistan', 963, 'AFC']));
+    });
+
+    test('should consider `columnNames` parameter', () async {
+      final data = await fromCsv('test/data_frame/factories/elo_blatter.csv',
+          columnNames: ['country', 'elo15', 'confederation']);
+
+      expect(data.series, hasLength(3));
+      expect(data.header, equals(['country', 'elo15', 'confederation']));
+      expect(data.series.map((series) => series.data.length),
+          equals(List.filled(3, 209)));
+      expect(data.rows.elementAt(141), equals(['Pakistan', 963, 'AFC']));
+    });
   });
 }
