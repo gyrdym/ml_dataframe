@@ -7,10 +7,10 @@ import 'package:ml_linalg/linalg.dart';
 import 'package:ml_linalg/matrix.dart';
 
 class DataFrameImpl implements DataFrame {
-  DataFrameImpl(this.rows, this.header, this._toNumber) :
+  DataFrameImpl(this.rows, this.header, this._toNumber, this.dtype) :
         series = convertRowsToSeries(header, rows);
 
-  DataFrameImpl.fromSeries(this.series, this._toNumber) :
+  DataFrameImpl.fromSeries(this.series, this._toNumber, this.dtype) :
         header = series.map((series) => series.name),
         rows = convertSeriesToRows(series);
 
@@ -23,17 +23,20 @@ class DataFrameImpl implements DataFrame {
   @override
   final Iterable<Series> series;
 
-  final Map<DType, Matrix> _cachedMatrices = {};
+  final DType dtype;
 
   final NumericalConverter _toNumber;
 
+  Matrix _cachedMatrix;
+
   @override
-  Matrix toMatrix([DType dtype = DType.float32]) =>
-    _cachedMatrices[dtype] ??= Matrix.fromList(
+  Matrix toMatrix() =>
+    _cachedMatrix ??= Matrix.fromList(
         _toNumber
             .convertRawData(rows)
             .map((row) => row.toList())
             .toList(),
+        dtype: dtype,
     );
 
   @override
