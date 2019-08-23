@@ -11,7 +11,7 @@ Future<DataFrame> fromCsv(
       String eol = '\n',
       bool headerExists = true,
       Iterable<String> header,
-      String autoHeaderPrefix = 'col_',
+      String autoHeaderPrefix = defaultHeaderPrefix,
       Iterable<int> columns,
       Iterable<String> columnNames,
       DType dtype = DType.float32,
@@ -23,7 +23,7 @@ Future<DataFrame> fromCsv(
   return fromRawData(
     data,
     headerExists: headerExists,
-    header: header,
+    predefinedHeader: header,
     autoHeaderPrefix: autoHeaderPrefix,
     columns: columns,
     columnNames: columnNames,

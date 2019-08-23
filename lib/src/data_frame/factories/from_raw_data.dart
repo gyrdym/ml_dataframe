@@ -7,31 +7,36 @@ import 'package:quiver/iterables.dart';
 
 DataFrame fromRawData(Iterable<Iterable<dynamic>> data, {
   bool headerExists = true,
-  Iterable<String> header,
-  String autoHeaderPrefix = 'col_',
+  Iterable<String> predefinedHeader,
+  String autoHeaderPrefix = defaultHeaderPrefix,
   Iterable<int> columns,
   Iterable<String> columnNames,
   DType dtype = DType.float32,
 }) {
-  final originalHeader = headerExists
-      ? data.first.map((dynamic name) => name.toString().trim())
-      : <String>[];
+  final fallbackHeader = enumerate<dynamic>(data.first)
+      .map((indexed) => '${autoHeaderPrefix}${indexed.index}');
 
-  final selected = DataSelector(columns, columnNames, originalHeader)
-      .select(data);
+  final actualHeader = data.first
+      .map((dynamic name) => name.toString().trim());
 
-  final defaultHeader = header ??
-      enumerate<dynamic>(selected.first)
-          .map((indexed) => '${autoHeaderPrefix}${indexed.index}');
+  final originalHeader = predefinedHeader ?? (
+      headerExists
+          ? actualHeader
+          : fallbackHeader
+  );
 
-  final processedHeader = headerExists
-      ? selected.first.map((dynamic name) => name.toString().trim())
-      : defaultHeader;
+  final originalHeadlessData = headerExists
+      ? data.skip(1)
+      : data;
 
-  final headLessData = headerExists
-      ? selected.skip(1)
-      : selected;
+  final selectedData = DataSelector(columns, columnNames, originalHeader)
+      .select(originalHeadlessData);
 
-  return DataFrameImpl(headLessData, processedHeader,
+  final header = selectedData.first
+      .map((dynamic name) => name.toString().trim());
+
+  final headlessData = selectedData.skip(1);
+
+  return DataFrameImpl(headlessData, header,
       NumericalConverterImpl(false), dtype);
 }

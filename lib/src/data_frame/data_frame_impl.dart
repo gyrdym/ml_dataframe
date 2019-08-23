@@ -40,7 +40,14 @@ class DataFrameImpl implements DataFrame {
     );
 
   @override
-  Map<String, Series> get seriesByName =>
+  Series operator [](Object key) {
+    final seriesName = key is int
+        ? header.elementAt(key)
+        : key;
+    return _getCachedOrCreateSeriesByName()[seriesName];
+  }
+
+  Map<String, Series> _getCachedOrCreateSeriesByName() =>
       _seriesByName ??= Map
           .fromEntries(series.map((series) => MapEntry(series.name, series)));
   Map<String, Series> _seriesByName;

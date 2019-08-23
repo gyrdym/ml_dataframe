@@ -6,6 +6,8 @@ import 'package:ml_linalg/dtype.dart';
 import 'package:ml_linalg/linalg.dart';
 import 'package:ml_linalg/matrix.dart';
 
+const defaultHeaderPrefix = 'col_';
+
 /// A structure to store and manipulate data
 abstract class DataFrame {
   /// Creates a data frame from non-typed data.
@@ -20,7 +22,7 @@ abstract class DataFrame {
       {
         bool headerExists = true,
         Iterable<String> header,
-        String autoHeaderPrefix = 'col_',
+        String autoHeaderPrefix = defaultHeaderPrefix,
         Iterable<int> columns,
         Iterable<String> columnNames,
         DType dtype = DType.float32,
@@ -28,7 +30,7 @@ abstract class DataFrame {
   ) => fromRawData(
     data,
     headerExists: headerExists,
-    header: header,
+    predefinedHeader: header,
     autoHeaderPrefix: autoHeaderPrefix,
     columns: columns,
     columnNames: columnNames,
@@ -52,7 +54,7 @@ abstract class DataFrame {
 
   Iterable<Series> get series;
 
-  Map<String, Series> get seriesByName;
+  Series operator [](Object key);
 
   /// Converts the data_frame into Matrix
   Matrix toMatrix();
