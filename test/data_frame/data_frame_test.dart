@@ -281,5 +281,37 @@ void main() {
       expect(frame[2].name, 'third');
       expect(frame[2].data, equals([3, 323, 1000]));
     });
+
+    test('should return null if one tries to access a series using a key of '
+        'improper type (neither String nor int)', () {
+      final data = [
+        ['first',  'second', 'third'],
+        [  '1',        2,         3 ],
+        [   10,       12,       323 ],
+        [  -10,      202,      1000 ],
+      ];
+      final frame = DataFrame(data, headerExists: true,
+          columnNames: ['col_1', 'col_3', 'col_4']);
+
+      expect(frame[{1}], isNull);
+      expect(frame[1.2], isNull);
+      expect(frame[[1, 2]], isNull);
+    });
+
+    test('should throw a range error if one tries to access a series using an '
+        'integer key which is out of range', () {
+      final data = [
+        ['first',  'second', 'third'],
+        [  '1',        2,         3 ],
+        [   10,       12,       323 ],
+        [  -10,      202,      1000 ],
+      ];
+      final frame = DataFrame(data, headerExists: true,
+          columnNames: ['col_1', 'col_3', 'col_4']);
+
+      expect(() => frame[3], throwsRangeError);
+      expect(() => frame[4], throwsRangeError);
+      expect(() => frame[-1], throwsRangeError);
+    });
   });
 }
