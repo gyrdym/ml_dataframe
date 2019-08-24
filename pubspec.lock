@@ -77,7 +77,7 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.6"
+    version: "1.6.7"
   build_runner_core:
     dependency: transitive
     description:
@@ -149,7 +149,7 @@ packages:
     source: hosted
     version: "2.1.1"
   coverage:
-    dependency: "direct dev"
+    dependency: transitive
     description:
       name: coverage
       url: "https://pub.dartlang.org"
@@ -161,7 +161,7 @@ packages:
       name: coveralls
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.3.0"
+    version: "5.4.0"
   crypto:
     dependency: transitive
     description:
@@ -226,7 +226,7 @@ packages:
     source: hosted
     version: "0.8.3+1"
   grinder_coveralls:
-    dependency: "direct dev"
+    dependency: transitive
     description:
       name: grinder_coveralls
       url: "https://pub.dartlang.org"
@@ -280,7 +280,7 @@ packages:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.0"
+    version: "3.0.0"
   kernel:
     dependency: transitive
     description:
@@ -294,7 +294,7 @@ packages:
       name: lcov
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.3.0"
+    version: "5.4.0"
   logging:
     dependency: transitive
     description:
@@ -511,21 +511,21 @@ packages:
       name: test
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.7"
+    version: "1.6.8"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.6"
+    version: "0.2.7"
   test_core:
     dependency: transitive
     description:
       name: test_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.8"
+    version: "0.2.9"
   timing:
     dependency: transitive
     description:

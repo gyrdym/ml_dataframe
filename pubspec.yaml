@@ -1,6 +1,6 @@
 name: ml_dataframe
 description: Dataframe - a way to store and effectively manipulate data
-version: 0.0.1
+version: 0.0.2
 author: Ilia Gyrdymov <ilgyrd@gmail.com>
 homepage: https://github.com/gyrdym/ml_dataframe
 
@@ -14,12 +14,10 @@ dependencies:
   xrange: ^0.0.6
 
 dev_dependencies:
-  benchmark_harness: ">=1.0.0 <2.0.0"
-  test: ^1.2.0
-  ml_tech: ^0.0.5
-  mockito: ^3.0.0
+  benchmark_harness: '>=1.0.0 <2.0.0'
   build_runner: ^1.1.2
   build_test: ^0.10.2
-  coverage: ^0.13.2
   grinder: ^0.8.3
-  grinder_coveralls: ^1.1.1
+  ml_tech: ^0.0.5
+  mockito: ^3.0.0
+  test: ^1.2.0
