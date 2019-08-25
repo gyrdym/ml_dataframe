@@ -4,16 +4,16 @@ Iterable<Series> convertRowsToSeries(
     Iterable<String> columnHeaders,
     Iterable<Iterable<dynamic>> rows,
 ) sync* {
-  final headersIterator = columnHeaders.iterator;
   final rowIterators = rows
       .map((row) => row.iterator)
       .toList(growable: false);
 
-  while (headersIterator.moveNext()) {
+  for (final header in columnHeaders) {
     final column = rowIterators
         .where((iterator) => iterator.moveNext())
-        .map<dynamic>((iterator) => iterator.current);
-    yield Series(headersIterator.current, column);
+        .map<dynamic>((iterator) => iterator.current)
+        .toList(growable: false);
+    yield Series(header, column);
   }
 }
 

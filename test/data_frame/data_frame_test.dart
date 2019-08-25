@@ -249,8 +249,7 @@ void main() {
         [   10,       12,       323 ],
         [  -10,      202,      1000 ],
       ];
-      final frame = DataFrame(data, headerExists: true,
-          columnNames: ['col_1', 'col_3', 'col_4']);
+      final frame = DataFrame(data);
 
       expect(frame['first'].name, 'first');
       expect(frame['first'].data, equals(['1', 10, -10]));
@@ -269,8 +268,7 @@ void main() {
         [   10,       12,       323 ],
         [  -10,      202,      1000 ],
       ];
-      final frame = DataFrame(data, headerExists: true,
-          columnNames: ['col_1', 'col_3', 'col_4']);
+      final frame = DataFrame(data);
 
       expect(frame[0].name, 'first');
       expect(frame[0].data, equals(['1', 10, -10]));
@@ -290,8 +288,7 @@ void main() {
         [   10,       12,       323 ],
         [  -10,      202,      1000 ],
       ];
-      final frame = DataFrame(data, headerExists: true,
-          columnNames: ['col_1', 'col_3', 'col_4']);
+      final frame = DataFrame(data);
 
       expect(frame[{1}], isNull);
       expect(frame[1.2], isNull);
@@ -306,8 +303,7 @@ void main() {
         [   10,       12,       323 ],
         [  -10,      202,      1000 ],
       ];
-      final frame = DataFrame(data, headerExists: true,
-          columnNames: ['col_1', 'col_3', 'col_4']);
+      final frame = DataFrame(data);
 
       expect(() => frame[3], throwsRangeError);
       expect(() => frame[4], throwsRangeError);
