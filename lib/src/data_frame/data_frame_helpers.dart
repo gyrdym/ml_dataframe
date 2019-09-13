@@ -26,3 +26,20 @@ Iterable<Iterable<dynamic>> convertSeriesToRows(Iterable<Series> series) sync* {
     yield iterators.map<dynamic>((iterator) => iterator.current);
   }
 }
+
+Iterable<String> getHeader(
+    Iterable<int> indices,
+    String autoHeaderPrefix,
+    [
+      Iterable<String> rawActualHeader,
+      Iterable<String> predefinedHeader,
+    ]
+) {
+  final fallbackHeader = indices.map((index) => '${autoHeaderPrefix}${index}');
+
+  return predefinedHeader ?? (
+      rawActualHeader != null
+          ? rawActualHeader.map((dynamic name) => name.toString().trim())
+          : fallbackHeader
+  );
+}

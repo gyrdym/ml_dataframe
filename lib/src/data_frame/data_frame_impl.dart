@@ -5,6 +5,7 @@ import 'package:ml_dataframe/src/numerical_converter/numerical_converter.dart';
 import 'package:ml_linalg/dtype.dart';
 import 'package:ml_linalg/linalg.dart';
 import 'package:ml_linalg/matrix.dart';
+import 'package:quiver/iterables.dart';
 
 class DataFrameImpl implements DataFrame {
   DataFrameImpl(this.rows, this.header, this._toNumber, this.dtype) :
@@ -13,6 +14,22 @@ class DataFrameImpl implements DataFrame {
   DataFrameImpl.fromSeries(this.series, this._toNumber, this.dtype) :
         header = series.map((series) => series.name),
         rows = convertSeriesToRows(series);
+
+  DataFrameImpl.fromMatrix(
+      this._cachedMatrix,
+      this.header,
+      this._toNumber,
+      Iterable<bool> areSeriesDiscrete,
+  ) :
+        dtype = _cachedMatrix.dtype,
+        rows = _cachedMatrix.rows,
+        series = zip([header, _cachedMatrix.columns,
+          areSeriesDiscrete ?? List.filled(_cachedMatrix.columnsNum, false)])
+            .map((seriesData) => Series(
+              seriesData[0] as String,
+              seriesData[1] as Iterable,
+              isDiscrete: seriesData[2] as bool,
+            ));
 
   @override
   final Iterable<String> header;

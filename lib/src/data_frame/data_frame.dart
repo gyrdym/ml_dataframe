@@ -1,3 +1,4 @@
+import 'package:ml_dataframe/src/data_frame/factories/from_matrix.dart';
 import 'package:ml_dataframe/src/data_frame/factories/from_raw_data.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame_impl.dart';
 import 'package:ml_dataframe/src/data_frame/series.dart';
@@ -46,6 +47,22 @@ abstract class DataFrame {
       series,
       NumericalConverterImpl(false),
       dtype,
+  );
+
+  factory DataFrame.fromMatrix(
+      Matrix matrix,
+      {
+        Iterable<String> header,
+        String autoHeaderPrefix = defaultHeaderPrefix,
+        Iterable<int> columns,
+        Iterable<bool> areSeriesDiscrete,
+      }
+  ) => fromMatrix(
+    matrix,
+    predefinedHeader: header,
+    autoHeaderPrefix: autoHeaderPrefix,
+    columns: columns,
+    areSeriesDiscrete: areSeriesDiscrete,
   );
 
   Iterable<String> get header;

@@ -1,4 +1,5 @@
 import 'package:ml_dataframe/ml_dataframe.dart';
+import 'package:ml_dataframe/src/data_frame/data_frame_helpers.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame_impl.dart';
 import 'package:ml_dataframe/src/data_selector/data_selector.dart';
 import 'package:ml_dataframe/src/numerical_converter/numerical_converter_impl.dart';
@@ -13,17 +14,10 @@ DataFrame fromRawData(Iterable<Iterable<dynamic>> data, {
   Iterable<String> columnNames,
   DType dtype = DType.float32,
 }) {
-  final fallbackHeader = enumerate<dynamic>(data.first)
-      .map((indexed) => '${autoHeaderPrefix}${indexed.index}');
-
-  final actualHeader = data.first
-      .map((dynamic name) => name.toString().trim());
-
-  final originalHeader = predefinedHeader ?? (
-      headerExists
-          ? actualHeader
-          : fallbackHeader
-  );
+  final originalHeader = getHeader(
+      enumerate<dynamic>(data.first).map((indexed) => indexed.index),
+      autoHeaderPrefix,
+      headerExists ? data.first as Iterable<String> : null, predefinedHeader);
 
   final originalHeadlessData = headerExists
       ? data.skip(1)
