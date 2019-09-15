@@ -22,6 +22,8 @@ void main() {
         [1000, 2000, 3000, 4000],
       ]));
 
+      expect(dataFrame.series, hasLength(4));
+
       expect(dataFrame[0].name, 'col_0');
       expect(dataFrame[0].data, equals([1, 10, 100, 1000]));
       expect(dataFrame['col_0'].data, equals([1, 10, 100, 1000]));
@@ -60,6 +62,8 @@ void main() {
         [1000, 2000, 3000, 4000],
       ]));
 
+      expect(dataFrame.series, hasLength(4));
+
       expect(dataFrame[0].name, 'how');
       expect(dataFrame[0].data, equals([1, 10, 100, 1000]));
       expect(dataFrame['how'].data, equals([1, 10, 100, 1000]));
@@ -77,6 +81,45 @@ void main() {
       expect(dataFrame['little'].data, equals([4, 40, 400, 4000]));
 
       expect(dataFrame.toMatrix(), same(matrix));
+    });
+
+    test('should extract certain columns while initializing from matrix with '
+        'predefined header', () {
+      final matrix = Matrix.fromList([
+        [1,    2,    3,    4   ],
+        [10,   20,   30,   40  ],
+        [100,  200,  300,  400 ],
+        [1000, 2000, 3000, 4000],
+      ]);
+      final dataFrame = DataFrame.fromMatrix(matrix,
+          columns: [0, 3],
+          header: ['how', 'doth', 'the', 'little']);
+
+      expect(dataFrame.header, equals(['how', 'doth']));
+
+      expect(dataFrame.rows, equals([
+        [1,    4   ],
+        [10,   40  ],
+        [100,  400 ],
+        [1000, 4000],
+      ]));
+
+      expect(dataFrame.series, hasLength(2));
+
+      expect(dataFrame[0].name, 'how');
+      expect(dataFrame[0].data, equals([1, 10, 100, 1000]));
+      expect(dataFrame['how'].data, equals([1, 10, 100, 1000]));
+
+      expect(dataFrame[1].name, 'doth');
+      expect(dataFrame[1].data, equals([4, 40, 400, 4000]));
+      expect(dataFrame['doth'].data, equals([4, 40, 400, 4000]));
+
+      expect(dataFrame.toMatrix(), equals([
+        [1,    4   ],
+        [10,   40  ],
+        [100,  400 ],
+        [1000, 4000],
+      ]));
     });
 
     test('should initialize from matrix without predefined header but with '
@@ -99,6 +142,8 @@ void main() {
         [100,  200,  300,  400 ],
         [1000, 2000, 3000, 4000],
       ]));
+
+      expect(dataFrame.series, hasLength(4));
 
       expect(dataFrame[0].name, 'super_0');
       expect(dataFrame[0].data, equals([1, 10, 100, 1000]));
@@ -137,6 +182,8 @@ void main() {
         [1000, 4000],
       ]));
 
+      expect(dataFrame.series, hasLength(2));
+
       expect(dataFrame[0].name, 'col_0');
       expect(dataFrame[0].data, equals([1, 10, 100, 1000]));
       expect(dataFrame['col_0'].data, equals([1, 10, 100, 1000]));
@@ -145,7 +192,12 @@ void main() {
       expect(dataFrame[1].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['col_1'].data, equals([4, 40, 400, 4000]));
 
-      expect(dataFrame.toMatrix(), isNot(same(matrix)));
+      expect(dataFrame.toMatrix(), equals([
+        [1,    4   ],
+        [10,   40  ],
+        [100,  400 ],
+        [1000, 4000],
+      ]));
     });
   });
 }

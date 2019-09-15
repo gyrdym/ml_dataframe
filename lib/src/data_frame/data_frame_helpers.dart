@@ -29,15 +29,21 @@ Iterable<Iterable<dynamic>> convertSeriesToRows(Iterable<Series> series) sync* {
 }
 
 Iterable<String> getHeader(
-    Iterable<int> columnIndices,
+    int columnsNum,
     String autoHeaderPrefix,
     [
       Iterable<String> rawActualHeader = const [],
       Iterable<String> predefinedHeader = const [],
     ]
-) => predefinedHeader?.isNotEmpty == true
-      ? predefinedHeader
-      : (rawActualHeader?.isNotEmpty == true
-        ? rawActualHeader.map((name) => name.trim())
-        : enumerate(columnIndices)
-            .map((index) => '${autoHeaderPrefix}${index.index}'));
+) {
+  if (predefinedHeader?.isNotEmpty == true) {
+    return predefinedHeader.take(columnsNum);
+  }
+
+  if (rawActualHeader?.isNotEmpty == true) {
+    return rawActualHeader.map((name) => name.trim());
+  }
+
+  return count(0).take(columnsNum)
+      .map((index) => '${autoHeaderPrefix}${index}');
+}

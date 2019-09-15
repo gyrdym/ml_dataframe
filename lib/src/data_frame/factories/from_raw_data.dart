@@ -14,33 +14,34 @@ DataFrame fromRawData(Iterable<Iterable<dynamic>> data, {
   Iterable<String> columnNames = const [],
   DType dtype = DType.float32,
 }) {
-  final originalHeader = getHeader(
-      enumerate<dynamic>(data.first)
-          .where((indexed) => columns?.isNotEmpty == true
-            ? columns.contains(indexed.index)
-            : true)
-          .where((indexed) => columnNames?.isNotEmpty == true
-            ? columnNames.contains(indexed.value.toString().trim())
-            : true)
-          .map((indexed) => indexed.index),
+  final header = getHeader(
+      data.first.length,
       autoHeaderPrefix,
       headerExists
           ? data.first.map((dynamic el) => el.toString())
-          : null,
+          : [],
       predefinedHeader);
+
+  final columnIndices = enumerate(header)
+      .where((indexedName) => columns?.isNotEmpty == true
+        ? columns.contains(indexedName.index)
+        : true)
+      .where((indexedName) => columnNames?.isNotEmpty == true
+        ? columnNames.contains(indexedName.value)
+        : true)
+      .map((indexedName) => indexedName.index);
 
   final originalHeadlessData = headerExists
       ? data.skip(1)
       : data;
 
-  final selectedData = DataSelector(columns, columnNames, originalHeader)
+  final selectedData = DataSelector(columnIndices)
       .select(originalHeadlessData);
 
-  final header = selectedData.first
-      .map((dynamic name) => name.toString().trim());
+  final selectedHeader = enumerate(header)
+      .where((indexedName) => columnIndices.contains(indexedName.index))
+      .map((indexedName) => indexedName.value);
 
-  final headlessData = selectedData.skip(1);
-
-  return DataFrameImpl(headlessData, header,
+  return DataFrameImpl(selectedData, selectedHeader,
       NumericalConverterImpl(false), dtype);
 }

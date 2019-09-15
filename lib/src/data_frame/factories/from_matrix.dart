@@ -13,13 +13,10 @@ DataFrame fromMatrix(Matrix data, {
   Iterable<int> discreteColumnIndices = const [],
   Iterable<String> discreteColumns = const [],
 }) {
-  final header = getHeader(
-      enumerate(data.rows.first)
-          .where((indexed) => columns?.isNotEmpty == true
-            ? columns.contains(indexed.index)
-            : true)
-          .map((indexed) => indexed.index),
-      autoHeaderPrefix, null, predefinedHeader);
+  final header = getHeader(columns?.isNotEmpty == true
+        ? columns.length
+        : data.columnsNum,
+      autoHeaderPrefix, [], predefinedHeader);
 
   final selectedData = columns?.isNotEmpty == true
       ? data.pick(columnRanges: columns.map((idx) => ZRange.singleton(idx)))

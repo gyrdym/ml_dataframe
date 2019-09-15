@@ -1,25 +1,12 @@
 import 'package:quiver/iterables.dart';
 
 class DataSelector {
-  DataSelector(
-      Iterable<int> columnIndices,
-      Iterable<String> columnNames,
-      this._header,
-  ) : _columnIndices = columnIndices?.isNotEmpty == true
-      ? columnIndices
-      : enumerate(_header)
-          .where((indexed) => columnNames?.isNotEmpty == true
-            ? columnNames.contains(indexed.value)
-            : true)
-          .map((indexed) => indexed.index);
+  DataSelector(this._columnIndices);
 
-  final Iterable<String> _header;
   final Iterable<int> _columnIndices;
 
   Iterable<Iterable<dynamic>> select(
       Iterable<Iterable<dynamic>> headlessData) sync* {
-    yield _filterRow(_header);
-
     for (final row in headlessData) {
       yield _filterRow(row);
     }
