@@ -181,14 +181,14 @@ void main() {
       );
 
       expect(frame.header,
-          equals(['first', 'third', 'fifth']));
+          equals(['first', 'second', 'third']));
       expect(frame.rows, equals([
         [  1,    3,   '32'],
         [ 10,  323, '1132'],
         [-10, null,  'abs'],
       ]));
       expect(frame.series.map((series) => series.name),
-          equals(['first', 'third', 'fifth']));
+          equals(['first', 'second', 'third']));
       expect(frame.series.map((series) => series.data), equals([
         [1, 10, -10],
         [3, 323, null],
