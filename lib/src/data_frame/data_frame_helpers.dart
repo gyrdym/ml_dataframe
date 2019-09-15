@@ -1,4 +1,5 @@
 import 'package:ml_dataframe/src/data_frame/series.dart';
+import 'package:quiver/iterables.dart';
 
 Iterable<Series> convertRowsToSeries(
     Iterable<String> columnHeaders,
@@ -28,7 +29,7 @@ Iterable<Iterable<dynamic>> convertSeriesToRows(Iterable<Series> series) sync* {
 }
 
 Iterable<String> getHeader(
-    Iterable<int> indices,
+    Iterable<int> columnIndices,
     String autoHeaderPrefix,
     [
       Iterable<String> rawActualHeader = const [],
@@ -38,4 +39,5 @@ Iterable<String> getHeader(
       ? predefinedHeader
       : (rawActualHeader?.isNotEmpty == true
         ? rawActualHeader.map((name) => name.trim())
-        : indices.map((index) => '${autoHeaderPrefix}${index}'));
+        : enumerate(columnIndices)
+            .map((index) => '${autoHeaderPrefix}${index.index}'));

@@ -128,7 +128,7 @@ void main() {
       ]);
       final dataFrame = DataFrame.fromMatrix(matrix, columns: [0, 3]);
 
-      expect(dataFrame.header, equals(['col_0', 'col_3']));
+      expect(dataFrame.header, equals(['col_0', 'col_1']));
 
       expect(dataFrame.rows, equals([
         [1,    4   ],
@@ -141,9 +141,9 @@ void main() {
       expect(dataFrame[0].data, equals([1, 10, 100, 1000]));
       expect(dataFrame['col_0'].data, equals([1, 10, 100, 1000]));
 
-      expect(dataFrame[1].name, 'col_3');
+      expect(dataFrame[1].name, 'col_1');
       expect(dataFrame[1].data, equals([4, 40, 400, 4000]));
-      expect(dataFrame['col_3'].data, equals([4, 40, 400, 4000]));
+      expect(dataFrame['col_1'].data, equals([4, 40, 400, 4000]));
 
       expect(dataFrame.toMatrix(), isNot(same(matrix)));
     });

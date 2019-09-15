@@ -15,7 +15,14 @@ DataFrame fromRawData(Iterable<Iterable<dynamic>> data, {
   DType dtype = DType.float32,
 }) {
   final originalHeader = getHeader(
-      enumerate<dynamic>(data.first).map((indexed) => indexed.index),
+      enumerate<dynamic>(data.first)
+          .where((indexed) => columns?.isNotEmpty == true
+            ? columns.contains(indexed.index)
+            : true)
+          .where((indexed) => columnNames?.isNotEmpty == true
+            ? columnNames.contains(indexed.value.toString().trim())
+            : true)
+          .map((indexed) => indexed.index),
       autoHeaderPrefix,
       headerExists
           ? data.first.map((dynamic el) => el.toString())
