@@ -31,15 +31,11 @@ Iterable<String> getHeader(
     Iterable<int> indices,
     String autoHeaderPrefix,
     [
-      Iterable<String> rawActualHeader,
-      Iterable<String> predefinedHeader,
+      Iterable<String> rawActualHeader = const [],
+      Iterable<String> predefinedHeader = const [],
     ]
-) {
-  final fallbackHeader = indices.map((index) => '${autoHeaderPrefix}${index}');
-
-  return predefinedHeader ?? (
-      rawActualHeader != null
-          ? rawActualHeader.map((dynamic name) => name.toString().trim())
-          : fallbackHeader
-  );
-}
+) => predefinedHeader?.isNotEmpty == true
+      ? predefinedHeader
+      : (rawActualHeader?.isNotEmpty == true
+        ? rawActualHeader.map((name) => name.trim())
+        : indices.map((index) => '${autoHeaderPrefix}${index}'));

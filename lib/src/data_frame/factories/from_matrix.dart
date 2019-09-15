@@ -7,20 +7,34 @@ import 'package:quiver/iterables.dart';
 import 'package:xrange/zrange.dart';
 
 DataFrame fromMatrix(Matrix data, {
-  Iterable<String> predefinedHeader,
+  Iterable<String> predefinedHeader = const [],
   String autoHeaderPrefix = defaultHeaderPrefix,
-  Iterable<int> columns,
-  Iterable<bool> areSeriesDiscrete,
+  Iterable<int> columns = const [],
+  Iterable<int> discreteColumnIndices = const [],
+  Iterable<String> discreteColumns = const [],
 }) {
   final header = getHeader(
       enumerate(data.rows.first).map((indexed) => indexed.index),
       autoHeaderPrefix, null, predefinedHeader);
 
-  final selectedData = data.pick(
-      rowRanges: [ZRange.all()],
-      columnRanges: columns.map((idx) => ZRange.singleton(idx)),
+  final selectedData = columns?.isNotEmpty == true
+      ? data.pick(columnRanges: columns.map((idx) => ZRange.singleton(idx)))
+      : data;
+
+  final selectedHeader = enumerate(header)
+      .expand((indexed) => columns.contains(indexed.index)
+        ? [indexed.value]
+        : <String>[],
   );
 
-  return DataFrameImpl.fromMatrix(selectedData, header,
+  final areSeriesDiscrete = enumerate(header).map((indexedName) {
+    if (discreteColumnIndices.contains(indexedName.index) ||
+        discreteColumns.contains(indexedName.value)) {
+      return true;
+    }
+    return false;
+  });
+
+  return DataFrameImpl.fromMatrix(selectedData, selectedHeader,
       NumericalConverterImpl(false), areSeriesDiscrete);
 }

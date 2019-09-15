@@ -8,16 +8,19 @@ import 'package:quiver/iterables.dart';
 
 DataFrame fromRawData(Iterable<Iterable<dynamic>> data, {
   bool headerExists = true,
-  Iterable<String> predefinedHeader,
+  Iterable<String> predefinedHeader = const [],
   String autoHeaderPrefix = defaultHeaderPrefix,
-  Iterable<int> columns,
-  Iterable<String> columnNames,
+  Iterable<int> columns = const [],
+  Iterable<String> columnNames = const [],
   DType dtype = DType.float32,
 }) {
   final originalHeader = getHeader(
       enumerate<dynamic>(data.first).map((indexed) => indexed.index),
       autoHeaderPrefix,
-      headerExists ? data.first as Iterable<String> : null, predefinedHeader);
+      headerExists
+          ? data.first.map((dynamic el) => el.toString())
+          : null,
+      predefinedHeader);
 
   final originalHeadlessData = headerExists
       ? data.skip(1)

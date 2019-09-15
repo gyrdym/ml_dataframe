@@ -329,7 +329,7 @@ packages:
       name: ml_linalg
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "10.3.7"
+    version: "11.0.0"
   ml_tech:
     dependency: "direct dev"
     description:

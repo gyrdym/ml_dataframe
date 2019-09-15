@@ -10,10 +10,10 @@ Future<DataFrame> fromCsv(
       String columnDelimiter = defaultFieldDelimiter,
       String eol = '\n',
       bool headerExists = true,
-      Iterable<String> header,
+      Iterable<String> header = const [],
       String autoHeaderPrefix = defaultHeaderPrefix,
-      Iterable<int> columns,
-      Iterable<String> columnNames,
+      Iterable<int> columns = const [],
+      Iterable<String> columnNames = const [],
       DType dtype = DType.float32,
     }
 ) async {
