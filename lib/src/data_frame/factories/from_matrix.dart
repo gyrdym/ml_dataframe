@@ -14,18 +14,16 @@ DataFrame fromMatrix(Matrix data, {
   Iterable<String> discreteColumns = const [],
 }) {
   final header = getHeader(
-      enumerate(data.rows.first).map((indexed) => indexed.index),
+      enumerate(data.rows.first)
+          .where((indexed) => columns?.isNotEmpty == true
+            ? columns.contains(indexed.index)
+            : true)
+          .map((indexed) => indexed.index),
       autoHeaderPrefix, null, predefinedHeader);
 
   final selectedData = columns?.isNotEmpty == true
       ? data.pick(columnRanges: columns.map((idx) => ZRange.singleton(idx)))
       : data;
-
-  final selectedHeader = enumerate(header)
-      .expand((indexed) => columns.contains(indexed.index)
-        ? [indexed.value]
-        : <String>[],
-  );
 
   final areSeriesDiscrete = enumerate(header).map((indexedName) {
     if (discreteColumnIndices.contains(indexedName.index) ||
@@ -35,6 +33,6 @@ DataFrame fromMatrix(Matrix data, {
     return false;
   });
 
-  return DataFrameImpl.fromMatrix(selectedData, selectedHeader,
+  return DataFrameImpl.fromMatrix(selectedData, header,
       NumericalConverterImpl(false), areSeriesDiscrete);
 }
