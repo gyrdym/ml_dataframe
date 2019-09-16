@@ -1,3 +1,4 @@
+import 'package:ml_dataframe/src/data_frame/factories/from_matrix.dart';
 import 'package:ml_dataframe/src/data_frame/factories/from_raw_data.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame_impl.dart';
 import 'package:ml_dataframe/src/data_frame/series.dart';
@@ -21,10 +22,10 @@ abstract class DataFrame {
       Iterable<Iterable<dynamic>> data,
       {
         bool headerExists = true,
-        Iterable<String> header,
+        Iterable<String> header = const [],
         String autoHeaderPrefix = defaultHeaderPrefix,
-        Iterable<int> columns,
-        Iterable<String> columnNames,
+        Iterable<int> columns = const [],
+        Iterable<String> columnNames = const [],
         DType dtype = DType.float32,
       }
   ) => fromRawData(
@@ -46,6 +47,24 @@ abstract class DataFrame {
       series,
       NumericalConverterImpl(false),
       dtype,
+  );
+
+  factory DataFrame.fromMatrix(
+      Matrix matrix,
+      {
+        Iterable<String> header,
+        String autoHeaderPrefix = defaultHeaderPrefix,
+        Iterable<int> columns = const [],
+        Iterable<int> discreteColumns = const [],
+        Iterable<String> discreteColumnNames = const [],
+      }
+  ) => fromMatrix(
+    matrix,
+    predefinedHeader: header,
+    autoHeaderPrefix: autoHeaderPrefix,
+    columns: columns,
+    discreteColumns: discreteColumns,
+    discreteColumnNames: discreteColumnNames,
   );
 
   Iterable<String> get header;

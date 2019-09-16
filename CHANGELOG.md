@@ -1,8 +1,11 @@
 # Changelog
 
+## 0.0.4
+- `DataFrame`: `fromMatrix` constructor added
+
 ## 0.0.3
-- Dataframe helpers: series data is not `cold` iterable while series creating
-- Dataframe unit tests: redundant constructor parameters removed for some test cases
+- DataFrame helpers: series data is not `cold` iterable while series creating
+- DataFrame unit tests: redundant constructor parameters removed for some test cases
 
 ## 0.0.2
 - Redundant dependencies removed from `dev_dependencies` section

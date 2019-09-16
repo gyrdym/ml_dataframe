@@ -1,6 +1,6 @@
 name: ml_dataframe
 description: Dataframe - a way to store and effectively manipulate data
-version: 0.0.3
+version: 0.0.4
 author: Ilia Gyrdymov <ilgyrd@gmail.com>
 homepage: https://github.com/gyrdym/ml_dataframe
 
@@ -9,7 +9,7 @@ environment:
 
 dependencies:
   csv: ^4.0.0
-  ml_linalg: ^10.3.5
+  ml_linalg: ^11.0.0
   quiver: ^2.0.2
   xrange: ^0.0.6
 

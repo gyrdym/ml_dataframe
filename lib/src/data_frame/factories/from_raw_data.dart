@@ -1,4 +1,5 @@
 import 'package:ml_dataframe/ml_dataframe.dart';
+import 'package:ml_dataframe/src/data_frame/data_frame_helpers.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame_impl.dart';
 import 'package:ml_dataframe/src/data_selector/data_selector.dart';
 import 'package:ml_dataframe/src/numerical_converter/numerical_converter_impl.dart';
@@ -7,36 +8,52 @@ import 'package:quiver/iterables.dart';
 
 DataFrame fromRawData(Iterable<Iterable<dynamic>> data, {
   bool headerExists = true,
-  Iterable<String> predefinedHeader,
+  Iterable<String> predefinedHeader = const [],
   String autoHeaderPrefix = defaultHeaderPrefix,
-  Iterable<int> columns,
-  Iterable<String> columnNames,
+  Iterable<int> columns = const [],
+  Iterable<String> columnNames = const [],
   DType dtype = DType.float32,
 }) {
-  final fallbackHeader = enumerate<dynamic>(data.first)
-      .map((indexed) => '${autoHeaderPrefix}${indexed.index}');
+  final columnsNum = columns.isNotEmpty
+      ? columns.length
+      : data.first.length;
 
-  final actualHeader = data.first
-      .map((dynamic name) => name.toString().trim());
-
-  final originalHeader = predefinedHeader ?? (
+  final header = getHeader(
+      columnsNum,
+      autoHeaderPrefix,
       headerExists
-          ? actualHeader
-          : fallbackHeader
-  );
+          ? data.first.map((dynamic el) => el.toString())
+          : [],
+      predefinedHeader);
+
+  final defaultIndices = count(0).take(columnsNum);
+
+  final filteredIndices = enumerate(header)
+      .where((indexedName) => columnNames.contains(indexedName.value))
+      .map((indexedName) => indexedName.index);
+
+  final columnIndices = columns.isNotEmpty
+      ? columns
+      : predefinedHeader.isNotEmpty || columnNames.isEmpty
+          ? defaultIndices
+          : filteredIndices;
 
   final originalHeadlessData = headerExists
       ? data.skip(1)
       : data;
 
-  final selectedData = DataSelector(columns, columnNames, originalHeader)
+  final selectedData = DataSelector(columnIndices)
       .select(originalHeadlessData);
 
-  final header = selectedData.first
-      .map((dynamic name) => name.toString().trim());
+  final selectedHeader = (predefinedHeader.isNotEmpty
+      ? enumerate(header)
+      : enumerate(header)
+          .where((indexedName) => columnIndices.isNotEmpty
+            ? columnIndices.contains(indexedName.index)
+            : true)
+      )
+      .map((indexedName) => indexedName.value);
 
-  final headlessData = selectedData.skip(1);
-
-  return DataFrameImpl(headlessData, header,
+  return DataFrameImpl(selectedData, selectedHeader,
       NumericalConverterImpl(false), dtype);
 }
