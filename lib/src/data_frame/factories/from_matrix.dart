@@ -10,8 +10,8 @@ DataFrame fromMatrix(Matrix data, {
   Iterable<String> predefinedHeader = const [],
   String autoHeaderPrefix = defaultHeaderPrefix,
   Iterable<int> columns = const [],
-  Iterable<int> discreteColumnIndices = const [],
-  Iterable<String> discreteColumns = const [],
+  Iterable<int> discreteColumns = const [],
+  Iterable<String> discreteColumnNames = const [],
 }) {
   final header = getHeader(columns?.isNotEmpty == true
         ? columns.length
@@ -23,8 +23,8 @@ DataFrame fromMatrix(Matrix data, {
       : data;
 
   final areSeriesDiscrete = enumerate(header).map((indexedName) {
-    if (discreteColumnIndices.contains(indexedName.index) ||
-        discreteColumns.contains(indexedName.value)) {
+    if (discreteColumns.contains(indexedName.index) ||
+        discreteColumnNames.contains(indexedName.value)) {
       return true;
     }
     return false;

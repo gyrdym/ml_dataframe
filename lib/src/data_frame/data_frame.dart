@@ -55,16 +55,16 @@ abstract class DataFrame {
         Iterable<String> header,
         String autoHeaderPrefix = defaultHeaderPrefix,
         Iterable<int> columns = const [],
-        Iterable<int> discreteColumnIndices = const [],
-        Iterable<String> discreteColumns = const [],
+        Iterable<int> discreteColumns = const [],
+        Iterable<String> discreteColumnNames = const [],
       }
   ) => fromMatrix(
     matrix,
     predefinedHeader: header,
     autoHeaderPrefix: autoHeaderPrefix,
     columns: columns,
-    discreteColumnIndices: discreteColumnIndices,
     discreteColumns: discreteColumns,
+    discreteColumnNames: discreteColumnNames,
   );
 
   Iterable<String> get header;

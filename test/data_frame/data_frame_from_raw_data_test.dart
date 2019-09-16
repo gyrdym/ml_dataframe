@@ -180,8 +180,7 @@ void main() {
         headerExists: false,
       );
 
-      expect(frame.header,
-          equals(['first', 'second', 'third']));
+      expect(frame.header, equals(['first', 'second', 'third']));
       expect(frame.rows, equals([
         [  1,    3,   '32'],
         [ 10,  323, '1132'],
