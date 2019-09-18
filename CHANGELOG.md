@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.5
+- `DataFrame`: `dropSeries` method added
+
 ## 0.0.4
 - `DataFrame`: `fromMatrix` constructor added
 

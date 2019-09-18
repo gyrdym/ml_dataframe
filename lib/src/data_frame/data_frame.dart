@@ -17,7 +17,7 @@ abstract class DataFrame {
   /// collection of strings)
   ///
   /// [headerExists] Indicates, whether the csv-file header (a sequence of
-  /// column names) exists or not
+  /// column names) exists or not.
   factory DataFrame(
       Iterable<Iterable<dynamic>> data,
       {
@@ -67,14 +67,29 @@ abstract class DataFrame {
     discreteColumnNames: discreteColumnNames,
   );
 
+  /// Returns a collection of names of all series (like a table header)
   Iterable<String> get header;
 
   Iterable<Iterable<dynamic>> get rows;
 
+  /// Returns series (columns) collection of the [DataFrame].
+  ///
+  /// [Series] is roughly a column and its header (name)
   Iterable<Series> get series;
 
+  /// Returns a specific [Series] by a key.
+  ///
+  /// The [key] may be a series name or a series index (ordinal number of the
+  /// series)
   Series operator [](Object key);
 
-  /// Converts the data_frame into Matrix
+  /// Returns a new [DataFrame] without specified series (columns)
+  DataFrame dropSeries({Iterable<int> seriesIndices,
+    Iterable<String> seriesNames});
+
+  /// Converts the [DataFrame] into [Matrix].
+  ///
+  /// The method may throw an error if the [DataFrame] contains data, that
+  /// cannot be converted to numerical representation
   Matrix toMatrix();
 }

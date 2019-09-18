@@ -47,6 +47,33 @@ class DataFrameImpl implements DataFrame {
   Matrix _cachedMatrix;
 
   @override
+  DataFrame dropSeries({
+    Iterable<int> seriesIndices = const [],
+    Iterable<String> seriesNames = const [],
+  }) {
+    if (seriesIndices.isNotEmpty) {
+      return _dropByIndices(seriesIndices, series);
+    }
+
+    return _dropByNames(seriesNames, series);
+  }
+
+  DataFrame _dropByIndices(Iterable<int> indices, Iterable<Series> series) {
+    final uniqueIndices = Set<int>.from(indices);
+    final newSeries = enumerate(series)
+        .where((indexedSeries) => !uniqueIndices.contains(indexedSeries.index))
+        .map((indexedSeries) => indexedSeries.value);
+    return DataFrame.fromSeries(newSeries, dtype: dtype);
+  }
+
+  DataFrame _dropByNames(Iterable<String> names, Iterable<Series> series) {
+    final uniqueNames = Set<String>.from(names);
+    final newSeries = series
+        .where((series) => !uniqueNames.contains(series.name));
+    return DataFrame.fromSeries(newSeries, dtype: dtype);
+  }
+
+  @override
   Matrix toMatrix() =>
     _cachedMatrix ??= Matrix.fromList(
         _toNumber
