@@ -183,5 +183,42 @@ void main() {
         ]));
       });
     });
+
+    group('sample', () {
+      test('should sample dataframe by series indices', () {
+        final data = [
+          [  '1',       2,        3,        0,         32 ],
+          [   10,      12,      323,      1.5,       1132 ],
+          [  -10,     202,     1000,     '1.5',     0.005 ],
+        ];
+
+        final dataFrame = DataFrame(data, headerExists: false);
+        final dataFrames = dataFrame.sample(series: [
+          <dynamic>[0, 1],
+          <dynamic>[2, 3],
+          <dynamic>[4],
+        ]).toList();
+
+        expect(dataFrames, hasLength(3));
+
+        expect(dataFrames[0].rows, equals([
+          [  '1',       2 ],
+          [   10,      12 ],
+          [  -10,     202 ],
+        ]));
+
+        expect(dataFrames[1].rows, equals([
+          [    3,        0  ],
+          [  323,      1.5  ],
+          [ 1000,     '1.5' ],
+        ]));
+
+        expect(dataFrames[2].rows, equals([
+          [    32 ],
+          [  1132 ],
+          [ 0.005 ],
+        ]));
+      });
+    });
   });
 }

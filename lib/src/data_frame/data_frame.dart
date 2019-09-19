@@ -83,9 +83,16 @@ abstract class DataFrame {
   /// series)
   Series operator [](Object key);
 
+  Iterable<DataFrame> sample({
+    Iterable<Iterable> series,
+    bool columnWise = true,
+  });
+
   /// Returns a new [DataFrame] without specified series (columns)
-  DataFrame dropSeries({Iterable<int> seriesIndices,
-    Iterable<String> seriesNames});
+  DataFrame dropSeries({
+    Iterable<int> seriesIndices,
+    Iterable<String> seriesNames,
+  });
 
   /// Converts the [DataFrame] into [Matrix].
   ///

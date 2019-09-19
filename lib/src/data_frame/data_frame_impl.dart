@@ -47,6 +47,19 @@ class DataFrameImpl implements DataFrame {
   Matrix _cachedMatrix;
 
   @override
+  Iterable<DataFrame> sample({
+    Iterable<Iterable> series = const [],
+    bool columnWise = true,
+  }) {
+    if (columnWise) {
+      return series.map((ids) =>
+        DataFrame.fromSeries(ids.map((dynamic id) => this[id])));
+    }
+
+    throw UnimplementedError();
+  }
+
+  @override
   DataFrame dropSeries({
     Iterable<int> seriesIndices = const [],
     Iterable<String> seriesNames = const [],
