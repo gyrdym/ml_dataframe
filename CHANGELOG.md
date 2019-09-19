@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.6
+- `DataFrame`: `sampleFromSeries` method added
+
 ## 0.0.5
 - `DataFrame`: `dropSeries` method added
 

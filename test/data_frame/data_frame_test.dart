@@ -184,7 +184,7 @@ void main() {
       });
     });
 
-    group('sample', () {
+    group('sampleFromSeries', () {
       test('should sample dataframe by series indices', () {
         final data = [
           [  '1',       2,        3,        0,         32 ],
@@ -193,7 +193,7 @@ void main() {
         ];
 
         final dataFrame = DataFrame(data, headerExists: false);
-        final dataFrames = dataFrame.sample(indices: [
+        final dataFrames = dataFrame.sampleFromSeries(indices: [
           [0, 1],
           [2, 3],
           [4],
@@ -228,7 +228,7 @@ void main() {
         ];
 
         final dataFrame = DataFrame(data, headerExists: false);
-        final dataFrames = dataFrame.sample(indices: [
+        final dataFrames = dataFrame.sampleFromSeries(indices: [
           [0, 1],
           [0, 1],
         ]).toList();
@@ -256,7 +256,7 @@ void main() {
         ];
 
         final dataFrame = DataFrame(data, headerExists: false);
-        final dataFrames = dataFrame.sample(indices: [
+        final dataFrames = dataFrame.sampleFromSeries(indices: [
           [0, 0],
           [2, 2],
         ]).toList();
@@ -284,7 +284,7 @@ void main() {
         ];
 
         final dataFrame = DataFrame(data, headerExists: false);
-        final dataFrames = dataFrame.sample(seriesNames: [
+        final dataFrames = dataFrame.sampleFromSeries(names: [
           ['col_0', 'col_1'],
           ['col_2', 'col_3'],
           ['col_4'],

@@ -55,19 +55,14 @@ class DataFrameImpl implements DataFrame {
   }
 
   @override
-  Iterable<DataFrame> sample({
+  Iterable<DataFrame> sampleFromSeries({
     Iterable<Iterable<int>> indices = const [],
-    Iterable<Iterable<String>> seriesNames = const [],
-    bool columnWise = true,
+    Iterable<Iterable<String>> names = const [],
   }) {
-    if (columnWise) {
-      if (indices.isNotEmpty) {
-        return _sampleBySeries(indices);
-      }
-      return _sampleBySeries(seriesNames);
+    if (indices.isNotEmpty) {
+      return _sampleFromSeries(indices);
     }
-
-    throw UnimplementedError();
+    return _sampleFromSeries(names);
   }
 
   @override
@@ -92,7 +87,7 @@ class DataFrameImpl implements DataFrame {
         dtype: dtype,
       );
 
-  Iterable<DataFrame> _sampleBySeries(Iterable<Iterable> allIds) =>
+  Iterable<DataFrame> _sampleFromSeries(Iterable<Iterable> allIds) =>
       allIds.map((ids) {
         final uniqueIds = Set<dynamic>.from(ids);
         return DataFrame.fromSeries(uniqueIds.map((dynamic id) => this[id]));
