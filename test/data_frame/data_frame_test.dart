@@ -183,5 +183,133 @@ void main() {
         ]));
       });
     });
+
+    group('sampleFromSeries', () {
+      test('should sample dataframe by series indices', () {
+        final data = [
+          [  '1',       2,        3,        0,         32 ],
+          [   10,      12,      323,      1.5,       1132 ],
+          [  -10,     202,     1000,     '1.5',     0.005 ],
+        ];
+
+        final dataFrame = DataFrame(data, headerExists: false);
+        final dataFrames = dataFrame.sampleFromSeries(indices: [
+          [0, 1],
+          [2, 3],
+          [4],
+        ]).toList();
+
+        expect(dataFrames, hasLength(3));
+
+        expect(dataFrames[0].rows, equals([
+          [  '1',       2 ],
+          [   10,      12 ],
+          [  -10,     202 ],
+        ]));
+
+        expect(dataFrames[1].rows, equals([
+          [    3,        0  ],
+          [  323,      1.5  ],
+          [ 1000,     '1.5' ],
+        ]));
+
+        expect(dataFrames[2].rows, equals([
+          [    32 ],
+          [  1132 ],
+          [ 0.005 ],
+        ]));
+      });
+
+      test('should support repeating indices in different parts', () {
+        final data = [
+          [  '1',       2,        3,        0,         32 ],
+          [   10,      12,      323,      1.5,       1132 ],
+          [  -10,     202,     1000,     '1.5',     0.005 ],
+        ];
+
+        final dataFrame = DataFrame(data, headerExists: false);
+        final dataFrames = dataFrame.sampleFromSeries(indices: [
+          [0, 1],
+          [0, 1],
+        ]).toList();
+
+        expect(dataFrames, hasLength(2));
+
+        expect(dataFrames[0].rows, equals([
+          [  '1',       2 ],
+          [   10,      12 ],
+          [  -10,     202 ],
+        ]));
+
+        expect(dataFrames[1].rows, equals([
+          [  '1',       2 ],
+          [   10,      12 ],
+          [  -10,     202 ],
+        ]));
+      });
+
+      test('should skip repeating indices in the same part', () {
+        final data = [
+          [  '1',       2,        3,        0,         32 ],
+          [   10,      12,      323,      1.5,       1132 ],
+          [  -10,     202,     1000,     '1.5',     0.005 ],
+        ];
+
+        final dataFrame = DataFrame(data, headerExists: false);
+        final dataFrames = dataFrame.sampleFromSeries(indices: [
+          [0, 0],
+          [2, 2],
+        ]).toList();
+
+        expect(dataFrames, hasLength(2));
+
+        expect(dataFrames[0].rows, equals([
+          [   '1' ],
+          [   10  ],
+          [  -10  ],
+        ]));
+
+        expect(dataFrames[1].rows, equals([
+          [     3 ],
+          [   323 ],
+          [  1000 ],
+        ]));
+      });
+
+      test('should sample dataframe by series names', () {
+        final data = [
+          [  '1',       2,        3,        0,         32 ],
+          [   10,      12,      323,      1.5,       1132 ],
+          [  -10,     202,     1000,     '1.5',     0.005 ],
+        ];
+
+        final dataFrame = DataFrame(data, headerExists: false);
+        final dataFrames = dataFrame.sampleFromSeries(names: [
+          ['col_0', 'col_1'],
+          ['col_2', 'col_3'],
+          ['col_4'],
+        ]).toList();
+
+        expect(dataFrames, hasLength(3));
+
+        expect(dataFrames[0].rows, equals([
+          [  '1',       2 ],
+          [   10,      12 ],
+          [  -10,     202 ],
+        ]));
+
+        expect(dataFrames[1].rows, equals([
+          [    3,        0  ],
+          [  323,      1.5  ],
+          [ 1000,     '1.5' ],
+        ]));
+
+        expect(dataFrames[2].rows, equals([
+          [    32 ],
+          [  1132 ],
+          [ 0.005 ],
+        ]));
+      });
+    });
   });
 }

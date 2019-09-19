@@ -13,11 +13,28 @@ const defaultHeaderPrefix = 'col_';
 abstract class DataFrame {
   /// Creates a data frame from non-typed data.
   ///
-  /// [data] Non-typed data, the first element may be a header of dataset (a
+  /// [data] Non-typed data, the first element may be a header of a dataset (a
   /// collection of strings)
   ///
-  /// [headerExists] Indicates, whether the csv-file header (a sequence of
-  /// column names) exists or not.
+  /// [headerExists] Indicates, whether the dataset header (a sequence of
+  /// column names) exists or not. If header exists, it must present on the
+  /// very first row of data
+  ///
+  /// [header] Predefined dataset header. It's skipped if [headerExists] is
+  /// true. Use it to provide a custom header to header-less dataset.
+  ///
+  /// [autoHeaderPrefix] A string, that uses as a prefix for a column name
+  /// of auto-generated header (if [headerExists] is false and [header] is
+  /// empty). As a postfix underscore + ordinal number of series uses.
+  ///
+  /// [columns] A collection of indices, that specifies which columns should be
+  /// extracted from the [data] and placed in the resulting [DataFrame]
+  ///
+  /// [columnNames] A collection of string, that specifies which columns
+  /// should be extracted from the [data] and placed in the resulting
+  /// [DataFrame]. It's also can be used with auto-generated column names.
+  ///
+  /// [dtype] A numerical type for [Matrix] representation of the [DataFrame]
   factory DataFrame(
       Iterable<Iterable<dynamic>> data,
       {
@@ -83,9 +100,21 @@ abstract class DataFrame {
   /// series)
   Series operator [](Object key);
 
+  /// Returns a collection of dataframes, sampled from series, that are
+  /// obtained from provided [indices] parts or [names] parts.
+  ///
+  /// Series id (index or name) may repeat in different parts but not in the
+  /// same part
+  Iterable<DataFrame> sampleFromSeries({
+    Iterable<Iterable<int>> indices,
+    Iterable<Iterable<String>> names,
+  });
+
   /// Returns a new [DataFrame] without specified series (columns)
-  DataFrame dropSeries({Iterable<int> seriesIndices,
-    Iterable<String> seriesNames});
+  DataFrame dropSeries({
+    Iterable<int> seriesIndices,
+    Iterable<String> seriesNames,
+  });
 
   /// Converts the [DataFrame] into [Matrix].
   ///

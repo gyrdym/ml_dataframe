@@ -47,6 +47,25 @@ class DataFrameImpl implements DataFrame {
   Matrix _cachedMatrix;
 
   @override
+  Series operator [](Object key) {
+    final seriesName = key is int
+        ? header.elementAt(key)
+        : key;
+    return _getCachedOrCreateSeriesByName()[seriesName];
+  }
+
+  @override
+  Iterable<DataFrame> sampleFromSeries({
+    Iterable<Iterable<int>> indices = const [],
+    Iterable<Iterable<String>> names = const [],
+  }) {
+    if (indices.isNotEmpty) {
+      return _sampleFromSeries(indices);
+    }
+    return _sampleFromSeries(names);
+  }
+
+  @override
   DataFrame dropSeries({
     Iterable<int> seriesIndices = const [],
     Iterable<String> seriesNames = const [],
@@ -57,6 +76,22 @@ class DataFrameImpl implements DataFrame {
 
     return _dropByNames(seriesNames, series);
   }
+
+  @override
+  Matrix toMatrix() =>
+      _cachedMatrix ??= Matrix.fromList(
+        _toNumber
+            .convertRawData(rows)
+            .map((row) => row.toList())
+            .toList(),
+        dtype: dtype,
+      );
+
+  Iterable<DataFrame> _sampleFromSeries(Iterable<Iterable> allIds) =>
+      allIds.map((ids) {
+        final uniqueIds = Set<dynamic>.from(ids);
+        return DataFrame.fromSeries(uniqueIds.map((dynamic id) => this[id]));
+      });
 
   DataFrame _dropByIndices(Iterable<int> indices, Iterable<Series> series) {
     final uniqueIndices = Set<int>.from(indices);
@@ -71,24 +106,6 @@ class DataFrameImpl implements DataFrame {
     final newSeries = series
         .where((series) => !uniqueNames.contains(series.name));
     return DataFrame.fromSeries(newSeries, dtype: dtype);
-  }
-
-  @override
-  Matrix toMatrix() =>
-    _cachedMatrix ??= Matrix.fromList(
-        _toNumber
-            .convertRawData(rows)
-            .map((row) => row.toList())
-            .toList(),
-        dtype: dtype,
-    );
-
-  @override
-  Series operator [](Object key) {
-    final seriesName = key is int
-        ? header.elementAt(key)
-        : key;
-    return _getCachedOrCreateSeriesByName()[seriesName];
   }
 
   Map<String, Series> _getCachedOrCreateSeriesByName() =>
