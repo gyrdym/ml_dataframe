@@ -47,13 +47,24 @@ class DataFrameImpl implements DataFrame {
   Matrix _cachedMatrix;
 
   @override
+  Series operator [](Object key) {
+    final seriesName = key is int
+        ? header.elementAt(key)
+        : key;
+    return _getCachedOrCreateSeriesByName()[seriesName];
+  }
+
+  @override
   Iterable<DataFrame> sample({
-    Iterable<Iterable> series = const [],
+    Iterable<Iterable<int>> indices = const [],
+    Iterable<Iterable<String>> seriesNames = const [],
     bool columnWise = true,
   }) {
     if (columnWise) {
-      return series.map((ids) =>
-        DataFrame.fromSeries(ids.map((dynamic id) => this[id])));
+      if (indices.isNotEmpty) {
+        return _sampleBySeries(indices);
+      }
+      return _sampleBySeries(seriesNames);
     }
 
     throw UnimplementedError();
@@ -71,6 +82,22 @@ class DataFrameImpl implements DataFrame {
     return _dropByNames(seriesNames, series);
   }
 
+  @override
+  Matrix toMatrix() =>
+      _cachedMatrix ??= Matrix.fromList(
+        _toNumber
+            .convertRawData(rows)
+            .map((row) => row.toList())
+            .toList(),
+        dtype: dtype,
+      );
+
+  Iterable<DataFrame> _sampleBySeries(Iterable<Iterable> allIds) =>
+      allIds.map((ids) {
+        final uniqueIds = Set<dynamic>.from(ids);
+        return DataFrame.fromSeries(uniqueIds.map((dynamic id) => this[id]));
+      });
+
   DataFrame _dropByIndices(Iterable<int> indices, Iterable<Series> series) {
     final uniqueIndices = Set<int>.from(indices);
     final newSeries = enumerate(series)
@@ -84,24 +111,6 @@ class DataFrameImpl implements DataFrame {
     final newSeries = series
         .where((series) => !uniqueNames.contains(series.name));
     return DataFrame.fromSeries(newSeries, dtype: dtype);
-  }
-
-  @override
-  Matrix toMatrix() =>
-    _cachedMatrix ??= Matrix.fromList(
-        _toNumber
-            .convertRawData(rows)
-            .map((row) => row.toList())
-            .toList(),
-        dtype: dtype,
-    );
-
-  @override
-  Series operator [](Object key) {
-    final seriesName = key is int
-        ? header.elementAt(key)
-        : key;
-    return _getCachedOrCreateSeriesByName()[seriesName];
   }
 
   Map<String, Series> _getCachedOrCreateSeriesByName() =>

@@ -84,7 +84,8 @@ abstract class DataFrame {
   Series operator [](Object key);
 
   Iterable<DataFrame> sample({
-    Iterable<Iterable> series,
+    Iterable<Iterable<int>> indices,
+    Iterable<Iterable<String>> seriesNames,
     bool columnWise = true,
   });
 
