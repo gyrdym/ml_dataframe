@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.7
+- `xrange` version locked
+
 ## 0.0.6
 - `DataFrame`: `sampleFromSeries` method added
 
