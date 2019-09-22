@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.8
+- `xrange` dependency removed
+- `ml_linalg 12.0.*` supported
+- dart sdk constraint changed to `>=2.2.0 <3.0.0`
+
 ## 0.0.7
 - `xrange` version locked
 
