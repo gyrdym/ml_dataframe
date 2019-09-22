@@ -4,7 +4,6 @@ import 'package:ml_dataframe/src/data_frame/data_frame_impl.dart';
 import 'package:ml_dataframe/src/numerical_converter/numerical_converter_impl.dart';
 import 'package:ml_linalg/linalg.dart';
 import 'package:quiver/iterables.dart';
-import 'package:xrange/zrange.dart';
 
 DataFrame fromMatrix(Matrix data, {
   Iterable<String> predefinedHeader = const [],
@@ -19,7 +18,7 @@ DataFrame fromMatrix(Matrix data, {
       autoHeaderPrefix, [], predefinedHeader);
 
   final selectedData = columns?.isNotEmpty == true
-      ? data.pick(columnRanges: columns.map((idx) => ZRange.singleton(idx)))
+      ? data.sample(columnIndices: columns)
       : data;
 
   final areSeriesDiscrete = enumerate(header).map((indexedName) {
