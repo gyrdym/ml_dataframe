@@ -1,4 +1,5 @@
 import 'package:ml_dataframe/src/data_frame/data_frame.dart';
+import 'package:ml_linalg/dtype.dart';
 import 'package:ml_linalg/matrix.dart';
 import 'package:test/test.dart';
 
@@ -10,7 +11,7 @@ void main() {
         [10,   20,   30,   40  ],
         [100,  200,  300,  400 ],
         [1000, 2000, 3000, 4000],
-      ]);
+      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix);
 
       expect(dataFrame.header, equals(['col_0', 'col_1', 'col_2', 'col_3']));
@@ -41,6 +42,7 @@ void main() {
       expect(dataFrame['col_3'].data, equals([4, 40, 400, 4000]));
 
       expect(dataFrame.toMatrix(), same(matrix));
+      expect(dataFrame.dtype, DType.float32);
     });
 
     test('should initialize from matrix with predefined header', () {
@@ -49,7 +51,7 @@ void main() {
         [10,   20,   30,   40  ],
         [100,  200,  300,  400 ],
         [1000, 2000, 3000, 4000],
-      ]);
+      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix,
           header: ['how', 'doth', 'the', 'little']);
 
@@ -81,6 +83,7 @@ void main() {
       expect(dataFrame['little'].data, equals([4, 40, 400, 4000]));
 
       expect(dataFrame.toMatrix(), same(matrix));
+      expect(dataFrame.dtype, DType.float32);
     });
 
     test('should ignore predefined header list elements that are out of '
@@ -91,7 +94,7 @@ void main() {
         [10,   20,   30,   40  ],
         [100,  200,  300,  400 ],
         [1000, 2000, 3000, 4000],
-      ]);
+      ], dtype: DType.float32);
 
       final dataFrame = DataFrame.fromMatrix(matrix,
           header: ['how', 'doth', 'the', 'little', 'ololo', 'trololo']);
@@ -118,6 +121,7 @@ void main() {
 
       expect(dataFrame[3].name, 'little');
       expect(dataFrame['little'].data, equals([4, 40, 400, 4000]));
+      expect(dataFrame.dtype, DType.float32);
     });
 
     test('should ignore predefined header list elements that are out of '
@@ -158,7 +162,7 @@ void main() {
         [10,   20,   30,   40  ],
         [100,  200,  300,  400 ],
         [1000, 2000, 3000, 4000],
-      ]);
+      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix,
           columns: [0, 3],
           header: ['how', 'doth', 'the', 'little']);
@@ -182,6 +186,7 @@ void main() {
       expect(dataFrame[1].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['doth'].data, equals([4, 40, 400, 4000]));
 
+      expect(dataFrame.dtype, DType.float32);
       expect(dataFrame.toMatrix(), equals([
         [1,    4   ],
         [10,   40  ],
@@ -197,7 +202,7 @@ void main() {
         [10,   20,   30,   40  ],
         [100,  200,  300,  400 ],
         [1000, 2000, 3000, 4000],
-      ]);
+      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix,
           autoHeaderPrefix: 'super_');
 
@@ -229,6 +234,7 @@ void main() {
       expect(dataFrame[3].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['super_3'].data, equals([4, 40, 400, 4000]));
 
+      expect(dataFrame.dtype, DType.float32);
       expect(dataFrame.toMatrix(), same(matrix));
     });
 
@@ -238,7 +244,7 @@ void main() {
         [10,   20,   30,   40  ],
         [100,  200,  300,  400 ],
         [1000, 2000, 3000, 4000],
-      ]);
+      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix, columns: [0, 3]);
 
       expect(dataFrame.header, equals(['col_0', 'col_1']));
@@ -260,6 +266,7 @@ void main() {
       expect(dataFrame[1].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['col_1'].data, equals([4, 40, 400, 4000]));
 
+      expect(dataFrame.dtype, DType.float32);
       expect(dataFrame.toMatrix(), equals([
         [1,    4   ],
         [10,   40  ],
@@ -275,7 +282,7 @@ void main() {
         [10,   20,   30,   40  ],
         [100,  200,  300,  400 ],
         [1000, 2000, 3000, 4000],
-      ]);
+      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix, discreteColumns: [0, 1]);
 
       expect(dataFrame.rows, equals([
@@ -307,6 +314,7 @@ void main() {
       expect(dataFrame['col_3'].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['col_3'].isDiscrete, isFalse);
 
+      expect(dataFrame.dtype, DType.float32);
       expect(dataFrame.toMatrix(), same(matrix));
     });
 
@@ -317,7 +325,7 @@ void main() {
         [10,   20,   30,   40  ],
         [100,  200,  300,  400 ],
         [1000, 2000, 3000, 4000],
-      ]);
+      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix,
           header: ['first', 'second', 'third', 'fourth'],
           discreteColumnNames: ['first', 'fourth']);
@@ -351,6 +359,7 @@ void main() {
       expect(dataFrame['fourth'].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['fourth'].isDiscrete, isTrue);
 
+      expect(dataFrame.dtype, DType.float32);
       expect(dataFrame.toMatrix(), same(matrix));
     });
 
@@ -361,7 +370,7 @@ void main() {
         [10,   20,   30,   40  ],
         [100,  200,  300,  400 ],
         [1000, 2000, 3000, 4000],
-      ]);
+      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix,
           discreteColumnNames: ['col_0', 'col_3']);
 
@@ -394,6 +403,7 @@ void main() {
       expect(dataFrame['col_3'].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['col_3'].isDiscrete, isTrue);
 
+      expect(dataFrame.dtype, DType.float32);
       expect(dataFrame.toMatrix(), same(matrix));
     });
 
@@ -404,7 +414,7 @@ void main() {
         [10,   20,   30,   40  ],
         [100,  200,  300,  400 ],
         [1000, 2000, 3000, 4000],
-      ]);
+      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix,
           discreteColumnNames: ['ololo', 'trololo']);
 
@@ -437,6 +447,7 @@ void main() {
       expect(dataFrame['col_3'].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['col_3'].isDiscrete, isFalse);
 
+      expect(dataFrame.dtype, DType.float32);
       expect(dataFrame.toMatrix(), same(matrix));
     });
 
@@ -447,7 +458,7 @@ void main() {
         [10,   20,   30,   40  ],
         [100,  200,  300,  400 ],
         [1000, 2000, 3000, 4000],
-      ]);
+      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix,
           discreteColumnNames: ['col_1', 'ololo', 'trololo']);
 
@@ -479,6 +490,7 @@ void main() {
       expect(dataFrame[3].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['col_3'].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['col_3'].isDiscrete, isFalse);
+      expect(dataFrame.dtype, DType.float32);
 
       expect(dataFrame.toMatrix(), same(matrix));
     });
@@ -489,7 +501,7 @@ void main() {
         [10,   20,   30,   40  ],
         [100,  200,  300,  400 ],
         [1000, 2000, 3000, 4000],
-      ]);
+      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix,
           header: ['first', 'second', 'third', 'fourth'],
           discreteColumns: [2, 3],
@@ -524,6 +536,7 @@ void main() {
       expect(dataFrame['fourth'].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['fourth'].isDiscrete, isTrue);
 
+      expect(dataFrame.dtype, DType.float32);
       expect(dataFrame.toMatrix(), same(matrix));
     });
   });

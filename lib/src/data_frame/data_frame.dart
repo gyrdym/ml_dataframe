@@ -84,6 +84,9 @@ abstract class DataFrame {
     discreteColumnNames: discreteColumnNames,
   );
 
+  /// A type used for converting the [DataFrame] into [Matrix]
+  DType get dtype;
+
   /// Returns a collection of names of all series (like a table header)
   Iterable<String> get header;
 

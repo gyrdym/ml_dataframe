@@ -40,6 +40,7 @@ class DataFrameImpl implements DataFrame {
   @override
   final Iterable<Series> series;
 
+  @override
   final DType dtype;
 
   final NumericalConverter _toNumber;
