@@ -1,4 +1,5 @@
 import 'package:ml_dataframe/src/data_frame/data_frame.dart';
+import 'package:ml_linalg/dtype.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -9,7 +10,12 @@ void main() {
         [ 10,  12,  323, false, '1132'],
         [-10, 202, null,  true,  'abs'],
       ];
-      final frame = DataFrame(data, headerExists: false);
+
+      final frame = DataFrame(
+        data,
+        headerExists: false,
+        dtype: DType.float64,
+      );
 
       expect(frame.header,
           equals(['col_0', 'col_1', 'col_2', 'col_3', 'col_4']));
@@ -27,6 +33,7 @@ void main() {
         [true, false, true],
         ['32', '1132', 'abs'],
       ]));
+      expect(frame.dtype, DType.float64);
     });
 
     test('should initialize from dynamic-typed data with header row', () {

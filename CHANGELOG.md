@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.9
+- `dtype` field added to `DataFrame` interface
+
 ## 0.0.8
 - `xrange` dependency removed
 - `ml_linalg 12.0.*` supported
