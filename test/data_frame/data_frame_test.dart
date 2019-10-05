@@ -193,34 +193,16 @@ void main() {
         ];
 
         final dataFrame = DataFrame(data, headerExists: false);
-        final dataFrames = dataFrame.sampleFromSeries(indices: [
-          [0, 1],
-          [2, 3],
-          [4],
-        ]).toList();
+        final sampled = dataFrame.sampleFromSeries(indices: [0, 1, 2, 3, 4]);
 
-        expect(dataFrames, hasLength(3));
-
-        expect(dataFrames[0].rows, equals([
-          [  '1',       2 ],
-          [   10,      12 ],
-          [  -10,     202 ],
-        ]));
-
-        expect(dataFrames[1].rows, equals([
-          [    3,        0  ],
-          [  323,      1.5  ],
-          [ 1000,     '1.5' ],
-        ]));
-
-        expect(dataFrames[2].rows, equals([
-          [    32 ],
-          [  1132 ],
-          [ 0.005 ],
+        expect(sampled.rows, equals([
+          [  '1',       2,        3,        0,         32 ],
+          [   10,      12,      323,      1.5,       1132 ],
+          [  -10,     202,     1000,     '1.5',     0.005 ],
         ]));
       });
 
-      test('should support repeating indices in different parts', () {
+      test('should support repeating indices', () {
         final data = [
           [  '1',       2,        3,        0,         32 ],
           [   10,      12,      323,      1.5,       1132 ],
@@ -228,51 +210,12 @@ void main() {
         ];
 
         final dataFrame = DataFrame(data, headerExists: false);
-        final dataFrames = dataFrame.sampleFromSeries(indices: [
-          [0, 1],
-          [0, 1],
-        ]).toList();
+        final sampled = dataFrame.sampleFromSeries(indices: [0, 1, 0, 1]);
 
-        expect(dataFrames, hasLength(2));
-
-        expect(dataFrames[0].rows, equals([
-          [  '1',       2 ],
-          [   10,      12 ],
-          [  -10,     202 ],
-        ]));
-
-        expect(dataFrames[1].rows, equals([
-          [  '1',       2 ],
-          [   10,      12 ],
-          [  -10,     202 ],
-        ]));
-      });
-
-      test('should skip repeating indices in the same part', () {
-        final data = [
-          [  '1',       2,        3,        0,         32 ],
-          [   10,      12,      323,      1.5,       1132 ],
-          [  -10,     202,     1000,     '1.5',     0.005 ],
-        ];
-
-        final dataFrame = DataFrame(data, headerExists: false);
-        final dataFrames = dataFrame.sampleFromSeries(indices: [
-          [0, 0],
-          [2, 2],
-        ]).toList();
-
-        expect(dataFrames, hasLength(2));
-
-        expect(dataFrames[0].rows, equals([
-          [   '1' ],
-          [   10  ],
-          [  -10  ],
-        ]));
-
-        expect(dataFrames[1].rows, equals([
-          [     3 ],
-          [   323 ],
-          [  1000 ],
+        expect(sampled.rows, equals([
+          [  '1',   2,  '1',  2 ],
+          [   10,  12,  10,  12 ],
+          [  -10, 202, -10, 202 ],
         ]));
       });
 
@@ -284,31 +227,74 @@ void main() {
         ];
 
         final dataFrame = DataFrame(data, headerExists: false);
-        final dataFrames = dataFrame.sampleFromSeries(names: [
-          ['col_0', 'col_1'],
-          ['col_2', 'col_3'],
-          ['col_4'],
-        ]).toList();
+        final sampled = dataFrame.sampleFromSeries(
+            names: ['col_0', 'col_1', 'col_2', 'col_3', 'col_4']);
 
-        expect(dataFrames, hasLength(3));
-
-        expect(dataFrames[0].rows, equals([
-          [  '1',       2 ],
-          [   10,      12 ],
-          [  -10,     202 ],
+        expect(sampled.rows, equals([
+          [  '1',       2,        3,        0,         32 ],
+          [   10,      12,      323,      1.5,       1132 ],
+          [  -10,     202,     1000,     '1.5',     0.005 ],
         ]));
+      });
 
-        expect(dataFrames[1].rows, equals([
-          [    3,        0  ],
-          [  323,      1.5  ],
-          [ 1000,     '1.5' ],
-        ]));
+      test('should ignore names parameter if indices parameter is '
+          'provided', () {
+        final data = [
+          [  '1',       2,        3,        0,         32 ],
+          [   10,      12,      323,      1.5,       1132 ],
+          [  -10,     202,     1000,     '1.5',     0.005 ],
+        ];
 
-        expect(dataFrames[2].rows, equals([
-          [    32 ],
-          [  1132 ],
-          [ 0.005 ],
+        final dataFrame = DataFrame(data, headerExists: false);
+        final sampled = dataFrame.sampleFromSeries(
+            indices: [1],
+            names: ['col_0', 'col_1', 'col_2', 'col_3', 'col_4']);
+
+        expect(sampled.rows, equals([
+          [   2, ],
+          [  12, ],
+          [ 202, ],
         ]));
+      });
+
+      test('should throw an error if outranged indices are provided', () {
+        final data = [
+          [  '1',       2,        3,        0,         32 ],
+          [   10,      12,      323,      1.5,       1132 ],
+          [  -10,     202,     1000,     '1.5',     0.005 ],
+        ];
+
+        final dataFrame = DataFrame(data, headerExists: false);
+        final actual = () => dataFrame.sampleFromSeries(indices: [1, 40]);
+
+        expect(actual, throwsRangeError);
+      });
+
+      test('should throw an error if outranged negative indices are provided', () {
+        final data = [
+          [  '1',       2,        3,        0,         32 ],
+          [   10,      12,      323,      1.5,       1132 ],
+          [  -10,     202,     1000,     '1.5',     0.005 ],
+        ];
+
+        final dataFrame = DataFrame(data, headerExists: false);
+        final actual = () => dataFrame.sampleFromSeries(indices: [2, -1]);
+
+        expect(actual, throwsRangeError);
+      });
+
+      test('should throw an error if names of non existent columns are '
+          'provided', () {
+        final data = [
+          [  '1',       2,        3,        0,         32 ],
+          [   10,      12,      323,      1.5,       1132 ],
+          [  -10,     202,     1000,     '1.5',     0.005 ],
+        ];
+
+        final dataFrame = DataFrame(data, headerExists: false);
+        final actual = () => dataFrame.sampleFromSeries(names: ['col_0', 'col_100']);
+
+        expect(actual, throwsException);
       });
     });
   });

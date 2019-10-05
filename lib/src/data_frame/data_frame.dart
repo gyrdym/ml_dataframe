@@ -92,7 +92,7 @@ abstract class DataFrame {
 
   Iterable<Iterable<dynamic>> get rows;
 
-  /// Returns series (columns) collection of the [DataFrame].
+  /// Returns a lazy series (columns) collection of the [DataFrame].
   ///
   /// [Series] is roughly a column and its header (name)
   Iterable<Series> get series;
@@ -103,14 +103,15 @@ abstract class DataFrame {
   /// series)
   Series operator [](Object key);
 
-  /// Returns a collection of dataframes, sampled from series, that are
-  /// obtained from provided [indices] parts or [names] parts.
+  /// Returns a dataframe, sampled from series, that are obtained from provided
+  /// series [indices] or series [names].
   ///
-  /// Series id (index or name) may repeat in different parts but not in the
-  /// same part
-  Iterable<DataFrame> sampleFromSeries({
-    Iterable<Iterable<int>> indices,
-    Iterable<Iterable<String>> names,
+  /// If [indices] are specified, [names] parameter will be ignored.
+  ///
+  /// Series indices or series names may be repeating.
+  DataFrame sampleFromSeries({
+    Iterable<int> indices,
+    Iterable<String> names,
   });
 
   /// Returns a new [DataFrame] without specified series (columns)
