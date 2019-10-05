@@ -72,7 +72,7 @@ class DataFrameImpl implements DataFrame {
         .from(names)
         .difference(Set.from(header));
     if (absentNames.isNotEmpty) {
-      throw Exception('Columns with the names $absentNames do not exist');
+      throw Exception('Columns with names $absentNames do not exist');
     };
     return _sampleFromSeries(names);
   }
