@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.11
+- `dtype` parameter removed from the DataFrame's constructor
+- `dtype` parameter added to `toMatrix` method
+
 ## 0.0.10
 - `DataFrame.sampleFromSeries` method's signature changed 
 

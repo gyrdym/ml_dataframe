@@ -2,7 +2,6 @@ import 'package:csv/csv.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame.dart';
 import 'package:ml_dataframe/src/data_frame/factories/from_raw_data.dart';
 import 'package:ml_dataframe/src/data_reader/data_reader.dart';
-import 'package:ml_linalg/dtype.dart';
 
 Future<DataFrame> fromCsv(
     String fileName,
@@ -14,7 +13,6 @@ Future<DataFrame> fromCsv(
       String autoHeaderPrefix = defaultHeaderPrefix,
       Iterable<int> columns = const [],
       Iterable<String> columnNames = const [],
-      DType dtype = DType.float32,
     }
 ) async {
   final reader = DataReader.csv(fileName, columnDelimiter, eol);
@@ -27,6 +25,5 @@ Future<DataFrame> fromCsv(
     autoHeaderPrefix: autoHeaderPrefix,
     columns: columns,
     columnNames: columnNames,
-    dtype: dtype,
   );
 }

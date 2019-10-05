@@ -43,7 +43,6 @@ abstract class DataFrame {
         String autoHeaderPrefix = defaultHeaderPrefix,
         Iterable<int> columns = const [],
         Iterable<String> columnNames = const [],
-        DType dtype = DType.float32,
       }
   ) => fromRawData(
     data,
@@ -52,19 +51,13 @@ abstract class DataFrame {
     autoHeaderPrefix: autoHeaderPrefix,
     columns: columns,
     columnNames: columnNames,
-    dtype: dtype,
   );
 
-  factory DataFrame.fromSeries(
-      Iterable<Series> series,
-      {
-        DType dtype = DType.float32,
-      }
-  ) => DataFrameImpl.fromSeries(
-      series,
-      NumericalConverterImpl(false),
-      dtype,
-  );
+  factory DataFrame.fromSeries(Iterable<Series> series) =>
+      DataFrameImpl.fromSeries(
+        series,
+        NumericalConverterImpl(false),
+      );
 
   factory DataFrame.fromMatrix(
       Matrix matrix,
@@ -83,9 +76,6 @@ abstract class DataFrame {
     discreteColumns: discreteColumns,
     discreteColumnNames: discreteColumnNames,
   );
-
-  /// A type used for converting the [DataFrame] into [Matrix]
-  DType get dtype;
 
   /// Returns a collection of names of all series (like a table header)
   Iterable<String> get header;
@@ -124,5 +114,5 @@ abstract class DataFrame {
   ///
   /// The method may throw an error if the [DataFrame] contains data, that
   /// cannot be converted to numerical representation
-  Matrix toMatrix();
+  Matrix toMatrix([DType dtype]);
 }
