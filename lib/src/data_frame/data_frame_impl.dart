@@ -8,28 +8,29 @@ import 'package:ml_linalg/matrix.dart';
 import 'package:quiver/iterables.dart';
 
 class DataFrameImpl implements DataFrame {
-  DataFrameImpl(this.rows, this.header, this._toNumber, this.dtype) :
+  DataFrameImpl(this.rows, this.header, this._toNumber) :
         series = convertRowsToSeries(header, rows);
 
-  DataFrameImpl.fromSeries(this.series, this._toNumber, this.dtype) :
+  DataFrameImpl.fromSeries(this.series, this._toNumber) :
         header = series.map((series) => series.name),
         rows = convertSeriesToRows(series);
 
   DataFrameImpl.fromMatrix(
-      this._cachedMatrix,
+      Matrix matrix,
       this.header,
       this._toNumber,
       Iterable<bool> areSeriesDiscrete,
   ) :
-        dtype = _cachedMatrix.dtype,
-        rows = _cachedMatrix.rows,
-        series = zip([header, _cachedMatrix.columns,
-          areSeriesDiscrete ?? List.filled(_cachedMatrix.columnsNum, false)])
+        rows = matrix.rows,
+        series = zip([header, matrix.columns,
+          areSeriesDiscrete ?? List.filled(matrix.columnsNum, false)])
             .map((seriesData) => Series(
               seriesData[0] as String,
               seriesData[1] as Iterable,
               isDiscrete: seriesData[2] as bool,
-            ));
+            )) {
+    _cachedMatrices[matrix.dtype] = matrix;
+  }
 
   @override
   final Iterable<String> header;
@@ -40,12 +41,9 @@ class DataFrameImpl implements DataFrame {
   @override
   final Iterable<Series> series;
 
-  @override
-  final DType dtype;
-
   final NumericalConverter _toNumber;
 
-  Matrix _cachedMatrix;
+  final Map<DType, Matrix> _cachedMatrices = {};
 
   @override
   Series operator [](Object key) {
@@ -92,34 +90,31 @@ class DataFrameImpl implements DataFrame {
   }
 
   @override
-  Matrix toMatrix() =>
-      _cachedMatrix ??= Matrix.fromList(
-        _toNumber
-            .convertRawData(rows)
-            .map((row) => row.toList())
-            .toList(),
-        dtype: dtype,
-      );
+  Matrix toMatrix([DType dtype = DType.float32]) =>
+    _cachedMatrices[dtype] ??= Matrix.fromList(
+      _toNumber
+          .convertRawData(rows)
+          .map((row) => row.toList())
+          .toList(),
+      dtype: dtype,
+    );
 
   DataFrame _sampleFromSeries(Iterable ids) =>
-      DataFrame.fromSeries(
-        ids.map((dynamic id) => this[id]),
-        dtype: dtype,
-      );
+      DataFrame.fromSeries(ids.map((dynamic id) => this[id]));
 
   DataFrame _dropByIndices(Iterable<int> indices, Iterable<Series> series) {
     final uniqueIndices = Set<int>.from(indices);
     final newSeries = enumerate(series)
         .where((indexedSeries) => !uniqueIndices.contains(indexedSeries.index))
         .map((indexedSeries) => indexedSeries.value);
-    return DataFrame.fromSeries(newSeries, dtype: dtype);
+    return DataFrame.fromSeries(newSeries);
   }
 
   DataFrame _dropByNames(Iterable<String> names, Iterable<Series> series) {
     final uniqueNames = Set<String>.from(names);
     final newSeries = series
         .where((series) => !uniqueNames.contains(series.name));
-    return DataFrame.fromSeries(newSeries, dtype: dtype);
+    return DataFrame.fromSeries(newSeries);
   }
 
   Map<String, Series> _getCachedOrCreateSeriesByName() =>

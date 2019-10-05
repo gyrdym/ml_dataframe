@@ -1,6 +1,5 @@
 import 'package:ml_dataframe/src/data_frame/data_frame.dart';
 import 'package:ml_dataframe/src/data_frame/series.dart';
-import 'package:ml_linalg/dtype.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -11,7 +10,7 @@ void main() {
         Series('second', <dynamic>[10, 12, 323, false, '1132']),
         Series('third', <dynamic>[-10, 202, null, true, 'abs']),
       ];
-      final frame = DataFrame.fromSeries(series, dtype: DType.float64);
+      final frame = DataFrame.fromSeries(series);
 
       expect(frame.header, equals(['first', 'second', 'third']));
       expect(frame.rows, equals([
@@ -28,7 +27,6 @@ void main() {
         <dynamic>[10, 12, 323, false, '1132'],
         <dynamic>[-10, 202, null, true, 'abs'],
       ]));
-      expect(frame.dtype, DType.float64);
     });
   });
 }

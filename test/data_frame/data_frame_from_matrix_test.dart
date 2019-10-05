@@ -42,7 +42,6 @@ void main() {
       expect(dataFrame['col_3'].data, equals([4, 40, 400, 4000]));
 
       expect(dataFrame.toMatrix(), same(matrix));
-      expect(dataFrame.dtype, DType.float32);
     });
 
     test('should initialize from matrix with predefined header', () {
@@ -83,7 +82,6 @@ void main() {
       expect(dataFrame['little'].data, equals([4, 40, 400, 4000]));
 
       expect(dataFrame.toMatrix(), same(matrix));
-      expect(dataFrame.dtype, DType.float32);
     });
 
     test('should ignore predefined header list elements that are out of '
@@ -121,7 +119,6 @@ void main() {
 
       expect(dataFrame[3].name, 'little');
       expect(dataFrame['little'].data, equals([4, 40, 400, 4000]));
-      expect(dataFrame.dtype, DType.float32);
     });
 
     test('should ignore predefined header list elements that are out of '
@@ -186,7 +183,6 @@ void main() {
       expect(dataFrame[1].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['doth'].data, equals([4, 40, 400, 4000]));
 
-      expect(dataFrame.dtype, DType.float32);
       expect(dataFrame.toMatrix(), equals([
         [1,    4   ],
         [10,   40  ],
@@ -234,7 +230,6 @@ void main() {
       expect(dataFrame[3].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['super_3'].data, equals([4, 40, 400, 4000]));
 
-      expect(dataFrame.dtype, DType.float32);
       expect(dataFrame.toMatrix(), same(matrix));
     });
 
@@ -266,7 +261,6 @@ void main() {
       expect(dataFrame[1].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['col_1'].data, equals([4, 40, 400, 4000]));
 
-      expect(dataFrame.dtype, DType.float32);
       expect(dataFrame.toMatrix(), equals([
         [1,    4   ],
         [10,   40  ],
@@ -314,7 +308,6 @@ void main() {
       expect(dataFrame['col_3'].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['col_3'].isDiscrete, isFalse);
 
-      expect(dataFrame.dtype, DType.float32);
       expect(dataFrame.toMatrix(), same(matrix));
     });
 
@@ -359,7 +352,6 @@ void main() {
       expect(dataFrame['fourth'].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['fourth'].isDiscrete, isTrue);
 
-      expect(dataFrame.dtype, DType.float32);
       expect(dataFrame.toMatrix(), same(matrix));
     });
 
@@ -403,7 +395,6 @@ void main() {
       expect(dataFrame['col_3'].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['col_3'].isDiscrete, isTrue);
 
-      expect(dataFrame.dtype, DType.float32);
       expect(dataFrame.toMatrix(), same(matrix));
     });
 
@@ -447,7 +438,6 @@ void main() {
       expect(dataFrame['col_3'].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['col_3'].isDiscrete, isFalse);
 
-      expect(dataFrame.dtype, DType.float32);
       expect(dataFrame.toMatrix(), same(matrix));
     });
 
@@ -490,7 +480,6 @@ void main() {
       expect(dataFrame[3].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['col_3'].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['col_3'].isDiscrete, isFalse);
-      expect(dataFrame.dtype, DType.float32);
 
       expect(dataFrame.toMatrix(), same(matrix));
     });
@@ -536,7 +525,6 @@ void main() {
       expect(dataFrame['fourth'].data, equals([4, 40, 400, 4000]));
       expect(dataFrame['fourth'].isDiscrete, isTrue);
 
-      expect(dataFrame.dtype, DType.float32);
       expect(dataFrame.toMatrix(), same(matrix));
     });
   });

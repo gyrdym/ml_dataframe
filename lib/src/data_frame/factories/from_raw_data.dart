@@ -12,7 +12,6 @@ DataFrame fromRawData(Iterable<Iterable<dynamic>> data, {
   String autoHeaderPrefix = defaultHeaderPrefix,
   Iterable<int> columns = const [],
   Iterable<String> columnNames = const [],
-  DType dtype = DType.float32,
 }) {
   final columnsNum = columns.isNotEmpty
       ? columns.length
@@ -55,5 +54,5 @@ DataFrame fromRawData(Iterable<Iterable<dynamic>> data, {
       .map((indexedName) => indexedName.value);
 
   return DataFrameImpl(selectedData, selectedHeader,
-      NumericalConverterImpl(false), dtype);
+      NumericalConverterImpl(false));
 }
