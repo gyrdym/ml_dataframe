@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.10
+- `DataFrame.sampleFromSeries` method's signature changed 
+
 ## 0.0.9
 - `dtype` field added to `DataFrame` interface
 

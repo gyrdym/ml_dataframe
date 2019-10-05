@@ -56,13 +56,26 @@ class DataFrameImpl implements DataFrame {
   }
 
   @override
-  Iterable<DataFrame> sampleFromSeries({
-    Iterable<Iterable<int>> indices = const [],
-    Iterable<Iterable<String>> names = const [],
+  DataFrame sampleFromSeries({
+    Iterable<int> indices = const [],
+    Iterable<String> names = const [],
   }) {
     if (indices.isNotEmpty) {
+      final maxIdx = series.length - 1;
+      final outRangedIndices = indices.where((idx) => idx < 0 || idx > maxIdx);
+      if (outRangedIndices.isNotEmpty) {
+        throw RangeError('Some of provided indices are out of range: '
+            '$outRangedIndices, while the valid range is 0..$maxIdx (both '
+            'inclusive)');
+      }
       return _sampleFromSeries(indices);
     }
+    final absentNames = Set<String>
+        .from(names)
+        .difference(Set.from(header));
+    if (absentNames.isNotEmpty) {
+      throw Exception('Columns with the names $absentNames do not exist');
+    };
     return _sampleFromSeries(names);
   }
 
@@ -88,11 +101,11 @@ class DataFrameImpl implements DataFrame {
         dtype: dtype,
       );
 
-  Iterable<DataFrame> _sampleFromSeries(Iterable<Iterable> allIds) =>
-      allIds.map((ids) {
-        final uniqueIds = Set<dynamic>.from(ids);
-        return DataFrame.fromSeries(uniqueIds.map((dynamic id) => this[id]));
-      });
+  DataFrame _sampleFromSeries(Iterable ids) =>
+      DataFrame.fromSeries(
+        ids.map((dynamic id) => this[id]),
+        dtype: dtype,
+      );
 
   DataFrame _dropByIndices(Iterable<int> indices, Iterable<Series> series) {
     final uniqueIndices = Set<int>.from(indices);
