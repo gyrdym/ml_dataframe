@@ -1,24 +1,31 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame_helpers.dart';
+import 'package:ml_dataframe/src/data_frame/data_frame_json_keys.dart';
 import 'package:ml_dataframe/src/data_frame/series.dart';
+import 'package:ml_dataframe/src/numerical_converter/helpers/from_numerical_converter_json.dart';
+import 'package:ml_dataframe/src/numerical_converter/helpers/numerical_converter_to_json.dart';
 import 'package:ml_dataframe/src/numerical_converter/numerical_converter.dart';
 import 'package:ml_linalg/dtype.dart';
 import 'package:ml_linalg/linalg.dart';
 import 'package:ml_linalg/matrix.dart';
 import 'package:quiver/iterables.dart';
 
+part 'data_frame_impl.g.dart';
+
+@JsonSerializable()
 class DataFrameImpl implements DataFrame {
-  DataFrameImpl(this.rows, this.header, this._toNumber) :
+  DataFrameImpl(this.rows, this.header, this.toNumberConverter) :
         series = convertRowsToSeries(header, rows);
 
-  DataFrameImpl.fromSeries(this.series, this._toNumber) :
+  DataFrameImpl.fromSeries(this.series, this.toNumberConverter) :
         header = series.map((series) => series.name),
         rows = convertSeriesToRows(series);
 
   DataFrameImpl.fromMatrix(
       Matrix matrix,
       this.header,
-      this._toNumber,
+      this.toNumberConverter,
       Iterable<bool> areSeriesDiscrete,
   ) :
         rows = matrix.rows,
@@ -33,15 +40,23 @@ class DataFrameImpl implements DataFrame {
   }
 
   @override
+  @JsonKey(name: headerJsonKey)
   final Iterable<String> header;
 
   @override
-  final Iterable<Iterable<dynamic>> rows;
+  @JsonKey(name: rowsJsonKey)
+  final Iterable<Iterable> rows;
 
   @override
+  @JsonKey(name: seriesJsonKey)
   final Iterable<Series> series;
 
-  final NumericalConverter _toNumber;
+  @JsonKey(
+    name: 'numericalConverterJsonKey',
+    toJson: numericalConverterToJson,
+    fromJson: fromNumericalConverterJson,
+  )
+  final NumericalConverter toNumberConverter;
 
   final Map<DType, Matrix> _cachedMatrices = {};
 
@@ -92,7 +107,7 @@ class DataFrameImpl implements DataFrame {
   @override
   Matrix toMatrix([DType dtype = DType.float32]) =>
     _cachedMatrices[dtype] ??= Matrix.fromList(
-      _toNumber
+      toNumberConverter
           .convertRawData(rows)
           .map((row) => row.toList())
           .toList(),
