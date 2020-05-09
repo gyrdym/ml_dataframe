@@ -1,1 +1,1 @@
-const strictTypeCheckJsonKey = 'S';
+const strictTypeCheckJsonKey = 'ST';

@@ -11,6 +11,10 @@ class Series {
       ? Set<dynamic>.from(data)
       : const <dynamic>[];
 
+  factory Series.fromJson(Map<String, dynamic> json) => _$SeriesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SeriesToJson(this);
+
   /// A name of the [Series]
   @JsonKey(name: nameJsonKey)
   final String name;

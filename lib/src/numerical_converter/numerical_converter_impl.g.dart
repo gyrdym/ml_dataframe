@@ -9,16 +9,16 @@ part of 'numerical_converter_impl.dart';
 NumericalConverterImpl _$NumericalConverterImplFromJson(
     Map<String, dynamic> json) {
   return $checkedNew('NumericalConverterImpl', json, () {
-    $checkKeys(json, allowedKeys: const ['S']);
+    $checkKeys(json, allowedKeys: const ['ST']);
     final val = NumericalConverterImpl(
-      $checkedConvert(json, 'S', (v) => v as bool),
+      $checkedConvert(json, 'ST', (v) => v as bool),
     );
     return val;
-  }, fieldKeyMap: const {'strictTypeCheck': 'S'});
+  }, fieldKeyMap: const {'strictTypeCheck': 'ST'});
 }
 
 Map<String, dynamic> _$NumericalConverterImplToJson(
         NumericalConverterImpl instance) =>
     <String, dynamic>{
-      'S': instance.strictTypeCheck,
+      'ST': instance.strictTypeCheck,
     };

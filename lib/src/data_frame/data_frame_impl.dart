@@ -39,6 +39,12 @@ class DataFrameImpl implements DataFrame {
     _cachedMatrices[matrix.dtype] = matrix;
   }
 
+  factory DataFrameImpl.fromJson(Map<String, dynamic> json) =>
+      _$DataFrameImplFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$DataFrameImplToJson(this);
+
   @override
   @JsonKey(name: headerJsonKey)
   final Iterable<String> header;
@@ -48,11 +54,10 @@ class DataFrameImpl implements DataFrame {
   final Iterable<Iterable> rows;
 
   @override
-  @JsonKey(name: seriesJsonKey)
   final Iterable<Series> series;
 
   @JsonKey(
-    name: 'numericalConverterJsonKey',
+    name: numericalConverterJsonKey,
     toJson: numericalConverterToJson,
     fromJson: fromNumericalConverterJson,
   )
