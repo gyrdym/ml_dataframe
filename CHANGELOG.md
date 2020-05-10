@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.0
+- `DataFrame`, `Series`: Serialization/deserialization supported
+
 ## 0.0.11
 - `dtype` parameter removed from the DataFrame's constructor
 - `dtype` parameter added to `toMatrix` method
