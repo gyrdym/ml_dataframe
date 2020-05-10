@@ -1,3 +1,3 @@
-const nameJsonKey = 'N';
-const dataJsonKey = 'D';
-const discreteValuesJsonKey = 'DV';
+const seriesNameJsonKey = 'N';
+const seriesDataJsonKey = 'D';
+const isSeriesDiscreteJsonKey = 'ISD';

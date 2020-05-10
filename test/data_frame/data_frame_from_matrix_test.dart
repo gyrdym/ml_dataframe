@@ -5,23 +5,20 @@ import 'package:test/test.dart';
 
 void main() {
   group('DataFrame.fromMatrix', () {
+    final sourceData = <List<double>>[
+      [1,    2,    3,    4   ],
+      [10,   20,   30,   40  ],
+      [100,  200,  300,  400 ],
+      [1000, 2000, 3000, 4000],
+    ];
+    final matrix = Matrix.fromList(sourceData, dtype: DType.float32);
+
     test('should initialize from matrix without predefined header', () {
-      final matrix = Matrix.fromList([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix);
 
       expect(dataFrame.header, equals(['col_0', 'col_1', 'col_2', 'col_3']));
 
-      expect(dataFrame.rows, equals([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ]));
+      expect(dataFrame.rows, equals(sourceData));
 
       expect(dataFrame.series, hasLength(4));
 
@@ -45,23 +42,12 @@ void main() {
     });
 
     test('should initialize from matrix with predefined header', () {
-      final matrix = Matrix.fromList([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix,
           header: ['how', 'doth', 'the', 'little']);
 
       expect(dataFrame.header, equals(['how', 'doth', 'the', 'little']));
 
-      expect(dataFrame.rows, equals([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ]));
+      expect(dataFrame.rows, equals(sourceData));
 
       expect(dataFrame.series, hasLength(4));
 
@@ -86,25 +72,12 @@ void main() {
 
     test('should ignore predefined header list elements that are out of '
         'range', () {
-
-      final matrix = Matrix.fromList([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ], dtype: DType.float32);
-
       final dataFrame = DataFrame.fromMatrix(matrix,
           header: ['how', 'doth', 'the', 'little', 'ololo', 'trololo']);
 
       expect(dataFrame.header, equals(['how', 'doth', 'the', 'little']));
 
-      expect(dataFrame.rows, equals([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ]));
+      expect(dataFrame.rows, equals(sourceData));
 
       expect(dataFrame.series, hasLength(4));
 
@@ -123,13 +96,6 @@ void main() {
 
     test('should ignore predefined header list elements that are out of '
         'range', () {
-
-      final matrix = Matrix.fromList([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ]);
 
       final dataFrame = DataFrame.fromMatrix(matrix,
           header: ['how', 'doth']);
@@ -154,12 +120,6 @@ void main() {
 
     test('should extract certain columns while initializing from matrix with '
         'predefined header', () {
-      final matrix = Matrix.fromList([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix,
           columns: [0, 3],
           header: ['how', 'doth', 'the', 'little']);
@@ -193,24 +153,13 @@ void main() {
 
     test('should initialize from matrix without predefined header but with '
         'auto header prefix', () {
-      final matrix = Matrix.fromList([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix,
           autoHeaderPrefix: 'super_');
 
       expect(dataFrame.header,
           equals(['super_0', 'super_1', 'super_2', 'super_3']));
 
-      expect(dataFrame.rows, equals([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ]));
+      expect(dataFrame.rows, equals(sourceData));
 
       expect(dataFrame.series, hasLength(4));
 
@@ -234,12 +183,6 @@ void main() {
     });
 
     test('should initialize from matrix using certain columns', () {
-      final matrix = Matrix.fromList([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix, columns: [0, 3]);
 
       expect(dataFrame.header, equals(['col_0', 'col_1']));
@@ -271,20 +214,9 @@ void main() {
 
     test('should initialize from matrix using predefined discrete column '
         'indices', () {
-      final matrix = Matrix.fromList([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix, discreteColumns: [0, 1]);
 
-      expect(dataFrame.rows, equals([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ]));
+      expect(dataFrame.rows, equals(sourceData));
 
       expect(dataFrame.series, hasLength(4));
 
@@ -313,22 +245,11 @@ void main() {
 
     test('should initialize from matrix using predefined discrete column '
         'names (in conjunction with predefined header)', () {
-      final matrix = Matrix.fromList([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix,
           header: ['first', 'second', 'third', 'fourth'],
           discreteColumnNames: ['first', 'fourth']);
 
-      expect(dataFrame.rows, equals([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ]));
+      expect(dataFrame.rows, equals(sourceData));
 
       expect(dataFrame.series, hasLength(4));
 
@@ -357,21 +278,10 @@ void main() {
 
     test('should initialize from matrix using predefined discrete column '
         'names even if predefined header is not defined', () {
-      final matrix = Matrix.fromList([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix,
           discreteColumnNames: ['col_0', 'col_3']);
 
-      expect(dataFrame.rows, equals([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ]));
+      expect(dataFrame.rows, equals(sourceData));
 
       expect(dataFrame.series, hasLength(4));
 
@@ -400,21 +310,10 @@ void main() {
 
     test('should ignore entire predefined discrete column name list if none of '
         'the names from the list matches the actual dataframe header', () {
-      final matrix = Matrix.fromList([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix,
           discreteColumnNames: ['ololo', 'trololo']);
 
-      expect(dataFrame.rows, equals([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ]));
+      expect(dataFrame.rows, equals(sourceData));
 
       expect(dataFrame.series, hasLength(4));
 
@@ -443,21 +342,10 @@ void main() {
 
     test('should ignore just those names of predefined discrete column name '
         'list, that do not match the actual dataframe header names', () {
-      final matrix = Matrix.fromList([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix,
           discreteColumnNames: ['col_1', 'ololo', 'trololo']);
 
-      expect(dataFrame.rows, equals([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ]));
+      expect(dataFrame.rows, equals(sourceData));
 
       expect(dataFrame.series, hasLength(4));
 
@@ -485,23 +373,12 @@ void main() {
     });
 
     test('should consider both discrete indices and names', () {
-      final matrix = Matrix.fromList([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ], dtype: DType.float32);
       final dataFrame = DataFrame.fromMatrix(matrix,
           header: ['first', 'second', 'third', 'fourth'],
           discreteColumns: [2, 3],
           discreteColumnNames: ['first', 'second']);
 
-      expect(dataFrame.rows, equals([
-        [1,    2,    3,    4   ],
-        [10,   20,   30,   40  ],
-        [100,  200,  300,  400 ],
-        [1000, 2000, 3000, 4000],
-      ]));
+      expect(dataFrame.rows, equals(sourceData));
 
       expect(dataFrame.series, hasLength(4));
 
