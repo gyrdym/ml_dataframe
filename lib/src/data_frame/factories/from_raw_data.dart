@@ -3,7 +3,6 @@ import 'package:ml_dataframe/src/data_frame/data_frame_helpers.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame_impl.dart';
 import 'package:ml_dataframe/src/data_selector/data_selector.dart';
 import 'package:ml_dataframe/src/numerical_converter/numerical_converter_impl.dart';
-import 'package:ml_linalg/dtype.dart';
 import 'package:quiver/iterables.dart';
 
 DataFrame fromRawData(Iterable<Iterable<dynamic>> data, {

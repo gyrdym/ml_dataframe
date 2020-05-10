@@ -1,0 +1,1 @@
+const strictTypeCheckJsonKey = 'ST';

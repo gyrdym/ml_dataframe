@@ -1,11 +1,24 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame.dart';
 import 'package:ml_dataframe/src/numerical_converter/numerical_converter.dart';
+import 'package:ml_dataframe/src/numerical_converter/numerical_converter_json_keys.dart';
 
+part 'numerical_converter_impl.g.dart';
+
+@JsonSerializable()
 class NumericalConverterImpl implements NumericalConverter {
-  NumericalConverterImpl(this._strictTypeCheck);
+  NumericalConverterImpl(this.strictTypeCheck);
 
-  final bool _strictTypeCheck;
-  final Exception _exception =
+  factory NumericalConverterImpl.fromJson(Map<String, dynamic> json) =>
+      _$NumericalConverterImplFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$NumericalConverterImplToJson(this);
+
+  @JsonKey(name: strictTypeCheckJsonKey)
+  final bool strictTypeCheck;
+
+  static final Exception _exception =
     Exception('Unsuccessful attempt to convert a value to number');
 
   @override
@@ -21,20 +34,20 @@ class NumericalConverterImpl implements NumericalConverter {
       try {
         return double.parse(value);
       } catch (e) {
-        if (_strictTypeCheck) {
+        if (strictTypeCheck) {
           throw _exception;
         }
         return null;
       }
     }
     if (value is bool) {
-      if (_strictTypeCheck) {
+      if (strictTypeCheck) {
         throw _exception;
       }
       return value ? 1 : 0;
     }
     if (value is! num) {
-      if (_strictTypeCheck) {
+      if (strictTypeCheck) {
         throw _exception;
       }
       return null;
