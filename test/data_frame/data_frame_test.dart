@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:ml_dataframe/ml_dataframe.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame_json_keys.dart';
@@ -296,6 +299,15 @@ void main() {
         },
       };
 
+      final fileName = 'test/data_frame/data_frame.json';
+
+      tearDown(() async {
+        final file = File(fileName);
+        if (await file.exists()) {
+          await file.delete();
+        }
+      });
+
       test('should convert to serializable map', () {
         final dataFrame = DataFrame(data);
         final actualJson = dataFrame.toJson();
@@ -306,6 +318,35 @@ void main() {
         final dataFrame = DataFrame.fromJson(json);
         expect(dataFrame.header, data[0]);
         expect(dataFrame.rows, data.skip(1));
+      });
+
+      test('should return a file pointer while saving as json', () async {
+        final dataFrame = DataFrame(data);
+        final file = await dataFrame.saveAsJson(fileName, rewrite: true);
+
+        expect(file.existsSync(), isTrue);
+      });
+
+      test('should save serializable map to json file', () async {
+        final dataFrame = DataFrame(data);
+
+        await dataFrame.saveAsJson(fileName, rewrite: true);
+
+        final file = File(fileName);
+
+        expect(file.existsSync(), isTrue);
+      });
+
+      test('should save a correct json', () async {
+        final dataFrame = DataFrame(data);
+
+        await dataFrame.saveAsJson(fileName, rewrite: true);
+
+        final file = File(fileName);
+        final dataAsString = await file.readAsString();
+        final actualJson = jsonDecode(dataAsString) as Map<String, dynamic>;
+
+        expect(actualJson, json);
       });
     });
   });

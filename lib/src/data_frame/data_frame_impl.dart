@@ -6,6 +6,7 @@ import 'package:ml_dataframe/src/data_frame/series.dart';
 import 'package:ml_dataframe/src/numerical_converter/helpers/from_numerical_converter_json.dart';
 import 'package:ml_dataframe/src/numerical_converter/helpers/numerical_converter_to_json.dart';
 import 'package:ml_dataframe/src/numerical_converter/numerical_converter.dart';
+import 'package:ml_dataframe/src/serializable/serializable_mixin.dart';
 import 'package:ml_linalg/dtype.dart';
 import 'package:ml_linalg/linalg.dart';
 import 'package:ml_linalg/matrix.dart';
@@ -14,7 +15,7 @@ import 'package:quiver/iterables.dart';
 part 'data_frame_impl.g.dart';
 
 @JsonSerializable()
-class DataFrameImpl implements DataFrame {
+class DataFrameImpl with SerializableMixin implements DataFrame {
   DataFrameImpl(this.rows, this.header, this.toNumberConverter) :
         series = convertRowsToSeries(header, rows);
 

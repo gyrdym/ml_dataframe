@@ -1,8 +1,11 @@
+import 'dart:io';
+
+import 'package:ml_dataframe/src/data_frame/data_frame_impl.dart';
 import 'package:ml_dataframe/src/data_frame/factories/from_matrix.dart';
 import 'package:ml_dataframe/src/data_frame/factories/from_raw_data.dart';
-import 'package:ml_dataframe/src/data_frame/data_frame_impl.dart';
 import 'package:ml_dataframe/src/data_frame/series.dart';
 import 'package:ml_dataframe/src/numerical_converter/numerical_converter_impl.dart';
+import 'package:ml_dataframe/src/serializable/serializable.dart';
 import 'package:ml_linalg/dtype.dart';
 import 'package:ml_linalg/linalg.dart';
 import 'package:ml_linalg/matrix.dart';
@@ -10,7 +13,7 @@ import 'package:ml_linalg/matrix.dart';
 const defaultHeaderPrefix = 'col_';
 
 /// A structure to store and manipulate data
-abstract class DataFrame {
+abstract class DataFrame implements Serializable {
   /// Creates a data frame from non-typed data.
   ///
   /// [data] Non-typed data, the first element may be a header of a dataset (a
@@ -118,6 +121,4 @@ abstract class DataFrame {
   /// The method may throw an error if the [DataFrame] contains data, that
   /// cannot be converted to numerical representation
   Matrix toMatrix([DType dtype]);
-
-  Map<String, dynamic> toJson();
 }
