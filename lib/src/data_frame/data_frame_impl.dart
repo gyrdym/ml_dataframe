@@ -47,18 +47,18 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
   Map<String, dynamic> toJson() => _$DataFrameImplToJson(this);
 
   @override
-  @JsonKey(name: headerJsonKey)
+  @JsonKey(name: dataFrameHeaderJsonKey)
   final Iterable<String> header;
 
   @override
-  @JsonKey(name: rowsJsonKey)
+  @JsonKey(name: dataFrameRowsJsonKey)
   final Iterable<Iterable> rows;
 
   @override
   final Iterable<Series> series;
 
   @JsonKey(
-    name: numericalConverterJsonKey,
+    name: dataFrameNumericalConverterJsonKey,
     toJson: numericalConverterToJson,
     fromJson: fromNumericalConverterJson,
   )

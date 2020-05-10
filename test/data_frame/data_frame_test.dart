@@ -288,13 +288,13 @@ void main() {
 
     group('serialization', () {
       final json = {
-        headerJsonKey: ['first',  'second', 'third'],
-        rowsJsonKey: [
+        dataFrameHeaderJsonKey: ['first',  'second', 'third'],
+        dataFrameRowsJsonKey: [
           ['1', 2, 3],
           [10, 12, 323],
           [-10, 202, 1000],
         ],
-        numericalConverterJsonKey: {
+        dataFrameNumericalConverterJsonKey: {
           strictTypeCheckJsonKey: false,
         },
       };
