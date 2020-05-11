@@ -132,11 +132,20 @@ abstract class DataFrame implements Serializable {
   /// [Series] is roughly a column and its header (name)
   Iterable<Series> get series;
 
+  /// Returns a list of two integers representing the shape of the dataframe:
+  /// the first integer is a number of rows, the second integer - a number of
+  /// columns
+  List<int> get shape;
+
   /// Returns a specific [Series] by a key.
   ///
   /// The [key] may be a series name or a series index (ordinal number of the
   /// series)
   Series operator [](Object key);
+
+  /// Returns a dataframe with a new series added to the end of this dataframe's
+  /// series collection
+  DataFrame addSeries(Series series);
 
   /// Returns a dataframe, sampled from series that are obtained from the
   /// provided series [indices] or series [names].
