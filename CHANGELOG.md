@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.1
+- `DataFrame`: addSeries method added
+
 ## 0.1.0
 - `DataFrame`, `Series`: Serialization/deserialization supported
 

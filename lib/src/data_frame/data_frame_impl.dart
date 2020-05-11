@@ -67,7 +67,7 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
 
   @override
   List<int> get shape => [
-    series.first.data.length,
+    series.first?.data?.length ?? 0,
     header.length,
   ];
 
