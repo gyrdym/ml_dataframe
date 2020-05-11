@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:ml_dataframe/ml_dataframe.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame_json_keys.dart';
+import 'package:ml_dataframe/src/data_frame/errors/wrong_series_shape_exception.dart';
 import 'package:ml_dataframe/src/numerical_converter/numerical_converter_json_keys.dart';
 import 'package:ml_linalg/matrix.dart';
 import 'package:test/test.dart';
@@ -283,6 +284,50 @@ void main() {
         final actual = () => dataFrame.sampleFromSeries(names: ['col_0', 'col_100']);
 
         expect(actual, throwsException);
+      });
+    });
+
+    group('addSeries', () {
+      final series = Series('some new series', <num>[4000, 6000, 9000]);
+      final invalidSeries1 = Series('invalid series', <num>[4000, 6000, 9000,
+        1000]);
+      final invalidSeries2 = Series('invalid series', <num>[4000, 6000]);
+
+      test('should add a new series', () {
+        final dataFrame = DataFrame(data);
+        final newDataFrame = dataFrame.addSeries(series);
+
+        expect(newDataFrame.series.last, series);
+      });
+
+      test('should create a new dataframe', () {
+        final dataFrame = DataFrame(data);
+        final newDataFrame = dataFrame.addSeries(series);
+
+        expect(newDataFrame, isNot(same(dataFrame)));
+      });
+
+      test('should change dimension of a new dataframe', () {
+        final dataFrame = DataFrame(data);
+        final newDataFrame = dataFrame.addSeries(series);
+
+        expect(newDataFrame.shape, [3, 4]);
+      });
+
+      test('should throw an exception if a series of invalid shape is '
+          'provided, case 1', () {
+        final dataFrame = DataFrame(data);
+        final newDataFrame = () => dataFrame.addSeries(invalidSeries1);
+
+        expect(newDataFrame, throwsA(isA<WrongSeriesShapeException>()));
+      });
+
+      test('should throw an exception if a series of invalid shape is '
+          'provided, case 2', () {
+        final dataFrame = DataFrame(data);
+        final newDataFrame = () => dataFrame.addSeries(invalidSeries2);
+
+        expect(newDataFrame, throwsA(isA<WrongSeriesShapeException>()));
       });
     });
 

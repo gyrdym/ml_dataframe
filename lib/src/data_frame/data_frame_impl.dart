@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame_helpers.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame_json_keys.dart';
+import 'package:ml_dataframe/src/data_frame/errors/wrong_series_shape_exception.dart';
 import 'package:ml_dataframe/src/data_frame/series.dart';
 import 'package:ml_dataframe/src/numerical_converter/helpers/from_numerical_converter_json.dart';
 import 'package:ml_dataframe/src/numerical_converter/helpers/numerical_converter_to_json.dart';
@@ -64,6 +65,12 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
   )
   final NumericalConverter toNumberConverter;
 
+  @override
+  List<int> get shape => [
+    series.first?.data?.length ?? 0,
+    header.length,
+  ];
+
   final Map<DType, Matrix> _cachedMatrices = {};
 
   @override
@@ -96,6 +103,14 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
       throw Exception('Columns with names $absentNames do not exist');
     };
     return _sampleFromSeries(names);
+  }
+
+  @override
+  DataFrame addSeries(Series newSeries) {
+    if (newSeries.data.length != shape.first) {
+      throw WrongSeriesShapeException(shape.first, newSeries.data.length);
+    }
+    return DataFrame.fromSeries([...series, newSeries]);
   }
 
   @override
