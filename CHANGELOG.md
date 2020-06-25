@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.0
+- `DataFrame`: `shuffle` method added
+
 ## 0.1.1
 - `DataFrame`: addSeries method added
 
