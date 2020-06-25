@@ -169,4 +169,7 @@ abstract class DataFrame implements Serializable {
   /// The method may throw an error if the [DataFrame] contains data that
   /// cannot be converted to numeric representation
   Matrix toMatrix([DType dtype]);
+
+  /// Returns a new [DataFrame] with shuffled rows of this [DataFrame]
+  DataFrame shuffle({int seed});
 }

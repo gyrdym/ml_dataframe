@@ -331,6 +331,38 @@ void main() {
       });
     });
 
+    group('shuffle', () {
+      test('should return a new dataframe with the same header', () {
+        final dataframe = DataFrame(data);
+        final shuffled = dataframe.shuffle();
+
+        expect(shuffled.header, dataframe.header);
+      });
+
+      test('should return a new dataframe with the same number of rows', () {
+        final dataframe = DataFrame(data);
+        final shuffled = dataframe.shuffle();
+
+        expect(shuffled.rows, hasLength(dataframe.rows.length));
+      });
+
+      test('should return a new dataframe with the different order of rows', () {
+        final dataframe = DataFrame(data);
+        final shuffled = dataframe.shuffle();
+
+        expect(shuffled.rows, isNot(equals(dataframe.rows)));
+      });
+
+      test('should return a new dataframe containing the same rows', () {
+        final dataframe = DataFrame(data);
+        final shuffled = dataframe.shuffle();
+
+        dataframe.rows.forEach((row) {
+          expect(shuffled.rows, contains(equals(row)));
+        });
+      });
+    });
+
     group('serialization', () {
       final json = {
         dataFrameHeaderJsonKey: ['first',  'second', 'third'],
