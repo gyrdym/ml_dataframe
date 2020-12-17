@@ -60,6 +60,21 @@ void main() {
       ]));
     });
 
+    test('should initilize from an empty list', () {
+      final frame = DataFrame([]);
+
+      expect(frame.rows, <dynamic>[]);
+      expect(frame.header, <dynamic>[]);
+    });
+
+    test('should initilize from an empty and a predefined header', () {
+      final header = ['1', '2', '2'];
+      final frame = DataFrame([], header: header);
+
+      expect(frame.rows, <dynamic>[]);
+      expect(frame.header, header);
+    });
+
     test('should initialize from dynamic-typed data without header row using '
         'predefined header', () {
       final data = [

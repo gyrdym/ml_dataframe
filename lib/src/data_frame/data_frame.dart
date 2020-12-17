@@ -148,7 +148,7 @@ abstract class DataFrame implements Serializable {
   DataFrame addSeries(Series series);
 
   /// Returns a dataframe, sampled from series that are obtained from the
-  /// provided series [indices] or series [names].
+  /// series [indices] or series [names].
   ///
   /// If [indices] are specified, [names] parameter will be ignored.
   ///
@@ -157,6 +157,12 @@ abstract class DataFrame implements Serializable {
     Iterable<int> indices,
     Iterable<String> names,
   });
+
+  /// Returns a dataframe, sampled from rows that are obtained from the
+  /// rows [indices]
+  ///
+  /// Rows indices may be repeating.
+  DataFrame sampleFromRows(Iterable<int> indices);
 
   /// Returns a new [DataFrame] without specified series
   DataFrame dropSeries({

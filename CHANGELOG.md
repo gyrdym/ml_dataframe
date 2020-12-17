@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0
+- `DataFrame`: `sampleFromRows` method added
+- `CI`: github actions set up
+
 ## 0.2.0
 - `DataFrame`: `shuffle` method added
 

@@ -13,7 +13,6 @@ import 'package:ml_linalg/dtype.dart';
 import 'package:ml_linalg/linalg.dart';
 import 'package:ml_linalg/matrix.dart';
 import 'package:quiver/iterables.dart';
-import 'dart:math' as math;
 
 part 'data_frame_impl.g.dart';
 
@@ -105,6 +104,18 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
       throw Exception('Columns with names $absentNames do not exist');
     };
     return _sampleFromSeries(names);
+  }
+
+  @override
+  DataFrame sampleFromRows(Iterable<int> indices) {
+    final rowsAsList = rows.toList(growable: false);
+    final selectedRows = indices.map((index) => rowsAsList[index]);
+
+    return DataFrame(
+      selectedRows,
+      headerExists: false,
+      header: header,
+    );
   }
 
   @override

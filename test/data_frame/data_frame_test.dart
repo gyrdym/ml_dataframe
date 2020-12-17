@@ -287,6 +287,76 @@ void main() {
       });
     });
 
+    group('sampleFromRows', () {
+      final data = [
+        [  '1',       2,        3,        0,         32 ],
+        [   10,      12,      323,      1.5,       1132 ],
+        [  -10,     202,     1000,     '1.5',     0.005 ],
+      ];
+      final header = [
+        'super_col_1', 'super_col_2', 'super_col_3', 'super_col_4',
+        'super_col_5',
+      ];
+
+      final dataFrame = DataFrame(data, headerExists: false);
+      final dataFrameWithHeader = DataFrame(data,
+          headerExists: false, header: header);
+
+      test('should return empty Dataframe if indices array is empty '
+          '(headless dataframe)', () {
+        final sampled = dataFrame.sampleFromRows([]);
+
+        expect(sampled.rows, <dynamic>[]);
+      });
+
+      test('should return a correct header for empty Dataframe if indices '
+          'array is empty (headless dataframe)', () {
+        final sampled = dataFrame.sampleFromRows([]);
+
+        expect(sampled.header, dataFrame.header);
+      });
+
+      test('should return empty Dataframe if indices array is empty', () {
+        final sampled = dataFrameWithHeader.sampleFromRows([]);
+
+        expect(sampled.rows, <dynamic>[]);
+        expect(sampled.header, header);
+      });
+
+      test('should return a correct header for empty Dataframe if indices array '
+          'is empty', () {
+        final sampled = dataFrameWithHeader.sampleFromRows([]);
+
+        expect(sampled.header, header);
+      });
+
+      test('should return a Dataframe sampled from non-repeating indices', () {
+        final sampled = dataFrame.sampleFromRows([0, 2]);
+
+        expect(sampled.rows, <dynamic>[data[0], data[2]]);
+      });
+
+      test('should return a Dataframe sampled from repeating indices', () {
+        final sampled = dataFrame.sampleFromRows([1, 1, 1]);
+
+        expect(sampled.rows, <dynamic>[data[1], data[1], data[1]]);
+      });
+
+      test('should return a Dataframe sampled from unordered indices', () {
+        final sampled = dataFrame.sampleFromRows([2, 0, 1]);
+
+        expect(sampled.rows, <dynamic>[data[2], data[0], data[1]]);
+      });
+
+      test('should return a new Dataframe instance for the same set of '
+          'indices', () {
+        final sampled1 = dataFrame.sampleFromRows([2, 0, 1]);
+        final sampled2 = dataFrame.sampleFromRows([2, 0, 1]);
+
+        expect(sampled1, isNot(sampled2));
+      });
+    });
+
     group('addSeries', () {
       final series = Series('some new series', <num>[4000, 6000, 9000]);
       final invalidSeries1 = Series('invalid series', <num>[4000, 6000, 9000,
