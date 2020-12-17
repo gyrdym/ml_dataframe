@@ -14,13 +14,17 @@ DataFrame fromRawData(Iterable<Iterable<dynamic>> data, {
 }) {
   final columnsNum = columns.isNotEmpty
       ? columns.length
-      : data.first.length;
+      : data.isEmpty
+        ? predefinedHeader.length
+        : data.first.length;
 
   final header = getHeader(
       columnsNum,
       autoHeaderPrefix,
       headerExists
-          ? data.first.map((dynamic el) => el.toString())
+          ? data.isEmpty
+            ? []
+            : data.first.map((dynamic el) => el.toString())
           : [],
       predefinedHeader);
 
