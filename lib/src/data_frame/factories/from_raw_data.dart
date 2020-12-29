@@ -57,5 +57,5 @@ DataFrame fromRawData(Iterable<Iterable<dynamic>> data, {
       .map((indexedName) => indexedName.value);
 
   return DataFrameImpl(selectedData, selectedHeader,
-      NumericalConverterImpl(false));
+      const NumericalConverterImpl(false));
 }

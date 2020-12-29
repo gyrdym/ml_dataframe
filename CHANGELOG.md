@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.0
+- `DataFrame`: `fromRawCsv` constructor added
+
 ## 0.3.0
 - `DataFrame`: `sampleFromRows` method added
 - `CI`: github actions set up

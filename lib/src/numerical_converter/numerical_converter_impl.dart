@@ -7,7 +7,7 @@ part 'numerical_converter_impl.g.dart';
 
 @JsonSerializable()
 class NumericalConverterImpl implements NumericalConverter {
-  NumericalConverterImpl(this.strictTypeCheck);
+  const NumericalConverterImpl(this.strictTypeCheck);
 
   factory NumericalConverterImpl.fromJson(Map<String, dynamic> json) =>
       _$NumericalConverterImplFromJson(json);
