@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:ml_dataframe/ml_dataframe.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame_json_keys.dart';
-import 'package:ml_dataframe/src/data_frame/errors/wrong_series_shape_exception.dart';
+import 'package:ml_dataframe/src/data_frame/exceptions/wrong_series_shape_exception.dart';
 import 'package:ml_dataframe/src/numerical_converter/numerical_converter_json_keys.dart';
 import 'package:ml_linalg/matrix.dart';
 import 'package:test/test.dart';
