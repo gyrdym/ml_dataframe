@@ -7,7 +7,7 @@ Iterable<Iterable<dynamic>> convertSeriesToRows(Iterable<Series> series) sync* {
 
   while (iterators.fold(true, (isActive, iterator) => iterator.moveNext())) {
     yield iterators
-        .map<dynamic>((iterator) => iterator.current)
+        .map((iterator) => iterator.current)
         .toList(growable: false);
   }
 }
