@@ -1,4 +1,5 @@
-import 'package:ml_dataframe/src/data_frame/data_frame_helpers.dart';
+import 'package:ml_dataframe/src/data_frame/helpers/convert_rows_to_series.dart';
+import 'package:ml_dataframe/src/data_frame/helpers/convert_series_to_rows.dart';
 import 'package:ml_dataframe/src/data_frame/series.dart';
 import 'package:test/test.dart';
 

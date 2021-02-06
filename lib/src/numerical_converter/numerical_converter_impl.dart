@@ -37,21 +37,27 @@ class NumericalConverterImpl implements NumericalConverter {
         if (strictTypeCheck) {
           throw _exception;
         }
+
         return null;
       }
     }
+
     if (value is bool) {
       if (strictTypeCheck) {
         throw _exception;
       }
+
       return value ? 1 : 0;
     }
+
     if (value is! num) {
       if (strictTypeCheck) {
         throw _exception;
       }
+
       return null;
     }
+
     return value * 1.0 as double;
   }
 }
