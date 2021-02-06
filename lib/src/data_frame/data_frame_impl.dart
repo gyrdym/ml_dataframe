@@ -1,8 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame.dart';
-import 'package:ml_dataframe/src/data_frame/data_frame_helpers.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame_json_keys.dart';
 import 'package:ml_dataframe/src/data_frame/exceptions/wrong_series_shape_exception.dart';
+import 'package:ml_dataframe/src/data_frame/helpers/convert_rows_to_series.dart';
+import 'package:ml_dataframe/src/data_frame/helpers/convert_series_to_rows.dart';
 import 'package:ml_dataframe/src/data_frame/helpers/generate_unordered_indices.dart';
 import 'package:ml_dataframe/src/data_frame/series.dart';
 import 'package:ml_dataframe/src/numerical_converter/helpers/from_numerical_converter_json.dart';
@@ -79,6 +80,7 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
     final seriesName = key is int
         ? header.elementAt(key)
         : key;
+
     return _getCachedOrCreateSeriesByName()[seriesName];
   }
 
@@ -90,19 +92,24 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
     if (indices.isNotEmpty) {
       final maxIdx = series.length - 1;
       final outRangedIndices = indices.where((idx) => idx < 0 || idx > maxIdx);
+
       if (outRangedIndices.isNotEmpty) {
         throw RangeError('Some of provided indices are out of range: '
             '$outRangedIndices, while the valid range is 0..$maxIdx (both '
             'inclusive)');
       }
+
       return _sampleFromSeries(indices);
     }
+
     final absentNames = Set<String>
         .from(names)
         .difference(Set.from(header));
+
     if (absentNames.isNotEmpty) {
       throw Exception('Columns with names $absentNames do not exist');
     };
+
     return _sampleFromSeries(names);
   }
 
@@ -123,6 +130,7 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
     if (newSeries.data.length != shape.first) {
       throw WrongSeriesShapeException(shape.first, newSeries.data.length);
     }
+
     return DataFrame.fromSeries([...series, newSeries]);
   }
 
@@ -165,6 +173,7 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
     final newSeries = enumerate(series)
         .where((indexedSeries) => !uniqueIndices.contains(indexedSeries.index))
         .map((indexedSeries) => indexedSeries.value);
+
     return DataFrame.fromSeries(newSeries);
   }
 
@@ -172,6 +181,7 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
     final uniqueNames = Set<String>.from(names);
     final newSeries = series
         .where((series) => !uniqueNames.contains(series.name));
+
     return DataFrame.fromSeries(newSeries);
   }
 

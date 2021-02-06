@@ -1,6 +1,6 @@
 import 'package:ml_dataframe/ml_dataframe.dart';
-import 'package:ml_dataframe/src/data_frame/data_frame_helpers.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame_impl.dart';
+import 'package:ml_dataframe/src/data_frame/helpers/get_header.dart';
 import 'package:ml_dataframe/src/data_selector/data_selector.dart';
 import 'package:ml_dataframe/src/numerical_converter/numerical_converter_impl.dart';
 import 'package:quiver/iterables.dart';

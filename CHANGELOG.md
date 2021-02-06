@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.1
+- `DataFrame`: series-to-rows and rows-to-series converters issues fixed 
+
 ## 0.4.0
 - `DataFrame`: `fromRawCsv` constructor added
 
