@@ -5,7 +5,6 @@ import 'package:ml_dataframe/ml_dataframe.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame_json_keys.dart';
 import 'package:ml_dataframe/src/data_frame/exceptions/wrong_series_shape_exception.dart';
-import 'package:ml_dataframe/src/numerical_converter/numerical_converter_json_keys.dart';
 import 'package:ml_linalg/matrix.dart';
 import 'package:test/test.dart';
 
@@ -63,13 +62,13 @@ void main() {
         expect(frame[2].data, equals([3, 323, 1000]));
       });
 
-      test('should return null if one tries to access a series using a key of '
+      test('should throw an error if one tries to access a series using a key of '
           'improper type (neither String nor int)', () {
         final frame = DataFrame(data);
 
-        expect(frame[{1}], isNull);
-        expect(frame[1.2], isNull);
-        expect(frame[[1, 2]], isNull);
+        expect(() => frame[{1}], throwsException);
+        expect(() => frame[1.2], throwsException);
+        expect(() => frame[[1, 2]], throwsException);
       });
 
       test('should throw a range error if one tries to access a series using an '
@@ -441,9 +440,7 @@ void main() {
           [10, 12, 323],
           [-10, 202, 1000],
         ],
-        dataFrameNumericalConverterJsonKey: {
-          strictTypeCheckJsonKey: false,
-        },
+        dataFrameNumericalConverterJsonKey: '',
       };
 
       final fileName = 'test/data_frame/data_frame.json';
@@ -458,11 +455,13 @@ void main() {
       test('should convert to serializable map', () {
         final dataFrame = DataFrame(data);
         final actualJson = dataFrame.toJson();
+
         expect(actualJson, equals(json));
       });
 
       test('should restore from json', () {
         final dataFrame = DataFrame.fromJson(json);
+
         expect(dataFrame.header, data[0]);
         expect(dataFrame.rows, data.skip(1));
       });

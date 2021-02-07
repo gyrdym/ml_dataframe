@@ -7,7 +7,7 @@ DataFrame fromRawCsv(
     {
       String fieldDelimiter = defaultFieldDelimiter,
       String textDelimiter = defaultTextDelimiter,
-      String textEndDelimiter,
+      String? textEndDelimiter,
       String eol = '\n',
       bool headerExists = true,
       Iterable<String> header = const [],

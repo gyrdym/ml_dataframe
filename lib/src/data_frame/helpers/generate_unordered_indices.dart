@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:quiver/iterables.dart';
 
-List<int> generateUnorderedIndices(int length, [int seed]) {
+List<int> generateUnorderedIndices(int length, [int? seed]) {
   if (length <= 0) {
     return [];
   }

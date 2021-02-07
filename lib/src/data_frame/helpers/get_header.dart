@@ -8,11 +8,11 @@ Iterable<String> getHeader(
       Iterable<String> predefinedHeader = const [],
     ]
     ) {
-  if (predefinedHeader?.isNotEmpty == true) {
+  if (predefinedHeader.isNotEmpty) {
     return predefinedHeader.take(columnsNum);
   }
 
-  if (rawActualHeader?.isNotEmpty == true) {
+  if (rawActualHeader.isNotEmpty) {
     return rawActualHeader.map((name) => name.trim());
   }
 
