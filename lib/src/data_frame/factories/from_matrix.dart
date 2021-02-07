@@ -12,12 +12,12 @@ DataFrame fromMatrix(Matrix data, {
   Iterable<int> discreteColumns = const [],
   Iterable<String> discreteColumnNames = const [],
 }) {
-  final header = getHeader(columns?.isNotEmpty == true
+  final header = getHeader(columns.isNotEmpty == true
         ? columns.length
         : data.columnsNum,
       autoHeaderPrefix, [], predefinedHeader);
 
-  final selectedData = columns?.isNotEmpty == true
+  final selectedData = columns.isNotEmpty == true
       ? data.sample(columnIndices: columns)
       : data;
 
@@ -27,5 +27,5 @@ DataFrame fromMatrix(Matrix data, {
   );
 
   return DataFrameImpl.fromMatrix(selectedData, header,
-      NumericalConverterImpl(false), areSeriesDiscrete);
+      NumericalConverterImpl(), areSeriesDiscrete);
 }

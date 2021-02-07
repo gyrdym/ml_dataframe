@@ -6,14 +6,10 @@ class DataSelector {
   final Iterable<num> _columnIndices;
 
   Iterable<Iterable<dynamic>> select(
-      Iterable<Iterable<dynamic>> headlessData) sync* {
-    for (final row in headlessData) {
-      yield _filterRow(row);
-    }
-  }
+      Iterable<Iterable<dynamic>> headlessData) => headlessData.map(_filterRow);
 
   Iterable<dynamic> _filterRow(Iterable<dynamic> row) =>
-      _columnIndices?.isNotEmpty == true
+      _columnIndices.isNotEmpty
           ? enumerate<dynamic>(row)
               .where((indexed) => _columnIndices.contains(indexed.index))
               .map<dynamic>((indexed) => indexed.value)

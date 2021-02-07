@@ -6,5 +6,5 @@ class WrongSeriesShapeException implements Exception {
 
   @override
   String toString() => 'Wrong series shape, expected series data length '
-      '${expectedLength}, got ${actualLength}';
+      '$expectedLength, got $actualLength';
 }
