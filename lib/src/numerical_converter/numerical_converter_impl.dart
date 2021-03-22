@@ -1,22 +1,8 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame.dart';
 import 'package:ml_dataframe/src/numerical_converter/numerical_converter.dart';
-import 'package:ml_dataframe/src/numerical_converter/numerical_converter_json_keys.dart';
 
-part 'numerical_converter_impl.g.dart';
-
-@JsonSerializable()
 class NumericalConverterImpl implements NumericalConverter {
-  const NumericalConverterImpl(this.strictTypeCheck);
-
-  factory NumericalConverterImpl.fromJson(Map<String, dynamic> json) =>
-      _$NumericalConverterImplFromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() => _$NumericalConverterImplToJson(this);
-
-  @JsonKey(name: strictTypeCheckJsonKey)
-  final bool strictTypeCheck;
+  const NumericalConverterImpl();
 
   static final Exception _exception =
     Exception('Unsuccessful attempt to convert a value to number');
@@ -26,15 +12,19 @@ class NumericalConverterImpl implements NumericalConverter {
     DataFrame(convertRawData(data.rows), header: data.header);
 
   @override
-  Iterable<Iterable<double>> convertRawData(Iterable<Iterable> data) =>
-    data.map((row) => row.map(_convertSingle));
+  Iterable<Iterable<double?>> convertRawData(Iterable<Iterable> data) =>
+    data.map((row) => row.map((value) => _convertSingle(value, false)));
 
-  double _convertSingle(dynamic value) {
+  @override
+  Iterable<Iterable<double>> convertRawDataStrict(Iterable<Iterable> data) =>
+      data.map((row) => row.map((value) => _convertSingle(value, true)!));
+
+  double? _convertSingle(dynamic value, bool strictCheck) {
     if (value is String) {
       try {
         return double.parse(value);
       } catch (e) {
-        if (strictTypeCheck) {
+        if (strictCheck) {
           throw _exception;
         }
 
@@ -43,7 +33,7 @@ class NumericalConverterImpl implements NumericalConverter {
     }
 
     if (value is bool) {
-      if (strictTypeCheck) {
+      if (strictCheck) {
         throw _exception;
       }
 
@@ -51,13 +41,13 @@ class NumericalConverterImpl implements NumericalConverter {
     }
 
     if (value is! num) {
-      if (strictTypeCheck) {
+      if (strictCheck) {
         throw _exception;
       }
 
       return null;
     }
 
-    return value * 1.0 as double;
+    return value * 1.0;
   }
 }

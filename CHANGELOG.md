@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0
+- Null-safety supported (stable)
+
+## 0.5.0-nullsafety.0
+- Null-safety supported (beta)
+
 ## 0.4.1
 - `DataFrame`: series-to-rows and rows-to-series converters issues fixed 
 

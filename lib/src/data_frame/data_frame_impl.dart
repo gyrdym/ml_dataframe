@@ -30,7 +30,7 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
       Matrix matrix,
       this.header,
       this.toNumberConverter,
-      Iterable<bool> areSeriesDiscrete,
+      Iterable<bool>? areSeriesDiscrete,
   ) :
         rows = matrix.rows,
         series = zip([header, matrix.columns,
@@ -69,7 +69,7 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
 
   @override
   List<int> get shape => [
-    series.first?.data?.length ?? 0,
+    series.first.data.length,
     header.length,
   ];
 
@@ -80,8 +80,14 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
     final seriesName = key is int
         ? header.elementAt(key)
         : key;
+    final series = _getCachedOrCreateSeriesByName()[seriesName];
 
-    return _getCachedOrCreateSeriesByName()[seriesName];
+    if (series == null) {
+      throw Exception('Failed to find a series by key "$key". '
+          'The type of the key is "${key.runtimeType}"');
+    }
+
+    return series;
   }
 
   @override
@@ -150,14 +156,14 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
   Matrix toMatrix([DType dtype = DType.float32]) =>
     _cachedMatrices[dtype] ??= Matrix.fromList(
       toNumberConverter
-          .convertRawData(rows)
+          .convertRawDataStrict(rows)
           .map((row) => row.toList())
           .toList(),
       dtype: dtype,
     );
 
   @override
-  DataFrame shuffle({int seed}) {
+  DataFrame shuffle({int? seed}) {
     final rowsAsList = rows.toList();
     final indices = generateUnorderedIndices(shape.first, seed);
     final shuffledRows = indices.map((index) => rowsAsList[index]);
@@ -188,5 +194,5 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
   Map<String, Series> _getCachedOrCreateSeriesByName() =>
       _seriesByName ??= Map
           .fromEntries(series.map((series) => MapEntry(series.name, series)));
-  Map<String, Series> _seriesByName;
+  Map<String, Series>? _seriesByName;
 }
