@@ -1,6 +1,6 @@
 name: ml_dataframe
 description: Dataframe - a way to store and manipulate data
-version: 0.5.0
+version: 0.5.1
 homepage: https://github.com/gyrdym/ml_dataframe
 
 environment:
@@ -9,13 +9,13 @@ environment:
 dependencies:
   csv: ^5.0.0
   json_annotation: ^4.0.0
-  json_serializable: ^4.0.0
   ml_linalg: ^13.0.0
   quiver: ^3.0.0
 
 dev_dependencies:
   benchmark_harness: ^2.0.0
   build_runner: ^1.10.11
+  json_serializable: ^4.0.0
   mockito: ^5.0.0
   pedantic: ^1.11.0
   test: ^1.16.0

@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.1
+- `pubspec.yaml`: `json_serializable` package moved to dev_dependencies section
+
 ## 0.5.0
 - Null-safety supported (stable)
 
