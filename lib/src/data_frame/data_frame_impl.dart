@@ -4,15 +4,14 @@ import 'package:ml_dataframe/src/data_frame/data_frame_json_keys.dart';
 import 'package:ml_dataframe/src/data_frame/exceptions/wrong_series_shape_exception.dart';
 import 'package:ml_dataframe/src/data_frame/helpers/convert_rows_to_series.dart';
 import 'package:ml_dataframe/src/data_frame/helpers/convert_series_to_rows.dart';
+import 'package:ml_dataframe/src/data_frame/helpers/data_frame_to_string.dart';
 import 'package:ml_dataframe/src/data_frame/helpers/generate_unordered_indices.dart';
 import 'package:ml_dataframe/src/data_frame/series.dart';
 import 'package:ml_dataframe/src/numerical_converter/helpers/from_numerical_converter_json.dart';
 import 'package:ml_dataframe/src/numerical_converter/helpers/numerical_converter_to_json.dart';
 import 'package:ml_dataframe/src/numerical_converter/numerical_converter.dart';
 import 'package:ml_dataframe/src/serializable/serializable_mixin.dart';
-import 'package:ml_linalg/dtype.dart';
 import 'package:ml_linalg/linalg.dart';
-import 'package:ml_linalg/matrix.dart';
 import 'package:quiver/iterables.dart';
 
 part 'data_frame_impl.g.dart';
@@ -192,4 +191,17 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
   Map<String, Series> _getCachedOrCreateSeriesByName() => _seriesByName ??=
       Map.fromEntries(series.map((series) => MapEntry(series.name, series)));
   Map<String, Series>? _seriesByName;
+
+  @override
+  String toString({int maxRows = 10, int maxCols = 7}) {
+    return dataFrameToString(
+      this,
+      maxRows: maxRows,
+      maxCols: maxCols,
+    );
+  }
+
+  String visua() {
+    return dataFrameToString(this);
+  }
 }

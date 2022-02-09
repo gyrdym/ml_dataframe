@@ -6,9 +6,7 @@ import 'package:ml_dataframe/src/data_frame/factories/from_raw_data.dart';
 import 'package:ml_dataframe/src/data_frame/series.dart';
 import 'package:ml_dataframe/src/numerical_converter/numerical_converter_impl.dart';
 import 'package:ml_dataframe/src/serializable/serializable.dart';
-import 'package:ml_linalg/dtype.dart';
 import 'package:ml_linalg/linalg.dart';
-import 'package:ml_linalg/matrix.dart';
 
 const defaultHeaderPrefix = 'col_';
 
@@ -247,4 +245,28 @@ abstract class DataFrame implements Serializable {
 
   /// Returns a new [DataFrame] with shuffled rows of this [DataFrame]
   DataFrame shuffle({int seed});
+
+  /// Returns a nicely formatted string to inspect the data of the [DataFrame] as the example below shows
+  ///
+  /// [maxRows] will display the first maxRows/2 and the last maxRows/2 rows of the [DataFrame]
+  ///
+  /// [maxCols] will display the first maxCols-1 columns and the last column of the [DataFrame]
+  ///
+  /// ````txt
+  /// DataFrame (13 x 10)
+  ///  id   age   salary   children   gender           profession   ...   weight
+  ///   1    25    30000          2        M              Teacher   ...     78.3
+  ///   2    46    85000          0        M              Manager   ...     45.2
+  ///   3    36    45000          1        F              Teacher   ...     98.4
+  ///   4    23    10000          5        M   Mushroom Collector   ...     57.4
+  ///   5    22    30000          2        M              Butcher   ...     87.9
+  /// ...   ...      ...        ...      ...                  ...   ...      ...
+  ///   9    23      N/A          2        M           Unemployed   ...     56.7
+  ///  10    25    32000          4        F              Teacher   ...     98.7
+  ///  11    49    34700          0        M              Plumber   ...    120.3
+  ///  12    36    45000          1        F            Paramedic   ...     67.9
+  ///  13    23    42900          2        M           Researcher   ...     92.3
+  /// ````
+  @override
+  String toString({int maxRows = 10, int maxCols = 7});
 }
