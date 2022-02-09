@@ -7,10 +7,10 @@ abstract class DataReader {
     String columnDelimiter,
     String eol,
   ) =>
-    CsvDataReader(
+      CsvDataReader(
         fileName,
         CsvCodec(fieldDelimiter: columnDelimiter, eol: eol),
-    );
+      );
 
   Future<List<List<dynamic>>> extractData();
 }

@@ -13,20 +13,24 @@ void main() {
       final frame = DataFrame.fromSeries(series);
 
       expect(frame.header, equals(['first', 'second', 'third']));
-      expect(frame.rows, equals([
-        [    1,     10,    -10 ],
-        [    2,     12,    202 ],
-        [    3,    323,   null ],
-        [ true,  false,   true ],
-        [ '32',  '1132', 'abs' ],
-      ]));
+      expect(
+          frame.rows,
+          equals([
+            [1, 10, -10],
+            [2, 12, 202],
+            [3, 323, null],
+            [true, false, true],
+            ['32', '1132', 'abs'],
+          ]));
       expect(frame.series.map((series) => series.name),
           equals(['first', 'second', 'third']));
-      expect(frame.series.map((series) => series.data), equals([
-        <dynamic>[1, 2, 3, true, '32'],
-        <dynamic>[10, 12, 323, false, '1132'],
-        <dynamic>[-10, 202, null, true, 'abs'],
-      ]));
+      expect(
+          frame.series.map((series) => series.data),
+          equals([
+            <dynamic>[1, 2, 3, true, '32'],
+            <dynamic>[10, 12, 323, false, '1132'],
+            <dynamic>[-10, 202, null, true, 'abs'],
+          ]));
     });
   });
 }

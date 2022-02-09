@@ -19,23 +19,24 @@ part 'data_frame_impl.g.dart';
 
 @JsonSerializable()
 class DataFrameImpl with SerializableMixin implements DataFrame {
-  DataFrameImpl(this.rows, this.header, this.toNumberConverter) :
-        series = convertRowsToSeries(header, rows);
+  DataFrameImpl(this.rows, this.header, this.toNumberConverter)
+      : series = convertRowsToSeries(header, rows);
 
-  DataFrameImpl.fromSeries(this.series, this.toNumberConverter) :
-        header = series.map((series) => series.name),
+  DataFrameImpl.fromSeries(this.series, this.toNumberConverter)
+      : header = series.map((series) => series.name),
         rows = convertSeriesToRows(series);
 
   DataFrameImpl.fromMatrix(
-      Matrix matrix,
-      this.header,
-      this.toNumberConverter,
-      Iterable<bool>? areSeriesDiscrete,
-  ) :
-        rows = matrix.rows,
-        series = zip([header, matrix.columns,
-          areSeriesDiscrete ?? List.filled(matrix.columnsNum, false)])
-            .map((seriesData) => Series(
+    Matrix matrix,
+    this.header,
+    this.toNumberConverter,
+    Iterable<bool>? areSeriesDiscrete,
+  )   : rows = matrix.rows,
+        series = zip([
+          header,
+          matrix.columns,
+          areSeriesDiscrete ?? List.filled(matrix.columnsNum, false)
+        ]).map((seriesData) => Series(
               seriesData[0] as String,
               seriesData[1] as Iterable,
               isDiscrete: seriesData[2] as bool,
@@ -69,17 +70,15 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
 
   @override
   List<int> get shape => [
-    series.first.data.length,
-    header.length,
-  ];
+        series.first.data.length,
+        header.length,
+      ];
 
   final Map<DType, Matrix> _cachedMatrices = {};
 
   @override
   Series operator [](Object key) {
-    final seriesName = key is int
-        ? header.elementAt(key)
-        : key;
+    final seriesName = key is int ? header.elementAt(key) : key;
     final series = _getCachedOrCreateSeriesByName()[seriesName];
 
     if (series == null) {
@@ -108,13 +107,12 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
       return _sampleFromSeries(indices);
     }
 
-    final absentNames = Set<String>
-        .from(names)
-        .difference(Set.from(header));
+    final absentNames = Set<String>.from(names).difference(Set.from(header));
 
     if (absentNames.isNotEmpty) {
       throw Exception('Columns with names $absentNames do not exist');
-    };
+    }
+    ;
 
     return _sampleFromSeries(names);
   }
@@ -154,13 +152,13 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
 
   @override
   Matrix toMatrix([DType dtype = DType.float32]) =>
-    _cachedMatrices[dtype] ??= Matrix.fromList(
-      toNumberConverter
-          .convertRawDataStrict(rows)
-          .map((row) => row.toList())
-          .toList(),
-      dtype: dtype,
-    );
+      _cachedMatrices[dtype] ??= Matrix.fromList(
+        toNumberConverter
+            .convertRawDataStrict(rows)
+            .map((row) => row.toList())
+            .toList(),
+        dtype: dtype,
+      );
 
   @override
   DataFrame shuffle({int? seed}) {
@@ -185,14 +183,13 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
 
   DataFrame _dropByNames(Iterable<String> names, Iterable<Series> series) {
     final uniqueNames = Set<String>.from(names);
-    final newSeries = series
-        .where((series) => !uniqueNames.contains(series.name));
+    final newSeries =
+        series.where((series) => !uniqueNames.contains(series.name));
 
     return DataFrame.fromSeries(newSeries);
   }
 
-  Map<String, Series> _getCachedOrCreateSeriesByName() =>
-      _seriesByName ??= Map
-          .fromEntries(series.map((series) => MapEntry(series.name, series)));
+  Map<String, Series> _getCachedOrCreateSeriesByName() => _seriesByName ??=
+      Map.fromEntries(series.map((series) => MapEntry(series.name, series)));
   Map<String, Series>? _seriesByName;
 }

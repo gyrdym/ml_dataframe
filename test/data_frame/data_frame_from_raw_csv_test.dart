@@ -5,8 +5,8 @@ import 'package:test/test.dart';
 
 void main() {
   group('DataFrame.fromRawCsv', () {
-    final csvAsString = File('test/data_frame/data/raw_csv_with_header.txt')
-        .readAsStringSync();
+    final csvAsString =
+        File('test/data_frame/data/raw_csv_with_header.txt').readAsStringSync();
 
     test('should create a dataframe with a proper header', () {
       final dataframe = DataFrame.fromRawCsv(csvAsString);
@@ -39,18 +39,11 @@ void main() {
     test('should create a dataframe with proper series content', () {
       final dataframe = DataFrame.fromRawCsv(csvAsString);
 
-      expect(dataframe
-          .series
-          .elementAt(0)
-          .data
-          .take(10), [6, 1, 8, 1, 0, 5, 3, 10, 2, 8]);
+      expect(dataframe.series.elementAt(0).data.take(10),
+          [6, 1, 8, 1, 0, 5, 3, 10, 2, 8]);
 
-      expect(dataframe
-          .series
-          .elementAt(3)
-          .data
-          .toList()
-          .sublist(760), [26, 31, 0, 48, 27, 23, 0, 31]);
+      expect(dataframe.series.elementAt(3).data.toList().sublist(760),
+          [26, 31, 0, 48, 27, 23, 0, 31]);
     });
   });
 }

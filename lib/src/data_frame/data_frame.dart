@@ -78,22 +78,21 @@ abstract class DataFrame implements Serializable {
   /// [DataFrame]. It's also can be used with auto-generated column names.
   /// The argument will be omitted if [columns] is provided
   factory DataFrame(
-      Iterable<Iterable<dynamic>> data,
-      {
-        bool headerExists = true,
-        Iterable<String> header = const [],
-        String autoHeaderPrefix = defaultHeaderPrefix,
-        Iterable<int> columns = const [],
-        Iterable<String> columnNames = const [],
-      }
-  ) => fromRawData(
-    data,
-    headerExists: headerExists,
-    predefinedHeader: header,
-    autoHeaderPrefix: autoHeaderPrefix,
-    columns: columns,
-    columnNames: columnNames,
-  );
+    Iterable<Iterable<dynamic>> data, {
+    bool headerExists = true,
+    Iterable<String> header = const [],
+    String autoHeaderPrefix = defaultHeaderPrefix,
+    Iterable<int> columns = const [],
+    Iterable<String> columnNames = const [],
+  }) =>
+      fromRawData(
+        data,
+        headerExists: headerExists,
+        predefinedHeader: header,
+        autoHeaderPrefix: autoHeaderPrefix,
+        columns: columns,
+        columnNames: columnNames,
+      );
 
   factory DataFrame.fromSeries(Iterable<Series> series) =>
       DataFrameImpl.fromSeries(
@@ -102,22 +101,21 @@ abstract class DataFrame implements Serializable {
       );
 
   factory DataFrame.fromMatrix(
-      Matrix matrix,
-      {
-        Iterable<String> header = const [],
-        String autoHeaderPrefix = defaultHeaderPrefix,
-        Iterable<int> columns = const [],
-        Iterable<int> discreteColumns = const [],
-        Iterable<String> discreteColumnNames = const [],
-      }
-  ) => fromMatrix(
-    matrix,
-    predefinedHeader: header,
-    autoHeaderPrefix: autoHeaderPrefix,
-    columns: columns,
-    discreteColumns: discreteColumns,
-    discreteColumnNames: discreteColumnNames,
-  );
+    Matrix matrix, {
+    Iterable<String> header = const [],
+    String autoHeaderPrefix = defaultHeaderPrefix,
+    Iterable<int> columns = const [],
+    Iterable<int> discreteColumns = const [],
+    Iterable<String> discreteColumnNames = const [],
+  }) =>
+      fromMatrix(
+        matrix,
+        predefinedHeader: header,
+        autoHeaderPrefix: autoHeaderPrefix,
+        columns: columns,
+        discreteColumns: discreteColumns,
+        discreteColumnNames: discreteColumnNames,
+      );
 
   /// Creates a dataframe instance from stringified csv [rawContent].
   ///
@@ -165,30 +163,29 @@ abstract class DataFrame implements Serializable {
   /// [DataFrame]. It's also can be used with auto-generated column names.
   /// The argument will be omitted if [columns] is provided
   factory DataFrame.fromRawCsv(
-      String rawContent,
-      {
-        String fieldDelimiter = defaultFieldDelimiter,
-        String textDelimiter = defaultTextDelimiter,
-        String? textEndDelimiter,
-        String eol = '\n',
-        bool headerExists = true,
-        Iterable<String> header = const [],
-        String autoHeaderPrefix = defaultHeaderPrefix,
-        Iterable<int> columns = const [],
-        Iterable<String> columnNames = const [],
-      }
-  ) => fromRawCsv(
-    rawContent,
-    fieldDelimiter: fieldDelimiter,
-    textDelimiter: textDelimiter,
-    textEndDelimiter: textEndDelimiter,
-    eol: eol,
-    headerExists: headerExists,
-    header: header,
-    autoHeaderPrefix: autoHeaderPrefix,
-    columns: columns,
-    columnNames: columnNames,
-  );
+    String rawContent, {
+    String fieldDelimiter = defaultFieldDelimiter,
+    String textDelimiter = defaultTextDelimiter,
+    String? textEndDelimiter,
+    String eol = '\n',
+    bool headerExists = true,
+    Iterable<String> header = const [],
+    String autoHeaderPrefix = defaultHeaderPrefix,
+    Iterable<int> columns = const [],
+    Iterable<String> columnNames = const [],
+  }) =>
+      fromRawCsv(
+        rawContent,
+        fieldDelimiter: fieldDelimiter,
+        textDelimiter: textDelimiter,
+        textEndDelimiter: textEndDelimiter,
+        eol: eol,
+        headerExists: headerExists,
+        header: header,
+        autoHeaderPrefix: autoHeaderPrefix,
+        columns: columns,
+        columnNames: columnNames,
+      );
 
   factory DataFrame.fromJson(Map<String, dynamic> json) =>
       DataFrameImpl.fromJson(json);

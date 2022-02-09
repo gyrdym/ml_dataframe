@@ -11,28 +11,30 @@ import 'package:test/test.dart';
 void main() {
   group('DataFrame', () {
     final data = [
-      ['first',  'second', 'third'],
-      [  '1',        2,         3 ],
-      [   10,       12,       323 ],
-      [  -10,      202,      1000 ],
+      ['first', 'second', 'third'],
+      ['1', 2, 3],
+      [10, 12, 323],
+      [-10, 202, 1000],
     ];
 
     test('should convert stored data into matrix', () {
       final data = [
-        ['col_1',  'col_2', 'col_3',  'col_4',   'col_5'],
-        [  '1',       2,        3,        0,         32 ],
-        [   10,      12,      323,      1.5,       1132 ],
-        [  -10,     202,     1000,     '1.5',     0.005 ],
+        ['col_1', 'col_2', 'col_3', 'col_4', 'col_5'],
+        ['1', 2, 3, 0, 32],
+        [10, 12, 323, 1.5, 1132],
+        [-10, 202, 1000, '1.5', 0.005],
       ];
-      final frame = DataFrame(data, headerExists: true,
-          columnNames: ['col_1', 'col_3', 'col_4']);
+      final frame = DataFrame(data,
+          headerExists: true, columnNames: ['col_1', 'col_3', 'col_4']);
 
       expect(frame.toMatrix(), isA<Matrix>());
-      expect(frame.toMatrix(), equals([
-        [  1,    3,   0],
-        [ 10,  323, 1.5],
-        [-10, 1000, 1.5],
-      ]));
+      expect(
+          frame.toMatrix(),
+          equals([
+            [1, 3, 0],
+            [10, 323, 1.5],
+            [-10, 1000, 1.5],
+          ]));
     });
 
     group('[] operator', () {
@@ -62,7 +64,8 @@ void main() {
         expect(frame[2].data, equals([3, 323, 1000]));
       });
 
-      test('should throw an error if one tries to access a series using a key of '
+      test(
+          'should throw an error if one tries to access a series using a key of '
           'improper type (neither String nor int)', () {
         final frame = DataFrame(data);
 
@@ -71,7 +74,8 @@ void main() {
         expect(() => frame[[1, 2]], throwsException);
       });
 
-      test('should throw a range error if one tries to access a series using an '
+      test(
+          'should throw a range error if one tries to access a series using an '
           'integer key which is out of range', () {
         final frame = DataFrame(data);
 
@@ -82,174 +86,208 @@ void main() {
     });
 
     group('dropSeries', () {
-      test('should drop series by indices and return a new DataFrame without '
+      test(
+          'should drop series by indices and return a new DataFrame without '
           'these series', () {
         final data = [
-          [  '1',       2,        3,        0,         32 ],
-          [   10,      12,      323,      1.5,       1132 ],
-          [  -10,     202,     1000,     '1.5',     0.005 ],
+          ['1', 2, 3, 0, 32],
+          [10, 12, 323, 1.5, 1132],
+          [-10, 202, 1000, '1.5', 0.005],
         ];
         final frame = DataFrame(data, headerExists: false);
         final reduced = frame.dropSeries(seriesIndices: [0, 2, 4]);
 
-        expect(reduced.rows, equals([
-          [   2,     0  ],
-          [  12,   1.5  ],
-          [ 202,  '1.5' ],
-        ]));
+        expect(
+            reduced.rows,
+            equals([
+              [2, 0],
+              [12, 1.5],
+              [202, '1.5'],
+            ]));
       });
 
-      test('should drop series by indices and return a new DataFrame without '
+      test(
+          'should drop series by indices and return a new DataFrame without '
           'these series even if input indices are not unique', () {
         final data = [
-          [  '1',       2,        3,        0,         32 ],
-          [   10,      12,      323,      1.5,       1132 ],
-          [  -10,     202,     1000,     '1.5',     0.005 ],
+          ['1', 2, 3, 0, 32],
+          [10, 12, 323, 1.5, 1132],
+          [-10, 202, 1000, '1.5', 0.005],
         ];
         final frame = DataFrame(data, headerExists: false);
-        final reduced = frame.dropSeries(
-            seriesIndices: [0, 2, 2, 0, 4, 2, 4, 0, 4]);
+        final reduced =
+            frame.dropSeries(seriesIndices: [0, 2, 2, 0, 4, 2, 4, 0, 4]);
 
-        expect(reduced.rows, equals([
-          [   2,     0  ],
-          [  12,   1.5  ],
-          [ 202,  '1.5' ],
-        ]));
+        expect(
+            reduced.rows,
+            equals([
+              [2, 0],
+              [12, 1.5],
+              [202, '1.5'],
+            ]));
       });
 
-      test('should drop series by series names and return a new DataFrame '
+      test(
+          'should drop series by series names and return a new DataFrame '
           'without these series', () {
         final data = [
-          [  '1',       2,        3,        0,         32 ],
-          [   10,      12,      323,      1.5,       1132 ],
-          [  -10,     202,     1000,     '1.5',     0.005 ],
+          ['1', 2, 3, 0, 32],
+          [10, 12, 323, 1.5, 1132],
+          [-10, 202, 1000, '1.5', 0.005],
         ];
         final frame = DataFrame(data, headerExists: false);
-        final reduced = frame.dropSeries(
-            seriesNames: ['col_0', 'col_2', 'col_4']);
+        final reduced =
+            frame.dropSeries(seriesNames: ['col_0', 'col_2', 'col_4']);
 
-        expect(reduced.rows, equals([
-          [   2,     0  ],
-          [  12,   1.5  ],
-          [ 202,  '1.5' ],
-        ]));
+        expect(
+            reduced.rows,
+            equals([
+              [2, 0],
+              [12, 1.5],
+              [202, '1.5'],
+            ]));
       });
 
-      test('should drop series by series names and return a new DataFrame '
+      test(
+          'should drop series by series names and return a new DataFrame '
           'without these series even if input names are not unique', () {
         final data = [
-          [  '1',       2,        3,        0,         32 ],
-          [   10,      12,      323,      1.5,       1132 ],
-          [  -10,     202,     1000,     '1.5',     0.005 ],
+          ['1', 2, 3, 0, 32],
+          [10, 12, 323, 1.5, 1132],
+          [-10, 202, 1000, '1.5', 0.005],
         ];
         final frame = DataFrame(data, headerExists: false);
-        final reduced = frame.dropSeries(
-            seriesNames: ['col_4', 'col_0', 'col_4', 'col_2', 'col_4',
-              'col_2']);
+        final reduced = frame.dropSeries(seriesNames: [
+          'col_4',
+          'col_0',
+          'col_4',
+          'col_2',
+          'col_4',
+          'col_2'
+        ]);
 
-        expect(reduced.rows, equals([
-          [   2,     0  ],
-          [  12,   1.5  ],
-          [ 202,  '1.5' ],
-        ]));
+        expect(
+            reduced.rows,
+            equals([
+              [2, 0],
+              [12, 1.5],
+              [202, '1.5'],
+            ]));
       });
 
-      test('should return a copy of the DataFrame if none of the parameters '
+      test(
+          'should return a copy of the DataFrame if none of the parameters '
           'are specified', () {
         final data = [
-          [  '1',       2,        3,        0,         32 ],
-          [   10,      12,      323,      1.5,       1132 ],
-          [  -10,     202,     1000,     '1.5',     0.005 ],
+          ['1', 2, 3, 0, 32],
+          [10, 12, 323, 1.5, 1132],
+          [-10, 202, 1000, '1.5', 0.005],
         ];
         final frame = DataFrame(data, headerExists: false);
         final reduced = frame.dropSeries();
 
-        expect(reduced.rows, equals([
-          [  '1',       2,        3,        0,         32 ],
-          [   10,      12,      323,      1.5,       1132 ],
-          [  -10,     202,     1000,     '1.5',     0.005 ],
-        ]));
+        expect(
+            reduced.rows,
+            equals([
+              ['1', 2, 3, 0, 32],
+              [10, 12, 323, 1.5, 1132],
+              [-10, 202, 1000, '1.5', 0.005],
+            ]));
       });
     });
 
     group('sampleFromSeries', () {
       test('should sample dataframe by series indices', () {
         final data = [
-          [  '1',       2,        3,        0,         32 ],
-          [   10,      12,      323,      1.5,       1132 ],
-          [  -10,     202,     1000,     '1.5',     0.005 ],
+          ['1', 2, 3, 0, 32],
+          [10, 12, 323, 1.5, 1132],
+          [-10, 202, 1000, '1.5', 0.005],
         ];
 
         final dataFrame = DataFrame(data, headerExists: false);
         final sampled = dataFrame.sampleFromSeries(indices: [0, 1, 2, 3, 4]);
 
-        expect(sampled.rows, equals([
-          [  '1',       2,        3,        0,         32 ],
-          [   10,      12,      323,      1.5,       1132 ],
-          [  -10,     202,     1000,     '1.5',     0.005 ],
-        ]));
+        expect(
+            sampled.rows,
+            equals([
+              ['1', 2, 3, 0, 32],
+              [10, 12, 323, 1.5, 1132],
+              [-10, 202, 1000, '1.5', 0.005],
+            ]));
       });
 
       test('should support repeating indices', () {
         final data = [
-          [  '1',       2,        3,        0,         32 ],
-          [   10,      12,      323,      1.5,       1132 ],
-          [  -10,     202,     1000,     '1.5',     0.005 ],
+          ['1', 2, 3, 0, 32],
+          [10, 12, 323, 1.5, 1132],
+          [-10, 202, 1000, '1.5', 0.005],
         ];
 
         final dataFrame = DataFrame(data, headerExists: false);
         final sampled = dataFrame.sampleFromSeries(indices: [0, 1, 0, 1]);
 
-        expect(sampled.rows, equals([
-          [  '1',   2,  '1',  2 ],
-          [   10,  12,  10,  12 ],
-          [  -10, 202, -10, 202 ],
-        ]));
+        expect(
+            sampled.rows,
+            equals([
+              ['1', 2, '1', 2],
+              [10, 12, 10, 12],
+              [-10, 202, -10, 202],
+            ]));
       });
 
       test('should sample dataframe by series names', () {
         final data = [
-          [  '1',       2,        3,        0,         32 ],
-          [   10,      12,      323,      1.5,       1132 ],
-          [  -10,     202,     1000,     '1.5',     0.005 ],
+          ['1', 2, 3, 0, 32],
+          [10, 12, 323, 1.5, 1132],
+          [-10, 202, 1000, '1.5', 0.005],
         ];
 
         final dataFrame = DataFrame(data, headerExists: false);
         final sampled = dataFrame.sampleFromSeries(
             names: ['col_0', 'col_1', 'col_2', 'col_3', 'col_4']);
 
-        expect(sampled.rows, equals([
-          [  '1',       2,        3,        0,         32 ],
-          [   10,      12,      323,      1.5,       1132 ],
-          [  -10,     202,     1000,     '1.5',     0.005 ],
-        ]));
+        expect(
+            sampled.rows,
+            equals([
+              ['1', 2, 3, 0, 32],
+              [10, 12, 323, 1.5, 1132],
+              [-10, 202, 1000, '1.5', 0.005],
+            ]));
       });
 
-      test('should ignore names parameter if indices parameter is '
+      test(
+          'should ignore names parameter if indices parameter is '
           'provided', () {
         final data = [
-          [  '1',       2,        3,        0,         32 ],
-          [   10,      12,      323,      1.5,       1132 ],
-          [  -10,     202,     1000,     '1.5',     0.005 ],
+          ['1', 2, 3, 0, 32],
+          [10, 12, 323, 1.5, 1132],
+          [-10, 202, 1000, '1.5', 0.005],
         ];
 
         final dataFrame = DataFrame(data, headerExists: false);
         final sampled = dataFrame.sampleFromSeries(
-            indices: [1],
-            names: ['col_0', 'col_1', 'col_2', 'col_3', 'col_4']);
+            indices: [1], names: ['col_0', 'col_1', 'col_2', 'col_3', 'col_4']);
 
-        expect(sampled.rows, equals([
-          [   2, ],
-          [  12, ],
-          [ 202, ],
-        ]));
+        expect(
+            sampled.rows,
+            equals([
+              [
+                2,
+              ],
+              [
+                12,
+              ],
+              [
+                202,
+              ],
+            ]));
       });
 
       test('should throw an error if outranged indices are provided', () {
         final data = [
-          [  '1',       2,        3,        0,         32 ],
-          [   10,      12,      323,      1.5,       1132 ],
-          [  -10,     202,     1000,     '1.5',     0.005 ],
+          ['1', 2, 3, 0, 32],
+          [10, 12, 323, 1.5, 1132],
+          [-10, 202, 1000, '1.5', 0.005],
         ];
 
         final dataFrame = DataFrame(data, headerExists: false);
@@ -258,11 +296,12 @@ void main() {
         expect(actual, throwsRangeError);
       });
 
-      test('should throw an error if outranged negative indices are provided', () {
+      test('should throw an error if outranged negative indices are provided',
+          () {
         final data = [
-          [  '1',       2,        3,        0,         32 ],
-          [   10,      12,      323,      1.5,       1132 ],
-          [  -10,     202,     1000,     '1.5',     0.005 ],
+          ['1', 2, 3, 0, 32],
+          [10, 12, 323, 1.5, 1132],
+          [-10, 202, 1000, '1.5', 0.005],
         ];
 
         final dataFrame = DataFrame(data, headerExists: false);
@@ -271,16 +310,18 @@ void main() {
         expect(actual, throwsRangeError);
       });
 
-      test('should throw an error if names of non existent columns are '
+      test(
+          'should throw an error if names of non existent columns are '
           'provided', () {
         final data = [
-          [  '1',       2,        3,        0,         32 ],
-          [   10,      12,      323,      1.5,       1132 ],
-          [  -10,     202,     1000,     '1.5',     0.005 ],
+          ['1', 2, 3, 0, 32],
+          [10, 12, 323, 1.5, 1132],
+          [-10, 202, 1000, '1.5', 0.005],
         ];
 
         final dataFrame = DataFrame(data, headerExists: false);
-        final actual = () => dataFrame.sampleFromSeries(names: ['col_0', 'col_100']);
+        final actual =
+            () => dataFrame.sampleFromSeries(names: ['col_0', 'col_100']);
 
         expect(actual, throwsException);
       });
@@ -288,27 +329,32 @@ void main() {
 
     group('sampleFromRows', () {
       final data = [
-        [  '1',       2,        3,        0,         32 ],
-        [   10,      12,      323,      1.5,       1132 ],
-        [  -10,     202,     1000,     '1.5',     0.005 ],
+        ['1', 2, 3, 0, 32],
+        [10, 12, 323, 1.5, 1132],
+        [-10, 202, 1000, '1.5', 0.005],
       ];
       final header = [
-        'super_col_1', 'super_col_2', 'super_col_3', 'super_col_4',
+        'super_col_1',
+        'super_col_2',
+        'super_col_3',
+        'super_col_4',
         'super_col_5',
       ];
 
       final dataFrame = DataFrame(data, headerExists: false);
-      final dataFrameWithHeader = DataFrame(data,
-          headerExists: false, header: header);
+      final dataFrameWithHeader =
+          DataFrame(data, headerExists: false, header: header);
 
-      test('should return empty Dataframe if indices array is empty '
+      test(
+          'should return empty Dataframe if indices array is empty '
           '(headless dataframe)', () {
         final sampled = dataFrame.sampleFromRows([]);
 
         expect(sampled.rows, <dynamic>[]);
       });
 
-      test('should return a correct header for empty Dataframe if indices '
+      test(
+          'should return a correct header for empty Dataframe if indices '
           'array is empty (headless dataframe)', () {
         final sampled = dataFrame.sampleFromRows([]);
 
@@ -322,7 +368,8 @@ void main() {
         expect(sampled.header, header);
       });
 
-      test('should return a correct header for empty Dataframe if indices array '
+      test(
+          'should return a correct header for empty Dataframe if indices array '
           'is empty', () {
         final sampled = dataFrameWithHeader.sampleFromRows([]);
 
@@ -347,7 +394,8 @@ void main() {
         expect(sampled.rows, <dynamic>[data[2], data[0], data[1]]);
       });
 
-      test('should return a new Dataframe instance for the same set of '
+      test(
+          'should return a new Dataframe instance for the same set of '
           'indices', () {
         final sampled1 = dataFrame.sampleFromRows([2, 0, 1]);
         final sampled2 = dataFrame.sampleFromRows([2, 0, 1]);
@@ -358,8 +406,8 @@ void main() {
 
     group('addSeries', () {
       final series = Series('some new series', <num>[4000, 6000, 9000]);
-      final invalidSeries1 = Series('invalid series', <num>[4000, 6000, 9000,
-        1000]);
+      final invalidSeries1 =
+          Series('invalid series', <num>[4000, 6000, 9000, 1000]);
       final invalidSeries2 = Series('invalid series', <num>[4000, 6000]);
 
       test('should add a new series', () {
@@ -383,7 +431,8 @@ void main() {
         expect(newDataFrame.shape, [3, 4]);
       });
 
-      test('should throw an exception if a series of invalid shape is '
+      test(
+          'should throw an exception if a series of invalid shape is '
           'provided, case 1', () {
         final dataFrame = DataFrame(data);
         final newDataFrame = () => dataFrame.addSeries(invalidSeries1);
@@ -391,7 +440,8 @@ void main() {
         expect(newDataFrame, throwsA(isA<WrongSeriesShapeException>()));
       });
 
-      test('should throw an exception if a series of invalid shape is '
+      test(
+          'should throw an exception if a series of invalid shape is '
           'provided, case 2', () {
         final dataFrame = DataFrame(data);
         final newDataFrame = () => dataFrame.addSeries(invalidSeries2);
@@ -415,7 +465,8 @@ void main() {
         expect(shuffled.rows, hasLength(dataframe.rows.length));
       });
 
-      test('should return a new dataframe with the different order of rows', () {
+      test('should return a new dataframe with the different order of rows',
+          () {
         final dataframe = DataFrame(data);
         final shuffled = dataframe.shuffle();
 
@@ -434,7 +485,7 @@ void main() {
 
     group('serialization', () {
       final json = {
-        dataFrameHeaderJsonKey: ['first',  'second', 'third'],
+        dataFrameHeaderJsonKey: ['first', 'second', 'third'],
         dataFrameRowsJsonKey: [
           ['1', 2, 3],
           [10, 12, 323],
