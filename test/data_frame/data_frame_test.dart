@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ml_dataframe/ml_dataframe.dart';
-import 'package:ml_dataframe/src/data_frame/data_frame.dart';
 import 'package:ml_dataframe/src/data_frame/data_frame_json_keys.dart';
 import 'package:ml_dataframe/src/data_frame/exceptions/wrong_series_shape_exception.dart';
 import 'package:ml_linalg/matrix.dart';
