@@ -4,7 +4,8 @@ import 'package:test/test.dart';
 void main() {
   group('fromCsv', () {
     test('should create a dataframe from csv file', () async {
-      final data = await fromCsv('test/data_frame/factories/elo_blatter.csv');
+      final data = await fromCsv('test/data_frame/factories/elo_blatter.csv',
+          eol: '\r\n');
 
       expect(data.series, hasLength(8));
       expect(
