@@ -1,4 +1,5 @@
-import 'package:ml_dataframe/ml_dataframe.dart';
+import 'package:ml_dataframe/src/data_frame/data_frame.dart';
+import 'dart:math' as math;
 
 class _SeriesDisplayData {
   _SeriesDisplayData(this.colIndex, this.colTitle) : maxChars = colTitle.length;
@@ -11,25 +12,32 @@ class _SeriesDisplayData {
 const kPadding = 3;
 const kSkippingSymbol = '...';
 
-String dataFrameToString(DataFrame dataFrame, {maxRows = 10, maxCols = 7}) {
-  final rowCountStartEnd = [
-    (maxRows / 2).toInt(),
-    maxRows - (maxRows / 2).toInt()
-  ];
-  maxCols =
-      dataFrame.header.length < maxCols ? dataFrame.header.length : maxCols;
-  maxRows = dataFrame.rows.length < maxRows ? dataFrame.rows.length : maxRows;
-  final colCountStartEnd = [maxCols - 1, 1];
+String dataFrameToString(
+  DataFrame dataFrame, {
+  int maxRows = 10,
+  int maxCols = 7,
+}) {
+  maxCols = math.min(dataFrame.header.length, maxCols);
+  maxRows = math.min(dataFrame.rows.length, maxRows);
+
   final nRows = dataFrame.shape[0];
   final nCols = dataFrame.shape[1];
+  final basicString = 'DataFrame ($nRows x $nCols)';
+
+  if (maxRows == 0 || maxCols == 0) {
+    return basicString;
+  }
 
   final seriesDisplayData = <_SeriesDisplayData>[];
+  final rowCountStartEnd =
+      maxRows > 1 ? [maxRows ~/ 2, maxRows - maxRows ~/ 2] : [1, 0];
+  final colCountStartEnd = maxCols > 1 ? [maxCols - 1, 1] : [1, 0];
 
   var j = 0;
   for (var colTitle in dataFrame.header) {
     if (j < colCountStartEnd[0] || j >= nCols - colCountStartEnd[1]) {
       seriesDisplayData.add(_SeriesDisplayData(j, colTitle));
-    } else if (j == colCountStartEnd[0]) {
+    } else if (j == colCountStartEnd[0] && colCountStartEnd[1] != 0) {
       seriesDisplayData.add(_SeriesDisplayData(j, kSkippingSymbol));
     }
     j++;
@@ -45,32 +53,28 @@ String dataFrameToString(DataFrame dataFrame, {maxRows = 10, maxCols = 7}) {
           var displayData = seriesDisplayData[seriesCounter];
           var valueString = value.toString();
           displayData.data.add(valueString);
-          if (displayData.maxChars < valueString.length) {
-            displayData.maxChars = valueString.length;
-          }
+          displayData.maxChars =
+              math.max(displayData.maxChars, valueString.length);
           seriesCounter++;
-        } else if (j == colCountStartEnd[0]) {
+        } else if (j == colCountStartEnd[0] && colCountStartEnd[1] != 0) {
           seriesDisplayData[seriesCounter].data.add(kSkippingSymbol);
           seriesDisplayData[seriesCounter].maxChars = kSkippingSymbol.length;
           seriesCounter++;
         }
         j++;
       }
-    } else if (i == rowCountStartEnd[0]) {
+    } else if (i == rowCountStartEnd[0] && rowCountStartEnd[1] != 0) {
       for (var d in seriesDisplayData) {
-        d.maxChars = d.maxChars < kSkippingSymbol.length
-            ? kSkippingSymbol.length
-            : d.maxChars;
+        d.maxChars = math.max(kSkippingSymbol.length, d.maxChars);
         d.data.add(kSkippingSymbol);
       }
     }
-
     i++;
   }
 
   var finalLines = <String>[];
   // construct header line:
-  finalLines.add('DataFrame ($nRows x $nCols)');
+  finalLines.add(basicString);
   finalLines.add(seriesDisplayData
       .map((d) => d.colTitle.padLeft(d.maxChars) + ' ' * kPadding)
       .join('')

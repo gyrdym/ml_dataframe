@@ -19,8 +19,20 @@ id,age,salary,children,gender,profession,years_of_education,married,height,weigh
 12,36,45000,1,F,Paramedic,4,true,165,67.9
 13,23,42900,2,M,Researcher,0,true,179,92.3
 ''';
-    final dataFrame = DataFrame.fromRawCsv(rawCSV);
-    final expectedRows10Cols7 = '''
+    final dataFrame1 = DataFrame.fromRawCsv(rawCSV);
+    final rawCSV2 = '''
+id,age,salary
+1,25,30000
+2,46,85000
+3,46,85000
+''';
+    final dataFrame2 = DataFrame.fromRawCsv(rawCSV2);
+
+    final dataFrames = [dataFrame1, dataFrame2];
+
+    final expected = <String, String>{};
+
+    expected['1:10x7'] = '''
 DataFrame (13 x 10)
  id   age   salary   children   gender           profession   ...   weight
   1    25    30000          2        M              Teacher   ...     78.3
@@ -35,7 +47,7 @@ DataFrame (13 x 10)
  12    36    45000          1        F            Paramedic   ...     67.9
  13    23    42900          2        M           Researcher   ...     92.3''';
 
-    final expectedRows1000Cols1000 = '''
+    expected['1:1000x1000'] = '''
 DataFrame (13 x 10)
 id   age   salary   children   gender           profession   years_of_education   married   height   weight
  1    25    30000          2        M              Teacher                    5      true      189     78.3
@@ -52,16 +64,118 @@ id   age   salary   children   gender           profession   years_of_education 
 12    36    45000          1        F            Paramedic                    4      true      165     67.9
 13    23    42900          2        M           Researcher                    0      true      179     92.3''';
 
-    test('should print dataframe correctly with default maxRows=10, maxCols=7',
-        () {
-      expect(dataFrame.toString(), expectedRows10Cols7);
-    });
+    expected['1:0x10'] = '''
+DataFrame (13 x 10)''';
 
-    test(
-        'should print dataframe correctly with maxRows=1000, maxCols=1000, resulting in full print',
-        () {
-      expect(dataFrame.toString(maxCols: 1000, maxRows: 1000),
-          expectedRows1000Cols1000);
-    });
+    expected['1:3x0'] = '''
+DataFrame (13 x 10)''';
+
+    expected['1:1x1000'] = '''
+DataFrame (13 x 10)
+id   age   salary   children   gender   profession   years_of_education   married   height   weight
+ 1    25    30000          2        M      Teacher                    5      true      189     78.3''';
+
+    expected['1:1000x1'] = '''
+DataFrame (13 x 10)
+id
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13''';
+
+    expected['1:3x2'] = '''
+DataFrame (13 x 10)
+ id   ...   weight
+  1   ...     78.3
+...   ...      ...
+ 12   ...     67.9
+ 13   ...     92.3''';
+
+    expected['1:3x3'] = '''
+DataFrame (13 x 10)
+ id   age   ...   weight
+  1    25   ...     78.3
+...   ...   ...      ...
+ 12    36   ...     67.9
+ 13    23   ...     92.3''';
+
+    expected['1:1x1'] = '''
+DataFrame (13 x 10)
+id
+ 1''';
+
+    expected['2:10x7'] = '''
+DataFrame (3 x 3)
+id   age   salary
+ 1    25    30000
+ 2    46    85000
+ 3    46    85000''';
+
+    expected['2:1000x1000'] = '''
+DataFrame (3 x 3)
+id   age   salary
+ 1    25    30000
+ 2    46    85000
+ 3    46    85000''';
+
+    expected['2:0x10'] = '''
+DataFrame (3 x 3)''';
+
+    expected['2:3x0'] = '''
+DataFrame (3 x 3)''';
+
+    expected['2:1x1000'] = '''
+DataFrame (3 x 3)
+id   age   salary
+ 1    25    30000''';
+
+    expected['2:1000x1'] = '''
+DataFrame (3 x 3)
+id
+ 1
+ 2
+ 3''';
+
+    expected['2:3x2'] = '''
+DataFrame (3 x 3)
+id   ...   salary
+ 1   ...    30000
+ 2   ...    85000
+ 3   ...    85000''';
+
+    expected['2:3x3'] = '''
+DataFrame (3 x 3)
+id   age   salary
+ 1    25    30000
+ 2    46    85000
+ 3    46    85000''';
+
+    expected['2:1x1'] = '''
+DataFrame (3 x 3)
+id
+ 1''';
+
+    for (var entry in expected.entries) {
+      final dfNumberAndSpecs = entry.key.split(':');
+      final dfIndex = int.parse(dfNumberAndSpecs[0]) - 1;
+      final specs = dfNumberAndSpecs[1].split('x');
+      final maxRows = int.parse(specs[0]);
+      final maxCols = int.parse(specs[1]);
+      test(
+          'should print dataFrame${dfNumberAndSpecs[0]} with maxRows=$maxRows, maxCols=$maxCols correctly',
+          () {
+        expect(dataFrames[dfIndex].toString(maxRows: maxRows, maxCols: maxCols),
+            entry.value);
+      });
+    }
   });
 }
