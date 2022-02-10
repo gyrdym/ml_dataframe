@@ -200,8 +200,4 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
       maxCols: maxCols,
     );
   }
-
-  String visua() {
-    return dataFrameToString(this);
-  }
 }
