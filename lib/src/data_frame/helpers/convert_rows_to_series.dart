@@ -1,12 +1,10 @@
 import 'package:ml_dataframe/src/data_frame/series.dart';
 
 Iterable<Series> convertRowsToSeries(
-    Iterable<String> columnHeaders,
-    Iterable<Iterable<dynamic>> rows,
-    ) {
-  final rowIterators = rows
-      .map((row) => row.iterator)
-      .toList(growable: false);
+  Iterable<String> columnHeaders,
+  Iterable<Iterable<dynamic>> rows,
+) {
+  final rowIterators = rows.map((row) => row.iterator).toList(growable: false);
 
   return columnHeaders.map(((header) {
     final column = rowIterators

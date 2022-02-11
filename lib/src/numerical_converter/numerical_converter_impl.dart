@@ -5,15 +5,15 @@ class NumericalConverterImpl implements NumericalConverter {
   const NumericalConverterImpl();
 
   static final Exception _exception =
-    Exception('Unsuccessful attempt to convert a value to number');
+      Exception('Unsuccessful attempt to convert a value to number');
 
   @override
   DataFrame convertDataFrame(DataFrame data) =>
-    DataFrame(convertRawData(data.rows), header: data.header);
+      DataFrame(convertRawData(data.rows), header: data.header);
 
   @override
   Iterable<Iterable<double?>> convertRawData(Iterable<Iterable> data) =>
-    data.map((row) => row.map((value) => _convertSingle(value, false)));
+      data.map((row) => row.map((value) => _convertSingle(value, false)));
 
   @override
   Iterable<Iterable<double>> convertRawDataStrict(Iterable<Iterable> data) =>

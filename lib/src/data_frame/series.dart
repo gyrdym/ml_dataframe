@@ -5,11 +5,12 @@ part 'series.g.dart';
 
 @JsonSerializable()
 class Series {
-  Series(this.name, this.data, {
+  Series(
+    this.name,
+    this.data, {
     this.isDiscrete = false,
-  }) : discreteValues = isDiscrete
-      ? Set<dynamic>.from(data)
-      : const <dynamic>[];
+  }) : discreteValues =
+            isDiscrete ? Set<dynamic>.from(data) : const <dynamic>[];
 
   factory Series.fromJson(Map<String, dynamic> json) => _$SeriesFromJson(json);
 
