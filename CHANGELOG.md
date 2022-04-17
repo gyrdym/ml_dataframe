@@ -2,7 +2,11 @@
 
 ## 1.0.0
 
-- Stable release 
+- Stable release
+- `Dataframe`:
+    - `dropSeries`:
+        - `seriesIndices` renamed to `indices` 
+        - `seriesNames` renamed to `names` 
 
 ## 0.6.0
 
