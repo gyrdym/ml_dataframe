@@ -34,6 +34,8 @@ print(dataframe);
 
 ## [DataFrame](https://github.com/gyrdym/ml_dataframe/blob/master/lib/src/data_frame/data_frame.dart) API with examples:
 
+Let's assume that all the examples below are applied to the dataframe instance which was created above.
+
 ### Get the header of the data
 
 ```dart
@@ -43,7 +45,7 @@ print(header);
 // ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm', 'Species']
 ```
 
-- Get the rows of the data
+### Get the rows of the data
 
 ```dart
 final rows = dataframe.rows;
@@ -159,3 +161,71 @@ print(sampled);
 //  90             5.5
 //  91             5.5
 ````
+
+### Save a dataframe to a JSON file
+
+```dart
+await dataframe.saveAsJson('path/to/json/file.json');
+````
+
+### Shuffle rows in a dataframe
+
+```dart
+print(dataframe);
+// DataFrame (5 x 6)
+//  Id   SepalLengthCm   SepalWidthCm   PetalLengthCm   PetalWidthCm           Species
+//   1             5.1            3.5             1.4            0.2       Iris-setosa
+//   2             4.9            3.0             1.4            0.2       Iris-setosa
+//  89             5.6            3.0             4.1            1.3   Iris-versicolor
+//  90             5.5            2.5             4.0            1.3   Iris-versicolor
+//  91             5.5            2.6             4.4            1.2   Iris-versicolor
+
+dataframe.shuffle(); 
+
+print(dataframe);
+// DataFrame (5 x 6)
+//  Id   SepalLengthCm   SepalWidthCm   PetalLengthCm   PetalWidthCm           Species
+//  89             5.6            3.0             4.1            1.3   Iris-versicolor
+//   1             5.1            3.5             1.4            0.2       Iris-setosa
+//  91             5.5            2.6             4.4            1.2   Iris-versicolor
+//   2             4.9            3.0             1.4            0.2       Iris-setosa
+//  90             5.5            2.5             4.0            1.3   Iris-versicolor
+````
+
+One can use `seed` parameter to keep the order of rows disregard the number of `shuffle` calls:   
+
+```dart
+dataframe.shuffle(seed: 10);
+``` 
+
+### Get a json-serializable representation
+
+```dart
+final json = dataframe.toJson(); // json contains a serializable map
+```
+
+### Convert a dataframe to a [ml_linalg](https://pub.dev/packages/ml_linalg) matrix:
+
+```dart
+dataframe.toMatrix();
+```
+
+the method throws an error if there are inconvertible to a number values in the dataframe.
+
+### Get a series by its index
+
+```dart
+final series = dataframe[0];
+
+print(series);
+// Id: [1, 2, 89, 90, 91]
+```
+
+### Get a series by its name
+
+```dart
+final series = dataframe['Id'];
+
+print(series);
+// Id: [1, 2, 89, 90, 91]
+```
