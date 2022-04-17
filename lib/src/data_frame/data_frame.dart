@@ -232,9 +232,11 @@ abstract class DataFrame implements Serializable {
   DataFrame sampleFromRows(Iterable<int> indices);
 
   /// Returns a new [DataFrame] without specified series
+  ///
+  /// If [indices] are specified, [names] parameter will be ignored.
   DataFrame dropSeries({
-    Iterable<int> seriesIndices,
-    Iterable<String> seriesNames,
+    Iterable<int> indices,
+    Iterable<String> names,
   });
 
   /// Converts the [DataFrame] into [Matrix].

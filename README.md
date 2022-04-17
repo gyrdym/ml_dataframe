@@ -102,7 +102,7 @@ print(dataframe.series.last);
 print(dataframe.shape);
 // [5, 6] - 6 rows, 6 columns 
 
-dataframe.dropSeries(seriesNames: ['Id']);
+dataframe.dropSeries(names: ['Id']);
 
 print(dataframe.shape);
 // [5, 5] -  after a series had been dropped, the number of columns became one lesser 
@@ -114,7 +114,7 @@ print(dataframe.shape);
 print(dataframe.shape);
 // [5, 6] - 5 rows, 6 columns 
 
-dataframe.dropSeries(seriesIndices: [0]);
+dataframe.dropSeries(indices: [0]);
 
 print(dataframe.shape);
 // [5, 5] -  after a series had been dropped, the number of columns became one lesser 
@@ -229,3 +229,37 @@ final series = dataframe['Id'];
 print(series);
 // Id: [1, 2, 89, 90, 91]
 ```
+
+## Ways to create a dataframe
+
+## `fromCsv` function
+
+```dart
+import 'package:ml_dataframe/ml_dataframe.dart';
+
+final data = await fromCsv('path/to/csv/file.csv');
+```
+
+If the `csv` file doe not have a header row, it's needed to provide the corresponding flag:
+
+```dart
+import 'package:ml_dataframe/ml_dataframe.dart';
+
+final data = await fromCsv('path/to/csv/file.csv', headerExists: false);
+```
+
+## Restore previously persisted as a json file dataframe - `fromJson` function
+
+```dart
+import 'package:ml_dataframe/ml_dataframe.dart';
+
+final data = await fromJson('path/to/json/file.json');
+```
+
+This function works in conjunction with DataFrame `saveAsJson` method.
+
+### Contacts
+If you have questions, feel free to text me on
+ - [Twitter](https://twitter.com/ilgyrd) 
+ - [Facebook](https://www.facebook.com/ilya.gyrdymov)
+ - [Linkedin](https://www.linkedin.com/in/gyrdym/)

@@ -139,14 +139,14 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
 
   @override
   DataFrame dropSeries({
-    Iterable<int> seriesIndices = const [],
-    Iterable<String> seriesNames = const [],
+    Iterable<int> indices = const [],
+    Iterable<String> names = const [],
   }) {
-    if (seriesIndices.isNotEmpty) {
-      return _dropByIndices(seriesIndices, series);
+    if (indices.isNotEmpty) {
+      return _dropByIndices(indices, series);
     }
 
-    return _dropByNames(seriesNames, series);
+    return _dropByNames(names, series);
   }
 
   @override
