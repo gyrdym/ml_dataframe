@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.0
+
+- Stable release
+- `Dataframe`:
+    - `dropSeries`:
+        - `seriesIndices` renamed to `indices` 
+        - `seriesNames` renamed to `names` 
+
 ## 0.6.0
 
 - `DataFrame`: `toString` gets nicely formatted printing of the data to get a quick overview

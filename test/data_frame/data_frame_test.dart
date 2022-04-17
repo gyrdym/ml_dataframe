@@ -94,7 +94,7 @@ void main() {
           [-10, 202, 1000, '1.5', 0.005],
         ];
         final frame = DataFrame(data, headerExists: false);
-        final reduced = frame.dropSeries(seriesIndices: [0, 2, 4]);
+        final reduced = frame.dropSeries(indices: [0, 2, 4]);
 
         expect(
             reduced.rows,
@@ -114,8 +114,7 @@ void main() {
           [-10, 202, 1000, '1.5', 0.005],
         ];
         final frame = DataFrame(data, headerExists: false);
-        final reduced =
-            frame.dropSeries(seriesIndices: [0, 2, 2, 0, 4, 2, 4, 0, 4]);
+        final reduced = frame.dropSeries(indices: [0, 2, 2, 0, 4, 2, 4, 0, 4]);
 
         expect(
             reduced.rows,
@@ -135,8 +134,7 @@ void main() {
           [-10, 202, 1000, '1.5', 0.005],
         ];
         final frame = DataFrame(data, headerExists: false);
-        final reduced =
-            frame.dropSeries(seriesNames: ['col_0', 'col_2', 'col_4']);
+        final reduced = frame.dropSeries(names: ['col_0', 'col_2', 'col_4']);
 
         expect(
             reduced.rows,
@@ -156,14 +154,8 @@ void main() {
           [-10, 202, 1000, '1.5', 0.005],
         ];
         final frame = DataFrame(data, headerExists: false);
-        final reduced = frame.dropSeries(seriesNames: [
-          'col_4',
-          'col_0',
-          'col_4',
-          'col_2',
-          'col_4',
-          'col_2'
-        ]);
+        final reduced = frame.dropSeries(
+            names: ['col_4', 'col_0', 'col_4', 'col_2', 'col_4', 'col_2']);
 
         expect(
             reduced.rows,

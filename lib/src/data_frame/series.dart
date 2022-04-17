@@ -33,4 +33,9 @@ class Series {
   /// marked as [isDiscrete]. If [isDiscrete] is `false`, an empty list will be
   /// returned
   final Iterable discreteValues;
+
+  @override
+  String toString() {
+    return '$name: ${data.toString()}';
+  }
 }
