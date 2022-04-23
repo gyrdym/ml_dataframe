@@ -168,8 +168,13 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
     return DataFrame(shuffledRows, header: header, headerExists: false);
   }
 
+  @override
+  DataFrame map<T, R>(R Function(T value) mapper) {
+    return DataFrame(rows.map((row) => row.map((value) => mapper(value as T))));
+  }
+
   DataFrame _sampleFromSeries(Iterable ids) =>
-      DataFrame.fromSeries(ids.map((dynamic id) => this[id]));
+      DataFrame.fromSeries(ids.map((dynamic id) => this[id as Object]));
 
   DataFrame _dropByIndices(Iterable<int> indices, Iterable<Series> series) {
     final uniqueIndices = Set<int>.from(indices);
