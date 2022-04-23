@@ -170,7 +170,8 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
 
   @override
   DataFrame map<T, R>(R Function(T value) mapper) {
-    return DataFrame(rows.map((row) => row.map((value) => mapper(value as T))));
+    return DataFrame(rows.map((row) => row.map((value) => mapper(value as T))),
+        headerExists: false, header: header);
   }
 
   DataFrame _sampleFromSeries(Iterable ids) =>
