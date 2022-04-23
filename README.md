@@ -245,7 +245,7 @@ void main() {
     [      3,      30,     300],
     [      4,      40,     400],
   ]);
-  // the first generic type - a type of the source value, the second generic type - a type of the mapped value
+  // the first generic type ia a type of the source value, the second generic type is a type of the mapped value
   final modifiedData = data.map<num, num>((value) => value * 2);
     
   print(modifiedData);
