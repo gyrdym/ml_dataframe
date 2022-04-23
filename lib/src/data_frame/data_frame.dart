@@ -248,6 +248,33 @@ abstract class DataFrame implements Serializable {
   /// Returns a new [DataFrame] with shuffled rows of this [DataFrame]
   DataFrame shuffle({int seed});
 
+  /// Returns a new [DataFrame] with modified data according to the
+  /// [mapper] function
+  ///
+  /// Usage example:
+  ///
+  /// ```dart
+  /// import 'package:ml_dataframe/ml_dataframe';
+  ///
+  /// void main() {
+  ///   final data = DataFrame([
+  ///     ['col_1', 'col_2', 'col_3'],
+  ///     [      2,      20,     200],
+  ///     [      3,      30,     300],
+  ///     [      4,      40,     400],
+  ///   ]);
+  ///   final modifiedData = data.map((value) => (value as num) * 2);
+  ///
+  ///   print(modifiedData);
+  ///   // DataFrame (3 x 3)
+  ///   // col_1 col_2 col_3
+  ///   //     4    40   400
+  ///   //     6    60   600
+  ///   //     8    80   800
+  /// }
+  /// ```
+  DataFrame map(dynamic Function(dynamic value) mapper);
+
   /// Returns a nicely formatted string to inspect the data of the [DataFrame] as the example below shows
   ///
   /// [maxRows] will display the first maxRows/2 and the last maxRows/2 rows of the [DataFrame]
