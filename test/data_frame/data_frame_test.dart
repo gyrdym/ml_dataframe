@@ -537,5 +537,41 @@ void main() {
         expect(actualJson, json);
       });
     });
+
+    group('map', () {
+      test('should map numeric values according to the given function', () {
+        final data = DataFrame([
+          ['col_1', 'col_2', 'col_3'],
+          [2, 20, 200],
+          [3, 30, 300],
+          [4, 40, 400],
+        ]);
+        final actual = data.map<num, num>((value) => value * 2);
+
+        expect(actual.rows, [
+          [4, 40, 400],
+          [6, 60, 600],
+          [8, 80, 800],
+        ]);
+        expect(actual.header, data.header);
+      });
+
+      test('should convert values according to the given function', () {
+        final data = DataFrame([
+          ['col_1', 'col_2', 'col_3'],
+          [2, 20, 200],
+          [3, 30, 300],
+          [4, 40, 400],
+        ]);
+        final actual = data.map<num, String>((value) => value.toString());
+
+        expect(actual.rows, [
+          ['2', '20', '200'],
+          ['3', '30', '300'],
+          ['4', '40', '400'],
+        ]);
+        expect(actual.header, data.header);
+      });
+    });
   });
 }

@@ -233,6 +233,30 @@ print(series);
 // Id: [1, 2, 89, 90, 91]
 ```
 
+### Map values of a dataframe
+
+```dart
+import 'package:ml_dataframe/ml_dataframe';
+
+void main() {
+  final data = DataFrame([
+    ['col_1', 'col_2', 'col_3'],
+    [      2,      20,     200],
+    [      3,      30,     300],
+    [      4,      40,     400],
+  ]);
+  // the first generic type ia a type of the source value, the second generic type is a type of the mapped value
+  final modifiedData = data.map<num, num>((value) => value * 2);
+    
+  print(modifiedData);
+  // DataFrame (3 x 3)
+  // col_1 col_2 col_3
+  //     4    40   400
+  //     6    60   600
+  //     8    80   800
+}
+```
+
 ## Ways to create a dataframe
 
 ## `DataFrame` constructor
