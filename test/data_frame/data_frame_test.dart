@@ -553,6 +553,7 @@ void main() {
           [6, 60, 600],
           [8, 80, 800],
         ]);
+        expect(actual.header, data.header);
       });
 
       test('should convert values according to the given function', () {
@@ -569,6 +570,7 @@ void main() {
           ['3', '30', '300'],
           ['4', '40', '400'],
         ]);
+        expect(actual.header, data.header);
       });
     });
   });
