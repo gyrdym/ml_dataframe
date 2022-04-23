@@ -251,6 +251,10 @@ abstract class DataFrame implements Serializable {
   /// Returns a new [DataFrame] with modified data according to the
   /// [mapper] function
   ///
+  /// [T] is a type of the source value, [R] is a type of the mapped value.
+  /// If the value's type isn't changed, one needs to provide the same types for
+  /// the generic types.
+  ///
   /// Usage example:
   ///
   /// ```dart
@@ -263,7 +267,7 @@ abstract class DataFrame implements Serializable {
   ///     [      3,      30,     300],
   ///     [      4,      40,     400],
   ///   ]);
-  ///   final modifiedData = data.map((value) => (value as num) * 2);
+  ///   final modifiedData = data.map<num, num>((value) => value * 2);
   ///
   ///   print(modifiedData);
   ///   // DataFrame (3 x 3)
@@ -273,7 +277,7 @@ abstract class DataFrame implements Serializable {
   ///   //     8    80   800
   /// }
   /// ```
-  DataFrame map(dynamic Function(dynamic value) mapper);
+  DataFrame map<T, R>(R Function(T value) mapper);
 
   /// Returns a nicely formatted string to inspect the data of the [DataFrame] as the example below shows
   ///

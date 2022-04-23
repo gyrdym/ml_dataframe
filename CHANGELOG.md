@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0
+- `DataFrame`:
+    - Added `map` function
+
 ## 1.0.0
 
 - Stable release
