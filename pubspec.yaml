@@ -1,6 +1,6 @@
 name: ml_dataframe
 description: Dataframe - a way to store and manipulate data
-version: 1.2.0
+version: 1.2.1
 homepage: https://github.com/gyrdym/ml_dataframe
 
 environment:
