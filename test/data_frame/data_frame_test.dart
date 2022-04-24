@@ -733,6 +733,27 @@ void main() {
         expect(actual, throwsRangeError);
       });
 
+      test(
+          'should map numeric values according to the given function, discrete series',
+          () {
+        final data = DataFrame.fromSeries([
+          Series('series_1', [1, 2, 3, 2, 1], isDiscrete: true),
+          Series('series_2', [10, 22, 33, 44.3, 10]),
+          Series('series_3', ['1', 'a', 'b', 'c', 'd']),
+        ]);
+        final actual =
+            data.mapSeries<num, num>((value) => value * 2, name: 'series_1');
+
+        expect(actual.rows, [
+          [2, 10, '1'],
+          [4, 22, 'a'],
+          [6, 33, 'b'],
+          [4, 44.3, 'c'],
+          [2, 10, 'd'],
+        ]);
+        expect(actual.header, data.header);
+      });
+
       test('should throw an error if neither "name" nor "index" are passed',
           () {
         final data = DataFrame([
