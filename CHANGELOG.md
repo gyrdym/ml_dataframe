@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.1
+- Added documentation for `fromCsv`, `fromJson`
+
 ## 1.2.0
 - `DataFrame`:
     - Added `mapSeries` function
