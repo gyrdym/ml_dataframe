@@ -316,7 +316,8 @@ abstract class DataFrame implements Serializable {
   ///   //     4    80   400
   /// }
   /// ```
-  DataFrame mapSeries<T, R>(R Function(T value) mapper, {int index, String name});
+  DataFrame mapSeries<T, R>(R Function(T value) mapper,
+      {int index, String name});
 
   /// Returns a nicely formatted string to inspect the data of the [DataFrame] as the example below shows
   ///

@@ -573,5 +573,43 @@ void main() {
         expect(actual.header, data.header);
       });
     });
+
+    group('mapSeries', () {
+      test('should map numeric values according to the given function', () {
+        final data = DataFrame([
+          ['col_1', 'col_2', 'col_3'],
+          [2, 20, 200],
+          [3, 30, 300],
+          [4, 40, 400],
+        ]);
+        final actual =
+            data.mapSeries<num, num>((value) => value * 2, name: 'col_2');
+
+        expect(actual.rows, [
+          [2, 40, 200],
+          [3, 60, 300],
+          [4, 80, 400],
+        ]);
+        expect(actual.header, data.header);
+      });
+
+      test('should convert values according to the given function', () {
+        final data = DataFrame([
+          ['col_1', 'col_2', 'col_3'],
+          [2, 20, 200],
+          [3, 30, 300],
+          [4, 40, 400],
+        ]);
+        final actual = data.mapSeries<num, String>((value) => value.toString(),
+            name: 'col_2');
+
+        expect(actual.rows, [
+          [2, '20', 200],
+          [3, '30', 300],
+          [4, '40', 400],
+        ]);
+        expect(actual.header, data.header);
+      });
+    });
   });
 }
