@@ -252,8 +252,8 @@ abstract class DataFrame implements Serializable {
   /// [mapper] function
   ///
   /// [T] is a type of the source value, [R] is a type of the mapped value.
-  /// If the value's type isn't changed, one needs to provide the same types for
-  /// the generic types.
+  /// If the value's type won't be changed, one needs to provide the same types for
+  /// both generic types.
   ///
   /// Usage example:
   ///
@@ -278,6 +278,46 @@ abstract class DataFrame implements Serializable {
   /// }
   /// ```
   DataFrame map<T, R>(R Function(T value) mapper);
+
+  /// Returns a new [DataFrame] with a modified series according to the
+  /// [mapper] function
+  ///
+  /// [index] is an index of the series to be modified
+  ///
+  /// [name] is a name of the series to be modified
+  ///
+  /// [index] has precedence over [name] if both parameters are specified.
+  /// At least one parameter must be specified! Otherwise, the method will throw
+  /// an error
+  ///
+  /// [T] is a type of the series source value, [R] is a type of the mapped value.
+  /// If the value's type won't be changed, one needs to provide the same types for
+  /// both generic types.
+  ///
+  /// Usage example:
+  ///
+  /// ```dart
+  /// import 'package:ml_dataframe/ml_dataframe';
+  ///
+  /// void main() {
+  ///   final data = DataFrame([
+  ///     ['col_1', 'col_2', 'col_3'],
+  ///     [      2,      20,     200],
+  ///     [      3,      30,     300],
+  ///     [      4,      40,     400],
+  ///   ]);
+  ///   final modifiedData = data.mapSeries<num, num>((value) => value * 2, name: 'col_2');
+  ///
+  ///   print(modifiedData);
+  ///   // DataFrame (3 x 3)
+  ///   // col_1 col_2 col_3
+  ///   //     2    40   200
+  ///   //     3    60   300
+  ///   //     4    80   400
+  /// }
+  /// ```
+  DataFrame mapSeries<T, R>(R Function(T value) mapper,
+      {int? index, String? name});
 
   /// Returns a nicely formatted string to inspect the data of the [DataFrame] as the example below shows
   ///

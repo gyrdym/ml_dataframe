@@ -174,6 +174,30 @@ class DataFrameImpl with SerializableMixin implements DataFrame {
         headerExists: false, header: header);
   }
 
+  @override
+  DataFrame mapSeries<T, R>(R Function(T value) mapper,
+      {int? index, String? name}) {
+    if (name == null && index == null) {
+      throw Exception('"name" or "index" must be specified');
+    }
+
+    if (name != null) {
+      this[name];
+    }
+
+    if (index != null) {
+      this[index];
+    }
+
+    var i = 0;
+
+    return DataFrame.fromSeries(series.map((series) => i++ == index ||
+            name == series.name
+        ? Series(series.name, series.data.map((value) => mapper(value as T)),
+            isDiscrete: series.isDiscrete)
+        : series));
+  }
+
   DataFrame _sampleFromSeries(Iterable ids) =>
       DataFrame.fromSeries(ids.map((dynamic id) => this[id as Object]));
 

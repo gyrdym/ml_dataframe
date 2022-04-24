@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0
+- `DataFrame`:
+    - Added `mapSeries` function
+
 ## 1.1.0
 - `DataFrame`:
     - Added `map` function

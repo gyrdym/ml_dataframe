@@ -573,5 +573,199 @@ void main() {
         expect(actual.header, data.header);
       });
     });
+
+    group('mapSeries', () {
+      test(
+          'should map numeric values according to the given function, name="col_1"',
+          () {
+        final data = DataFrame([
+          ['col_1', 'col_2', 'col_3'],
+          [2, 20, 200],
+          [3, 30, 300],
+          [4, 40, 400],
+        ]);
+        final actual =
+            data.mapSeries<num, num>((value) => value * 2, name: 'col_1');
+
+        expect(actual.rows, [
+          [4, 20, 200],
+          [6, 30, 300],
+          [8, 40, 400],
+        ]);
+        expect(actual.header, data.header);
+      });
+
+      test(
+          'should map numeric values according to the given function, name="col_2"',
+          () {
+        final data = DataFrame([
+          ['col_1', 'col_2', 'col_3'],
+          [2, 20, 200],
+          [3, 30, 300],
+          [4, 40, 400],
+        ]);
+        final actual =
+            data.mapSeries<num, num>((value) => value * 2, name: 'col_2');
+
+        expect(actual.rows, [
+          [2, 40, 200],
+          [3, 60, 300],
+          [4, 80, 400],
+        ]);
+        expect(actual.header, data.header);
+      });
+
+      test(
+          'should map numeric values according to the given function, name="col_3"',
+          () {
+        final data = DataFrame([
+          ['col_1', 'col_2', 'col_3'],
+          [2, 20, 200],
+          [3, 30, 300],
+          [4, 40, 400],
+        ]);
+        final actual =
+            data.mapSeries<num, num>((value) => value * 2, name: 'col_3');
+
+        expect(actual.rows, [
+          [2, 20, 400],
+          [3, 30, 600],
+          [4, 40, 800],
+        ]);
+        expect(actual.header, data.header);
+      });
+
+      test('should throw an error if the series does not exist', () {
+        final data = DataFrame([
+          ['col_1', 'col_2', 'col_3'],
+          [2, 20, 200],
+          [3, 30, 300],
+          [4, 40, 400],
+        ]);
+        final actual = () =>
+            data.mapSeries<num, num>((value) => value * 2, name: 'col_33');
+
+        expect(actual, throwsException);
+      });
+
+      test('should convert values according to the given function', () {
+        final data = DataFrame([
+          ['col_1', 'col_2', 'col_3'],
+          [2, 20, 200],
+          [3, 30, 300],
+          [4, 40, 400],
+        ]);
+        final actual = data.mapSeries<num, String>((value) => value.toString(),
+            name: 'col_2');
+
+        expect(actual.rows, [
+          [2, '20', 200],
+          [3, '30', 300],
+          [4, '40', 400],
+        ]);
+        expect(actual.header, data.header);
+      });
+
+      test('should map numeric values according to the given function, index=0',
+          () {
+        final data = DataFrame([
+          ['col_1', 'col_2', 'col_3'],
+          [2, 20, 200],
+          [3, 30, 300],
+          [4, 40, 400],
+        ]);
+        final actual = data.mapSeries<num, num>((value) => value * 2, index: 0);
+
+        expect(actual.rows, [
+          [4, 20, 200],
+          [6, 30, 300],
+          [8, 40, 400],
+        ]);
+        expect(actual.header, data.header);
+      });
+
+      test('should map numeric values according to the given function, index=1',
+          () {
+        final data = DataFrame([
+          ['col_1', 'col_2', 'col_3'],
+          [2, 20, 200],
+          [3, 30, 300],
+          [4, 40, 400],
+        ]);
+        final actual = data.mapSeries<num, num>((value) => value * 2, index: 1);
+
+        expect(actual.rows, [
+          [2, 40, 200],
+          [3, 60, 300],
+          [4, 80, 400],
+        ]);
+        expect(actual.header, data.header);
+      });
+
+      test('should map numeric values according to the given function, index=2',
+          () {
+        final data = DataFrame([
+          ['col_1', 'col_2', 'col_3'],
+          [2, 20, 200],
+          [3, 30, 300],
+          [4, 40, 400],
+        ]);
+        final actual = data.mapSeries<num, num>((value) => value * 2, index: 2);
+
+        expect(actual.rows, [
+          [2, 20, 400],
+          [3, 30, 600],
+          [4, 40, 800],
+        ]);
+        expect(actual.header, data.header);
+      });
+
+      test('should throw an error if the index is out of range', () {
+        final data = DataFrame([
+          ['col_1', 'col_2', 'col_3'],
+          [2, 20, 200],
+          [3, 30, 300],
+          [4, 40, 400],
+        ]);
+        final actual =
+            () => data.mapSeries<num, num>((value) => value * 2, index: -1);
+
+        expect(actual, throwsRangeError);
+      });
+
+      test(
+          'should map numeric values according to the given function, discrete series',
+          () {
+        final data = DataFrame.fromSeries([
+          Series('series_1', [1, 2, 3, 2, 1], isDiscrete: true),
+          Series('series_2', [10, 22, 33, 44.3, 10]),
+          Series('series_3', ['1', 'a', 'b', 'c', 'd']),
+        ]);
+        final actual =
+            data.mapSeries<num, num>((value) => value * 2, name: 'series_1');
+
+        expect(actual.rows, [
+          [2, 10, '1'],
+          [4, 22, 'a'],
+          [6, 33, 'b'],
+          [4, 44.3, 'c'],
+          [2, 10, 'd'],
+        ]);
+        expect(actual.header, data.header);
+      });
+
+      test('should throw an error if neither "name" nor "index" are passed',
+          () {
+        final data = DataFrame([
+          ['col_1', 'col_2', 'col_3'],
+          [2, 20, 200],
+          [3, 30, 300],
+          [4, 40, 400],
+        ]);
+        final actual = () => data.mapSeries<num, num>((value) => value * 2);
+
+        expect(actual, throwsException);
+      });
+    });
   });
 }
