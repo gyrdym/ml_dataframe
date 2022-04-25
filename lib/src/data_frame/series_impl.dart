@@ -16,13 +16,14 @@ part 'series_impl.g.dart';
 @JsonSerializable()
 class SeriesImpl implements Series {
   SeriesImpl(
-      this.name,
-      this.data, {
-        this.isDiscrete = false,
-      }) : discreteValues =
-  isDiscrete ? Set<dynamic>.from(data) : const <dynamic>[];
+    this.name,
+    this.data, {
+    this.isDiscrete = false,
+  }) : discreteValues =
+            isDiscrete ? Set<dynamic>.from(data) : const <dynamic>[];
 
-  factory SeriesImpl.fromJson(Map<String, dynamic> json) => _$SeriesImplFromJson(json);
+  factory SeriesImpl.fromJson(Map<String, dynamic> json) =>
+      _$SeriesImplFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$SeriesImplToJson(this);
