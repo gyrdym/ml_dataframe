@@ -1,9 +1,9 @@
 import 'package:ml_dataframe/src/data_frame/data_frame.dart';
 import 'package:ml_dataframe/src/data_frame/series_impl.dart';
 
-/// A column of the [DataFrame].
+/// A named sequence of values that can be used as a column for the [DataFrame].
 ///
-/// [name] A column name
+/// [name] A series name
 ///
 /// [data] A collection of dynamically typed data
 ///
