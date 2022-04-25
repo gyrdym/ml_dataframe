@@ -55,6 +55,7 @@ import 'package:ml_dataframe/src/data_reader/data_reader.dart';
 ///   //    12    25    36
 ///   //    13    26    37
 /// }
+/// ```
 ///
 /// - Case 2. A header row exists
 ///
