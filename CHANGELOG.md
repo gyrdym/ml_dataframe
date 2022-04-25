@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2
+- Fixed markup in `fromCsv` documentation
+- Added documentation for `Series`
+
 ## 1.2.1
 - Added documentation for `fromCsv`, `fromJson`
 
