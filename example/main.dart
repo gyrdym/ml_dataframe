@@ -33,7 +33,7 @@ void headlessDataframeWithCustomPrefixDemo() {
     [45, 'Larnaca', 'AB', true],
   ], headerExists: false, autoHeaderPrefix: 'SERIES_');
 
-  print('\nHeadless dataframe: ');
+  print('\nHeadless dataframe with custom prefix: ');
   print(dataframe);
 }
 
