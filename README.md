@@ -8,6 +8,8 @@ A way to store and manipulate data
 
 The library exposes in-memory storage for dynamically typed data. The storage is represented by [DataFrame](https://github.com/gyrdym/ml_dataframe/blob/master/lib/src/data_frame/data_frame.dart) class.
 
+<br/>
+
 ## Usage example:
 
 ```dart
@@ -281,6 +283,8 @@ void main() {
 }
 ```
 
+<br/>
+
 ## Ways to create a dataframe
 
 ### `DataFrame` constructor
@@ -360,6 +364,8 @@ final data = await fromJson('path/to/json/file.json');
 
 This function works in conjunction with DataFrame `saveAsJson` method.
 
+<br/>
+
 ## Dataframes with prefilled data
 
 In order to test data processing algorithms, one can use "toy" datasets. The library exposes several of them:
@@ -380,6 +386,8 @@ void main() async {
   // ...
 }
 ```
+
+<br/>
 
 ## Contacts
 If you have questions, feel free to text me on
