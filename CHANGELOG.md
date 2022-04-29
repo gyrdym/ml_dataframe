@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.0
+- Added `Iris` dataset
+
 ## 1.2.2
 - Fixed markup in `fromCsv` documentation
 - Added documentation for `Series`

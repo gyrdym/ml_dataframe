@@ -8,16 +8,50 @@ A way to store and manipulate data
 
 The library exposes in-memory storage for dynamically typed data. The storage is represented by [DataFrame](https://github.com/gyrdym/ml_dataframe/blob/master/lib/src/data_frame/data_frame.dart) class.
 
+<br/>
+
+## Table of contents
+
+- [Usage example](#usage-example)
+- [DataFrame API](#dataframe-api-with-examples)
+    - [Get the header](#get-the-header-of-the-data)
+    - [Get the rows](#get-the-rows-of-the-data)
+    - [Get the series](#get-the-series-collection-columns-of-the-data)
+    - [Get the shape](#get-the-shape-of-the-data)
+    - [Add a series](#add-a-series)
+    - [Drop a series by a name](#drop-a-series-by-a-series-name)
+    - [Drop a series by an index](#drop-a-series-by-a-series-index)
+    - [Sample a dataframe from rows](#sample-a-new-dataframe-from-rows-of-an-existing-dataframe)
+    - [Sample a dataframe from series indices](#sample-a-new-dataframe-from-series-indices-of-an-existing-dataframe)
+    - [Sample a dataframe from series names](#sample-a-new-dataframe-from-series-names-of-an-existing-dataframe)
+    - [Save a dataframe](#save-a-dataframe-to-a-json-file)
+    - [Shuffle rows of a dataframe](#shuffle-rows-in-a-dataframe)
+    - [Get a JSON representation](#get-a-json-serializable-representation)
+    - [Convert to Matrix](#convert-a-dataframe-to-a-matrix)
+    - [Get a series by name](#get-a-series-by-its-name)
+    - [Get a series by index](#get-a-series-by-its-index)
+    - [Map values](#map-values-of-a-dataframe)
+    - [Map values of a series](#map-values-of-a-specific-dataframe-series)
+- [Ways to create a dataframe](#ways-to-create-a-dataframe)
+    - [DataFrame constructor](#dataframe-constructor)
+    - [Create a dataframe from a CSV file](#fromcsv-function)
+    - [Restore a dataframe from JSON](#restore-previously-persisted-as-a-json-file-dataframe---fromjson-function)
+- [Prefilled dataframes](#dataframes-with-prefilled-data)
+    - [Iris dataset](#iris-dataset---function-loadirisdataset)
+- [Contacts](#contacts)
+
+<br/>
+
 ## Usage example:
 
 ```dart
 final data = [
-  ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm', 'Species'],
-  [1, 5.1, 3.5, 1.4, 0.2, 'Iris-setosa'],
-  [2, 4.9, 3.0, 1.4, 0.2, 'Iris-setosa'],
-  [89, 5.6, 3.0, 4.1, 1.3, 'Iris-versicolor'],
-  [90, 5.5, 2.5, 4.0, 1.3, 'Iris-versicolor'],
-  [91, 5.5, 2.6, 4.4, 1.2, 'Iris-versicolor'],
+  ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+  [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+  [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+  [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+  [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+  [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
 ];
 
 final dataframe = DataFrame(data);
@@ -32,7 +66,9 @@ print(dataframe);
 //  91             5.5            2.6             4.4            1.2   Iris-versicolor
 ```
 
-## [DataFrame](https://github.com/gyrdym/ml_dataframe/blob/master/lib/src/data_frame/data_frame.dart) API with examples:
+<br/>
+
+## `DataFrame` API with examples:
 
 Let's assume that all the examples below are applied to the dataframe instance which was created above.
 
@@ -207,7 +243,7 @@ dataframe.shuffle(seed: 10);
 final json = dataframe.toJson(); // json contains a serializable map
 ```
 
-### Convert a dataframe to a [ml_linalg](https://pub.dev/packages/ml_linalg) matrix:
+### Convert a dataframe to a matrix:
 
 ```dart
 dataframe.toMatrix();
@@ -281,20 +317,22 @@ void main() {
 }
 ```
 
+<br/>
+
 ## Ways to create a dataframe
 
-## `DataFrame` constructor
+### `DataFrame` constructor
 
 ```dart
 import 'package:ml_dataframe/ml_dataframe.dart';
 
 final data = [
-  ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm', 'Species'],
-  [1, 5.1, 3.5, 1.4, 0.2, 'Iris-setosa'],
-  [2, 4.9, 3.0, 1.4, 0.2, 'Iris-setosa'],
-  [89, 5.6, 3.0, 4.1, 1.3, 'Iris-versicolor'],
-  [90, 5.5, 2.5, 4.0, 1.3, 'Iris-versicolor'],
-  [91, 5.5, 2.6, 4.4, 1.2, 'Iris-versicolor'],
+  ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+  [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+  [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+  [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+  [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+  [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
 ];
 
 final dataframe = DataFrame(data);
@@ -334,7 +372,7 @@ final data = [
 final dataframe = DataFrame(data, header: ['feature_1', 'feature_2', 'feature_3', 'feature_4', 'feature_5', 'feature_6']);
 ```
 
-## `fromCsv` function
+### `fromCsv` function
 
 ```dart
 import 'package:ml_dataframe/ml_dataframe.dart';
@@ -350,7 +388,7 @@ import 'package:ml_dataframe/ml_dataframe.dart';
 final data = await fromCsv('path/to/csv/file.csv', headerExists: false);
 ```
 
-## Restore previously persisted as a json file dataframe - `fromJson` function
+### Restore previously persisted as a json file dataframe - `fromJson` function
 
 ```dart
 import 'package:ml_dataframe/ml_dataframe.dart';
@@ -360,7 +398,32 @@ final data = await fromJson('path/to/json/file.json');
 
 This function works in conjunction with DataFrame `saveAsJson` method.
 
-### Contacts
+<br/>
+
+## Dataframes with prefilled data
+
+In order to test data processing algorithms, one can use "toy" datasets. The library exposes several of them:
+
+### Iris dataset - function `loadIrisDataset`
+
+One can create a dataframe filled with [Iris](https://www.kaggle.com/datasets/uciml/iris) data: 
+
+```dart
+import 'package:ml_dataframe/ml_dataframe.dart';
+
+void main() async {
+  final data = await loadIrisDataset();
+
+  print(data);
+  // DataFrame (150 x 6)
+  // Id SepalLengthCm SepalWidthCm PetalLengthCm PetalWidthCm Species
+  // ...
+}
+```
+
+<br/>
+
+## Contacts
 If you have questions, feel free to text me on
  - [Twitter](https://twitter.com/ilgyrd) 
  - [Facebook](https://www.facebook.com/ilya.gyrdymov)
