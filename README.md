@@ -10,6 +10,38 @@ The library exposes in-memory storage for dynamically typed data. The storage is
 
 <br/>
 
+## Table of contents
+
+- [Usage example](#usage-example)
+- [DataFrame API](#dataframehttpsgithubcomgyrdymml_dataframeblobmasterlibsrcdata_framedata_framedart-api-with-examples)
+    - [Get the header](#get-the-header-of-the-data)
+    - [Get the rows](#get-the-rows-of-the-data)
+    - [Get the series](#get-the-series-collection-columns-of-the-data)
+    - [Get the shape](#get-the-shape-of-the-data)
+    - [Add a series](#add-a-series)
+    - [Drop a series by a name](#drop-a-series-by-a-series-name)
+    - [Drop a series by an index](#drop-a-series-by-a-series-index)
+    - [Sample a dataframe from rows](#sample-a-new-dataframe-from-rows-of-an-existing-dataframe)
+    - [Sample a dataframe from series indices](#sample-a-new-dataframe-from-series-indices-of-an-existing-dataframe)
+    - [Sample a dataframe from series names](#sample-a-new-dataframe-from-series-names-of-an-existing-dataframe)
+    - [Save a dataframe](#save-a-dataframe-to-a-json-file)
+    - [Shuffle rows of a dataframe](#shuffle-rows-in-a-dataframe)
+    - [Get a JSON representation](#get-a-json-serializable-representation)
+    - [Convert to Matrix](#convert-a-dataframe-to-a-ml_linalghttpspubdevpackagesml_linalg-matrix)
+    - [Get a series by name](#get-a-series-by-its-name)
+    - [Get a series by index](#get-a-series-by-its-index)
+    - [Map values](#map-values-of-a-dataframe)
+    - [Map values of a series](#map-values-of-a-specific-dataframe-series)
+- [Ways to create a dataframe](#ways-to-create-a-dataframe)
+    - [DataFrame constructor](#dataframe-constructor)
+    - [Create a dataframe from a CSV file](#fromcsv-function)
+    - [Restore a dataframe from JSON](#restore-previously-persisted-as-a-json-file-dataframe---fromjson-function)
+- [Prefilled dataframes](#dataframes-with-prefilled-data)
+    - [Iris dataset](#iris-dataset---function-loadirisdataset)
+- [Contacts](#contacts)
+
+<br/>
+
 ## Usage example:
 
 ```dart
@@ -33,6 +65,8 @@ print(dataframe);
 //  90             5.5            2.5             4.0            1.3   Iris-versicolor
 //  91             5.5            2.6             4.4            1.2   Iris-versicolor
 ```
+
+<br/>
 
 ## [DataFrame](https://github.com/gyrdym/ml_dataframe/blob/master/lib/src/data_frame/data_frame.dart) API with examples:
 
