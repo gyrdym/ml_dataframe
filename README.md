@@ -13,7 +13,7 @@ The library exposes in-memory storage for dynamically typed data. The storage is
 ## Table of contents
 
 - [Usage example](#usage-example)
-- [DataFrame API](#dataframehttpsgithubcomgyrdymml_dataframeblobmasterlibsrcdata_framedata_framedart-api-with-examples)
+- [DataFrame API](#dataframe-api-with-examples)
     - [Get the header](#get-the-header-of-the-data)
     - [Get the rows](#get-the-rows-of-the-data)
     - [Get the series](#get-the-series-collection-columns-of-the-data)
@@ -27,7 +27,7 @@ The library exposes in-memory storage for dynamically typed data. The storage is
     - [Save a dataframe](#save-a-dataframe-to-a-json-file)
     - [Shuffle rows of a dataframe](#shuffle-rows-in-a-dataframe)
     - [Get a JSON representation](#get-a-json-serializable-representation)
-    - [Convert to Matrix](#convert-a-dataframe-to-a-ml_linalghttpspubdevpackagesml_linalg-matrix)
+    - [Convert to Matrix](#convert-a-dataframe-to-a-matrix)
     - [Get a series by name](#get-a-series-by-its-name)
     - [Get a series by index](#get-a-series-by-its-index)
     - [Map values](#map-values-of-a-dataframe)
@@ -68,7 +68,7 @@ print(dataframe);
 
 <br/>
 
-## [DataFrame](https://github.com/gyrdym/ml_dataframe/blob/master/lib/src/data_frame/data_frame.dart) API with examples:
+## `DataFrame` API with examples:
 
 Let's assume that all the examples below are applied to the dataframe instance which was created above.
 
@@ -243,7 +243,7 @@ dataframe.shuffle(seed: 10);
 final json = dataframe.toJson(); // json contains a serializable map
 ```
 
-### Convert a dataframe to a [ml_linalg](https://pub.dev/packages/ml_linalg) matrix:
+### Convert a dataframe to a matrix:
 
 ```dart
 dataframe.toMatrix();
