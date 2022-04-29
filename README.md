@@ -12,12 +12,12 @@ The library exposes in-memory storage for dynamically typed data. The storage is
 
 ```dart
 final data = [
-  ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm', 'Species'],
-  [1, 5.1, 3.5, 1.4, 0.2, 'Iris-setosa'],
-  [2, 4.9, 3.0, 1.4, 0.2, 'Iris-setosa'],
-  [89, 5.6, 3.0, 4.1, 1.3, 'Iris-versicolor'],
-  [90, 5.5, 2.5, 4.0, 1.3, 'Iris-versicolor'],
-  [91, 5.5, 2.6, 4.4, 1.2, 'Iris-versicolor'],
+  ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+  [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+  [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+  [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+  [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+  [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
 ];
 
 final dataframe = DataFrame(data);
@@ -283,18 +283,18 @@ void main() {
 
 ## Ways to create a dataframe
 
-## `DataFrame` constructor
+### `DataFrame` constructor
 
 ```dart
 import 'package:ml_dataframe/ml_dataframe.dart';
 
 final data = [
-  ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm', 'Species'],
-  [1, 5.1, 3.5, 1.4, 0.2, 'Iris-setosa'],
-  [2, 4.9, 3.0, 1.4, 0.2, 'Iris-setosa'],
-  [89, 5.6, 3.0, 4.1, 1.3, 'Iris-versicolor'],
-  [90, 5.5, 2.5, 4.0, 1.3, 'Iris-versicolor'],
-  [91, 5.5, 2.6, 4.4, 1.2, 'Iris-versicolor'],
+  ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+  [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+  [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+  [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+  [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+  [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
 ];
 
 final dataframe = DataFrame(data);
@@ -334,7 +334,7 @@ final data = [
 final dataframe = DataFrame(data, header: ['feature_1', 'feature_2', 'feature_3', 'feature_4', 'feature_5', 'feature_6']);
 ```
 
-## `fromCsv` function
+### `fromCsv` function
 
 ```dart
 import 'package:ml_dataframe/ml_dataframe.dart';
@@ -350,7 +350,7 @@ import 'package:ml_dataframe/ml_dataframe.dart';
 final data = await fromCsv('path/to/csv/file.csv', headerExists: false);
 ```
 
-## Restore previously persisted as a json file dataframe - `fromJson` function
+### Restore previously persisted as a json file dataframe - `fromJson` function
 
 ```dart
 import 'package:ml_dataframe/ml_dataframe.dart';
@@ -360,7 +360,28 @@ final data = await fromJson('path/to/json/file.json');
 
 This function works in conjunction with DataFrame `saveAsJson` method.
 
-### Contacts
+## Dataframes with prefilled data
+
+In order to test data processing algorithms, one can use "toy" datasets. The library exposes several of them:
+
+### Iris dataset - function `loadIrisDataset`
+
+One can create a dataframe filled with [Iris](https://www.kaggle.com/datasets/uciml/iris) data: 
+
+```dart
+import 'package:ml_dataframe/ml_dataframe.dart';
+
+void main() async {
+  final data = await loadIrisDataset();
+
+  print(data);
+  // DataFrame (150 x 6)
+  // Id SepalLengthCm SepalWidthCm PetalLengthCm PetalWidthCm Species
+  // ...
+}
+```
+
+## Contacts
 If you have questions, feel free to text me on
  - [Twitter](https://twitter.com/ilgyrd) 
  - [Facebook](https://www.facebook.com/ilya.gyrdymov)
