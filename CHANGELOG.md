@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.1
+- `loadPimaIndiansDiabetesDataset` function exported
+
 ## 1.4.0
 - Added `Pima Indians diabetes` dataset
 
