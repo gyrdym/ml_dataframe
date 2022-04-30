@@ -36,6 +36,7 @@ The library exposes in-memory storage for dynamically typed data. The storage is
     - [Restore a dataframe from JSON](#restore-previously-persisted-as-a-json-file-dataframe---fromjson-function)
 - [Prefilled dataframes](#dataframes-with-prefilled-data)
     - [Iris dataset](#iris-dataset---function-loadirisdataset)
+    - [Pima Indians diabetes dataset](#pima-indians-diabetes-dataset---function-loadpimaindiansdiabetesdataset)
 - [Contacts](#contacts)
 
 ## Usage example:
