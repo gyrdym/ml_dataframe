@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.0
+- Added `Pima Indians diabetes` dataset
+
 ## 1.3.0
 - Added `Iris` dataset
 

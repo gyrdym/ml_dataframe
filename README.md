@@ -8,8 +8,6 @@ A way to store and manipulate data
 
 The library exposes in-memory storage for dynamically typed data. The storage is represented by [DataFrame](https://github.com/gyrdym/ml_dataframe/blob/master/lib/src/data_frame/data_frame.dart) class.
 
-<br/>
-
 ## Table of contents
 
 - [Usage example](#usage-example)
@@ -40,8 +38,6 @@ The library exposes in-memory storage for dynamically typed data. The storage is
     - [Iris dataset](#iris-dataset---function-loadirisdataset)
 - [Contacts](#contacts)
 
-<br/>
-
 ## Usage example:
 
 ```dart
@@ -65,8 +61,6 @@ print(dataframe);
 //  90             5.5            2.5             4.0            1.3   Iris-versicolor
 //  91             5.5            2.6             4.4            1.2   Iris-versicolor
 ```
-
-<br/>
 
 ## `DataFrame` API with examples:
 
@@ -317,8 +311,6 @@ void main() {
 }
 ```
 
-<br/>
-
 ## Ways to create a dataframe
 
 ### `DataFrame` constructor
@@ -398,8 +390,6 @@ final data = await fromJson('path/to/json/file.json');
 
 This function works in conjunction with DataFrame `saveAsJson` method.
 
-<br/>
-
 ## Dataframes with prefilled data
 
 In order to test data processing algorithms, one can use "toy" datasets. The library exposes several of them:
@@ -421,7 +411,22 @@ void main() async {
 }
 ```
 
-<br/>
+### Pima Indians diabetes dataset - function `loadPimaIndiansDiabetesDataset`
+
+One can create a dataframe filled with [Pima Indians diabetes](https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database) data: 
+
+```dart
+import 'package:ml_dataframe/ml_dataframe.dart';
+
+void main() async {
+  final data = await loadPimaIndiansDiabetesDataset();
+
+  print(data);
+  // DataFrame (768 x 9)
+  // Pregnancies Glucose BloodPressure SkinThickness Insulin BMI DiabetesPedigreeFunction Age Outcome
+  // ...
+}
+```
 
 ## Contacts
 If you have questions, feel free to text me on
