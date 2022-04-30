@@ -6,8 +6,6 @@ void main() {
     test('should create a dataframe', () async {
       final data = await loadPimaIndiansDiabetesDataset();
 
-      print(data);
-
       expect(data.header, [
         'Pregnancies',
         'Glucose',
