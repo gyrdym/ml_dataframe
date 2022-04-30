@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.2
+- `loadIrisDataset`, `loadPimaIndiansDiabetesDataset`: 
+    - raw CSV data used instead of files
+
 ## 1.4.1
 - `loadPimaIndiansDiabetesDataset` function exported
 

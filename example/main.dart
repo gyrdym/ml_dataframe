@@ -38,12 +38,15 @@ void headlessDataframeWithCustomPrefixDemo() {
 }
 
 void predefinedHeaderDataframeDemo() {
-  final dataframe = DataFrame([
-    [33, 'Larnaca', 'A', true],
-    [17, 'Limassol', 'A', false],
-    [29, 'Nicosia', 'B', false],
-    [45, 'Larnaca', 'AB', true],
-  ], headerExists: false, header: ['AGE', 'TOWN', 'Blood', 'MARRIED']);
+  final dataframe = DataFrame(
+      [
+        [33, 'Larnaca', 'A', true],
+        [17, 'Limassol', 'A', false],
+        [29, 'Nicosia', 'B', false],
+        [45, 'Larnaca', 'AB', true],
+      ],
+      headerExists: false,
+      header: ['AGE', 'TOWN', 'Blood', 'MARRIED']);
 
   print('\nDataframe with predefined header: ');
   print(dataframe);
@@ -56,7 +59,10 @@ void dataframeWithSpecificColumnsDemo() {
     [17, 'Limassol', 'A', false],
     [29, 'Nicosia', 'B', false],
     [45, 'Larnaca', 'AB', true],
-  ], columnNames: ['Age', 'is_married']);
+  ], columnNames: [
+    'Age',
+    'is_married'
+  ]);
 
   print('\nDataframe with specific columns: ');
   print(dataframe);

@@ -1,6 +1,6 @@
 name: ml_dataframe
 description: An in-memory untyped data storage with the possibility to query and modify it
-version: 1.4.1
+version: 1.4.2
 homepage: https://github.com/gyrdym/ml_dataframe
 
 environment:
