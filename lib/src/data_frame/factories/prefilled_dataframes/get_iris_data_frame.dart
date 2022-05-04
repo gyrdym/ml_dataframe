@@ -8,8 +8,8 @@ import 'package:ml_dataframe/src/data_frame/data_frame.dart';
 /// The target column is `Species`
 ///
 /// The dataset is good for training classification models
-Future<DataFrame> loadIrisDataset() {
-  return Future.value(DataFrame.fromRawCsv('''
+DataFrame getIrisDataFrame() {
+  return DataFrame.fromRawCsv('''
 Id,SepalLengthCm,SepalWidthCm,PetalLengthCm,PetalWidthCm,Species
 1,5.1,3.5,1.4,0.2,Iris-setosa
 2,4.9,3.0,1.4,0.2,Iris-setosa
@@ -161,5 +161,5 @@ Id,SepalLengthCm,SepalWidthCm,PetalLengthCm,PetalWidthCm,Species
 148,6.5,3.0,5.2,2.0,Iris-virginica
 149,6.2,3.4,5.4,2.3,Iris-virginica
 150,5.9,3.0,5.1,1.8,Iris-virginica
-'''));
+''');
 }

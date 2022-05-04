@@ -1,10 +1,10 @@
-import 'package:ml_dataframe/src/data_frame/factories/load_pima_indians_diabetes_dataset.dart';
+import 'package:ml_dataframe/src/data_frame/factories/prefilled_dataframes/get_pima_indians_diabetes_data_frame.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('loadPimaIndiansDiabetesDataset', () {
-    test('should create a dataframe', () async {
-      final data = await loadPimaIndiansDiabetesDataset();
+  group('getPimaIndiansDiabetesDataFrame', () {
+    test('should create a dataframe', () {
+      final data = getPimaIndiansDiabetesDataFrame();
 
       expect(data.header, [
         'Pregnancies',

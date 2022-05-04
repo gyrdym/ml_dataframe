@@ -37,6 +37,7 @@ The library exposes in-memory storage for dynamically typed data. The storage is
 - [Prefilled dataframes](#dataframes-with-prefilled-data)
     - [Iris dataset](#iris-dataset---function-loadirisdataset)
     - [Pima Indians diabetes dataset](#pima-indians-diabetes-dataset---function-loadpimaindiansdiabetesdataset)
+    - [Red wine quality dataset](#red-wine-quality-dataset---function-getwinequalitydataframe)
 - [Contacts](#contacts)
 
 ## Usage example:
@@ -395,7 +396,7 @@ This function works in conjunction with DataFrame `saveAsJson` method.
 
 In order to test data processing algorithms, one can use "toy" datasets. The library exposes several of them:
 
-### Iris dataset - function `loadIrisDataset`
+### Iris dataset - function `getIrisDataset`
 
 One can create a dataframe filled with [Iris](https://www.kaggle.com/datasets/uciml/iris) data: 
 
@@ -403,7 +404,7 @@ One can create a dataframe filled with [Iris](https://www.kaggle.com/datasets/uc
 import 'package:ml_dataframe/ml_dataframe.dart';
 
 void main() async {
-  final data = await loadIrisDataset();
+  final data = await getIrisDataset();
 
   print(data);
   // DataFrame (150 x 6)
@@ -412,19 +413,36 @@ void main() async {
 }
 ```
 
-### Pima Indians diabetes dataset - function `loadPimaIndiansDiabetesDataset`
+### Pima Indians diabetes dataset - function `getPimaIndiansDiabetesDataFrame`
 
 One can create a dataframe filled with [Pima Indians diabetes](https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database) data: 
 
 ```dart
 import 'package:ml_dataframe/ml_dataframe.dart';
 
-void main() async {
-  final data = await loadPimaIndiansDiabetesDataset();
+void main() {
+  final data = getPimaIndiansDiabetesDataFrame();
 
   print(data);
   // DataFrame (768 x 9)
   // Pregnancies Glucose BloodPressure SkinThickness Insulin BMI DiabetesPedigreeFunction Age Outcome
+  // ...
+}
+```
+
+### Red wine quality dataset - function `getWineQualityDataframe`
+
+One can create a dataframe filled with [Red wine quality](https://www.kaggle.com/datasets/uciml/red-wine-quality-cortez-et-al-2009) data: 
+
+```dart
+import 'package:ml_dataframe/ml_dataframe.dart';
+
+void main() {
+  final data = getWineQualityDataframe();
+
+  print(data);
+  // DataFrame (1599 x 12)
+  // fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality
   // ...
 }
 ```
