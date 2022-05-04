@@ -7,8 +7,8 @@ import 'package:ml_dataframe/src/data_frame/data_frame.dart';
 /// The target column is `Outcome` which contains either `1` or `0`
 ///
 /// The dataset is good for training classification models
-Future<DataFrame> loadPimaIndiansDiabetesDataset() {
-  return Future.value(DataFrame.fromRawCsv('''
+DataFrame getPimaIndiansDiabetesDataFrame() {
+  return DataFrame.fromRawCsv('''
 Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age,Outcome
 6,148,72,35,0,33.6,0.627,50,1
 1,85,66,29,0,26.6,0.351,31,0
@@ -778,5 +778,5 @@ Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunc
 5,121,72,23,112,26.2,0.245,30,0
 1,126,60,0,0,30.1,0.349,47,1
 1,93,70,31,0,30.4,0.315,23,0
-'''));
+''');
 }
