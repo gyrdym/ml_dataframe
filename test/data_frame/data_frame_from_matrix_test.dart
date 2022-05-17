@@ -432,20 +432,5 @@ void main() {
 
       expect(dataFrame.toMatrix(), same(matrix));
     });
-
-    test('ddd', () {
-      final dataframe = DataFrame([
-        ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',],
-        [   1,             5.1,            3.5,             1.4,            0.2,],
-        [   2,             4.9,            3.0,             1.4,            0.2,],
-        [  89,             5.6,            3.0,             4.1,            1.3,],
-        [  90,             5.5,            2.5,             4.0,            1.3,],
-        [  91,             5.5,            2.6,             4.4,            1.2,],
-      ]);
-
-      final matrix = dataframe.toMatrix();
-
-      print(matrix);
-    });
   });
 }
