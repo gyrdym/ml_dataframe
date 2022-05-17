@@ -33,10 +33,10 @@ The library exposes in-memory storage for dynamically typed data. The storage is
 - [Ways to create a dataframe](#ways-to-create-a-dataframe)
     - [DataFrame constructor](#dataframe-constructor)
     - [Create a dataframe from a CSV file](#fromcsv-function)
-    - [Restore a dataframe from JSON](#restore-previously-persisted-as-a-json-file-dataframe---fromjson-function)
+    - [Restore a dataframe from JSON](#restore-a-dataframe-previously-persisted-as-a-json-file----fromjson-function)
 - [Prefilled dataframes](#dataframes-with-prefilled-data)
-    - [Iris dataset](#iris-dataset---function-loadirisdataset)
-    - [Pima Indians diabetes dataset](#pima-indians-diabetes-dataset---function-loadpimaindiansdiabetesdataset)
+    - [Iris dataset](#iris-dataset---function-getirisdataframe)
+    - [Pima Indians diabetes dataset](#pima-indians-diabetes-dataset---function-getpimaindiansdiabetesdataframe)
     - [Red wine quality dataset](#red-wine-quality-dataset---function-getwinequalitydataframe)
 - [Contacts](#contacts)
 
@@ -69,8 +69,6 @@ void main() {
 ```
 
 ## `DataFrame` API with examples:
-
-Let's assume that all the examples below are applied to the dataframe instance which was created above.
 
 ### Get the header of the data
 
@@ -365,9 +363,9 @@ void main() {
   //  90             5.5            2.5             4.0            1.3   Iris-versicolor
   //  91             5.5            2.6             4.4            1.2   Iris-versicolor
 
-  dataframe.shuffle(); 
+  final shuffled = dataframe.shuffle(); // keep in mind that `shuffle` like other methods returns a new dataframe, the method doesn't mutate the source dataframe 
 
-  print(dataframe);
+  print(shuffled);
   // DataFrame (5 x 6)
   //  Id   SepalLengthCm   SepalWidthCm   PetalLengthCm   PetalWidthCm           Species
   //  89             5.6            3.0             4.1            1.3   Iris-versicolor
@@ -409,17 +407,23 @@ import 'package:ml_dataframe/ml_dataframe.dart';
 
 void main() {
   final dataframe = DataFrame([
-    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
-    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
-    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
-    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
-    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
-    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm'],
+    [   1,             5.1,            3.5,             1.4,            0.2],
+    [   2,             4.9,            3.0,             1.4,            0.2],
+    [  89,             5.6,            3.0,             4.1,            1.3],
+    [  90,             5.5,            2.5,             4.0,            1.3],
+    [  91,             5.5,            2.6,             4.4,            1.2],
   ]);
   
   final matrix = dataframe.toMatrix();
   
-  print(matrix);
+  print(matrix); // because of internal representation of Float32 numbers there are some round-off errors in the output
+  // Matrix 5 x 5:
+  // (1.0, 5.099999904632568, 3.5, 1.399999976158142, 0.20000000298023224)
+  // (2.0, 4.900000095367432, 3.0, 1.399999976158142, 0.20000000298023224)
+  // (89.0, 5.599999904632568, 3.0, 4.099999904632568, 1.2999999523162842)
+  // (90.0, 5.5, 2.5, 4.0, 1.2999999523162842)
+  // (91.0, 5.5, 2.5999999046325684, 4.400000095367432, 1.2000000476837158)
 }
 ```
 
@@ -598,7 +602,7 @@ void main() async {
 }
 ```
 
-### Restore previously persisted as a json file dataframe - `fromJson` function
+### Restore a dataframe previously persisted as a json file  - `fromJson` function
 
 ```dart
 import 'package:ml_dataframe/ml_dataframe.dart';
@@ -614,7 +618,7 @@ This function works in conjunction with DataFrame `saveAsJson` method.
 
 In order to test data processing algorithms, one can use "toy" datasets. The library exposes several of them:
 
-### Iris dataset - function `getIrisDataset`
+### Iris dataset - function `getIrisDataFrame`
 
 One can create a dataframe filled with [Iris](https://www.kaggle.com/datasets/uciml/iris) data: 
 
