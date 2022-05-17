@@ -33,40 +33,42 @@ The library exposes in-memory storage for dynamically typed data. The storage is
 - [Ways to create a dataframe](#ways-to-create-a-dataframe)
     - [DataFrame constructor](#dataframe-constructor)
     - [Create a dataframe from a CSV file](#fromcsv-function)
-    - [Restore a dataframe from JSON](#restore-previously-persisted-as-a-json-file-dataframe---fromjson-function)
+    - [Restore a dataframe from JSON](#restore-a-dataframe-previously-persisted-as-a-json-file----fromjson-function)
 - [Prefilled dataframes](#dataframes-with-prefilled-data)
-    - [Iris dataset](#iris-dataset---function-loadirisdataset)
-    - [Pima Indians diabetes dataset](#pima-indians-diabetes-dataset---function-loadpimaindiansdiabetesdataset)
+    - [Iris dataset](#iris-dataset---function-getirisdataframe)
+    - [Pima Indians diabetes dataset](#pima-indians-diabetes-dataset---function-getpimaindiansdiabetesdataframe)
     - [Red wine quality dataset](#red-wine-quality-dataset---function-getwinequalitydataframe)
 - [Contacts](#contacts)
 
 ## Usage example:
 
 ```dart
-final data = [
-  ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
-  [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
-  [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
-  [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
-  [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
-  [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
-];
+import 'package:ml_dataframe/ml_dataframe.dart';
 
-final dataframe = DataFrame(data);
-
-print(dataframe);
-// DataFrame (5 x 6)
-//  Id   SepalLengthCm   SepalWidthCm   PetalLengthCm   PetalWidthCm           Species
-//   1             5.1            3.5             1.4            0.2       Iris-setosa
-//   2             4.9            3.0             1.4            0.2       Iris-setosa
-//  89             5.6            3.0             4.1            1.3   Iris-versicolor
-//  90             5.5            2.5             4.0            1.3   Iris-versicolor
-//  91             5.5            2.6             4.4            1.2   Iris-versicolor
+void main() {
+  final data = [
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+  ];
+    
+  final dataframe = DataFrame(data);
+    
+  print(dataframe);
+  // DataFrame (5 x 6)
+  //  Id   SepalLengthCm   SepalWidthCm   PetalLengthCm   PetalWidthCm           Species
+  //   1             5.1            3.5             1.4            0.2       Iris-setosa
+  //   2             4.9            3.0             1.4            0.2       Iris-setosa
+  //  89             5.6            3.0             4.1            1.3   Iris-versicolor
+  //  90             5.5            2.5             4.0            1.3   Iris-versicolor
+  //  91             5.5            2.6             4.4            1.2   Iris-versicolor
+}
 ```
 
 ## `DataFrame` API with examples:
-
-Let's assume that all the examples below are applied to the dataframe instance which was created above.
 
 ### Get the header of the data
 
@@ -74,157 +76,304 @@ By default, the very first row is considered a header, unless one specify their 
 this is [here](#dataframe-constructor)
 
 ```dart
-final header = dataframe.header;
+import 'package:ml_dataframe/ml_dataframe.dart';
 
-print(header);
-// ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm', 'Species']
+void main() {
+  final dataframe = DataFrame([
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+  ]);
+  final header = dataframe.header;
+
+  print(header);
+  // ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm', 'Species']
+}
 ```
 
 ### Get the rows of the data
 
 ```dart
-final rows = dataframe.rows;
+import 'package:ml_dataframe/ml_dataframe.dart';
 
-print(rows);
-// [
-//   [1, 5.1, 3.5, 1.4, 0.2, 'Iris-setosa'],
-//   [2, 4.9, 3.0, 1.4, 0.2, 'Iris-setosa'],
-//   [89, 5.6, 3.0, 4.1, 1.3, 'Iris-versicolor'],
-//   [90, 5.5, 2.5, 4.0, 1.3, 'Iris-versicolor'],
-//   [91, 5.5, 2.6, 4.4, 1.2, 'Iris-versicolor'],
-// ],
+void main() {
+  final dataframe = DataFrame([
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+  ]);
+  final rows = dataframe.rows;
+
+  print(rows);
+  // [
+  //   [1, 5.1, 3.5, 1.4, 0.2, 'Iris-setosa'],
+  //   [2, 4.9, 3.0, 1.4, 0.2, 'Iris-setosa'],
+  //   [89, 5.6, 3.0, 4.1, 1.3, 'Iris-versicolor'],
+  //   [90, 5.5, 2.5, 4.0, 1.3, 'Iris-versicolor'],
+  //   [91, 5.5, 2.6, 4.4, 1.2, 'Iris-versicolor'],
+  // ],
+}
 ``` 
 
 ### Get the series collection (columns) of the data
 
 ```dart
-final series = dataframe.series;
+import 'package:ml_dataframe/ml_dataframe.dart';
 
-print(series);
-// [
-//   'Id': [1, 2, 89, 90, 91],
-//   'SepalLengthCm': [5.1, 4.9, 5.6, 5.5, 5.5],
-//   'SepalWidthCm': [3.5, 3.0, 3.0, 2.5, 2.6],
-//   'PetalLengthCm': [1.4, 1.4, 4.1, 4.0, 4.4],
-//   'PetalWidthCm': [0.2, 0.2, 1.3, 1.3, 1.2],
-//   'Species': ['Iris-setosa', 'Iris-setosa', 'Iris-versicolor', 'Iris-versicolor', 'Iris-versicolor'],
-// ],
+void main() {
+  final dataframe = DataFrame([
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+  ]);
+  final series = dataframe.series;
+    
+  print(series);
+  // [
+  //   'Id': [1, 2, 89, 90, 91],
+  //   'SepalLengthCm': [5.1, 4.9, 5.6, 5.5, 5.5],
+  //   'SepalWidthCm': [3.5, 3.0, 3.0, 2.5, 2.6],
+  //   'PetalLengthCm': [1.4, 1.4, 4.1, 4.0, 4.4],
+  //   'PetalWidthCm': [0.2, 0.2, 1.3, 1.3, 1.2],
+  //   'Species': ['Iris-setosa', 'Iris-setosa', 'Iris-versicolor', 'Iris-versicolor', 'Iris-versicolor'],
+  // ],
+}
 ``` 
 
 ### Get the shape of the data
 
 ```dart
-final shape = dataframe.shape;
+import 'package:ml_dataframe/ml_dataframe.dart';
 
-print(shape);
-// [5, 6] - 5 rows, 6 columns
+void main() {
+  final dataframe = DataFrame([
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+  ]);
+  final shape = dataframe.shape;
+
+  print(shape);
+  // [5, 6] - 5 rows, 6 columns
+}
 ```
 
 ### Add a series
 
 ```dart
-final firstSeries = Series('super_series', [1, 2, 3, 4, 5, 6]);
+import 'package:ml_dataframe/ml_dataframe.dart';
 
-dataframe.addSeries([firstSeries]);
+void main() {
+  final firstSeries = Series('super_series', [1, 2, 3, 4, 5, 6]);
+  final dataframe = DataFrame([
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+  ]);
 
-print(dataframe.series.last);
-// 'super_series': [1, 2, 3, 4, 5, 6]
+  final modifiedDataframe = dataframe.addSeries([firstSeries]); // The method doesn't mutate the original dataframe
+
+  print(modifiedDataframe.series.first);
+  // 'super_series': [1, 2, 3, 4, 5, 6]
+}
 ```
 
 ### Drop a series by a series name
 
 ```dart
-print(dataframe.shape);
-// [5, 6] - 6 rows, 6 columns 
+import 'package:ml_dataframe/ml_dataframe.dart';
 
-dataframe.dropSeries(names: ['Id']);
+void main() {
+  final dataframe = DataFrame([
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+  ]);
 
-print(dataframe.shape);
-// [5, 5] -  after a series had been dropped, the number of columns became one lesser 
+  print(dataframe.shape);
+  // [5, 6] - 6 rows, 6 columns 
+
+  final modifiedDataframe = dataframe.dropSeries(names: ['Id']); // The method doesn't mutate the original dataframe
+
+  print(modifiedDataframe.shape);
+  // [5, 5] -  after a series had been dropped, the number of columns became one lesser
+} 
 ````
 
 ### Drop a series by a series index
 
 ```dart
-print(dataframe.shape);
-// [5, 6] - 5 rows, 6 columns 
+import 'package:ml_dataframe/ml_dataframe.dart';
 
-dataframe.dropSeries(indices: [0]);
+void main() {
+  final dataframe = DataFrame([
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+  ]);
+  print(dataframe.shape);
+  // [5, 6] - 5 rows, 6 columns 
 
-print(dataframe.shape);
-// [5, 5] -  after a series had been dropped, the number of columns became one lesser 
+  final modifiedDataframe = dataframe.dropSeries(indices: [0]); // The method doesn't mutate the original dataframe
+
+  print(modifiedDataframe.shape);
+  // [5, 5] -  after a series had been dropped, the number of columns became one lesser
+} 
 ````
 
 ### Sample a new dataframe from rows of an existing dataframe
 
 ```dart
-final sampled = dataframe.sampleFromRows([0, 5]);
+import 'package:ml_dataframe/ml_dataframe.dart';
 
-print(sampled);
-// DataFrame (2 x 6)
-//  Id   SepalLengthCm   SepalWidthCm   PetalLengthCm   PetalWidthCm           Species
-//   1             5.1            3.5             1.4            0.2       Iris-setosa
-//  91             5.5            2.6             4.4            1.2   Iris-versicolor 
+void main() {
+  final dataframe = DataFrame([
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+  ]);
+  final sampled = dataframe.sampleFromRows([0, 5]);
+
+  print(sampled);
+  // DataFrame (2 x 6)
+  //  Id   SepalLengthCm   SepalWidthCm   PetalLengthCm   PetalWidthCm           Species
+  //   1             5.1            3.5             1.4            0.2       Iris-setosa
+  //  91             5.5            2.6             4.4            1.2   Iris-versicolor
+} 
 ````
 
 ### Sample a new dataframe from series indices of an existing dataframe
 
 ```dart
-final sampled = dataframe.sampleFromSeries(indices: [0, 1]);
+import 'package:ml_dataframe/ml_dataframe.dart';
 
-print(sampled);
-// DataFrame (5 x 2)
-//  Id   SepalLengthCm
-//   1             5.1
-//   2             4.9
-//  89             5.6
-//  90             5.5
-//  91             5.5
+void main() {
+  final dataframe = DataFrame([
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+  ]);
+  final sampled = dataframe.sampleFromSeries(indices: [0, 1]);
+
+  print(sampled);
+  // DataFrame (5 x 2)
+  //  Id   SepalLengthCm
+  //   1             5.1
+  //   2             4.9
+  //  89             5.6
+  //  90             5.5
+  //  91             5.5
+}
 ````
 
 ### Sample a new dataframe from series names of an existing dataframe
 
 ```dart
-final sampled = dataframe.sampleFromSeries(names: ['Id', 'SepalLengthCm']);
+import 'package:ml_dataframe/ml_dataframe.dart';
 
-print(sampled);
-// DataFrame (5 x 2)
-//  Id   SepalLengthCm
-//   1             5.1
-//   2             4.9
-//  89             5.6
-//  90             5.5
-//  91             5.5
+void main() {
+  final dataframe = DataFrame([
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+  ]);
+  final sampled = dataframe.sampleFromSeries(names: ['Id', 'SepalLengthCm']);
+
+  print(sampled);
+  // DataFrame (5 x 2)
+  //  Id   SepalLengthCm
+  //   1             5.1
+  //   2             4.9
+  //  89             5.6
+  //  90             5.5
+  //  91             5.5
+}
 ````
 
 ### Save a dataframe to a JSON file
 
 ```dart
-await dataframe.saveAsJson('path/to/json/file.json');
+import 'package:ml_dataframe/ml_dataframe.dart';
+
+void main() async {
+  final dataframe = DataFrame([
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+  ]);
+  
+  await dataframe.saveAsJson('path/to/json/file.json');
+}
 ````
 
 ### Shuffle rows in a dataframe
 
 ```dart
-print(dataframe);
-// DataFrame (5 x 6)
-//  Id   SepalLengthCm   SepalWidthCm   PetalLengthCm   PetalWidthCm           Species
-//   1             5.1            3.5             1.4            0.2       Iris-setosa
-//   2             4.9            3.0             1.4            0.2       Iris-setosa
-//  89             5.6            3.0             4.1            1.3   Iris-versicolor
-//  90             5.5            2.5             4.0            1.3   Iris-versicolor
-//  91             5.5            2.6             4.4            1.2   Iris-versicolor
+import 'package:ml_dataframe/ml_dataframe.dart';
 
-dataframe.shuffle(); 
+void main() {
+  final dataframe = DataFrame([
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+  ]);
+  
+  print(dataframe);
+  // DataFrame (5 x 6)
+  //  Id   SepalLengthCm   SepalWidthCm   PetalLengthCm   PetalWidthCm           Species
+  //   1             5.1            3.5             1.4            0.2       Iris-setosa
+  //   2             4.9            3.0             1.4            0.2       Iris-setosa
+  //  89             5.6            3.0             4.1            1.3   Iris-versicolor
+  //  90             5.5            2.5             4.0            1.3   Iris-versicolor
+  //  91             5.5            2.6             4.4            1.2   Iris-versicolor
 
-print(dataframe);
-// DataFrame (5 x 6)
-//  Id   SepalLengthCm   SepalWidthCm   PetalLengthCm   PetalWidthCm           Species
-//  89             5.6            3.0             4.1            1.3   Iris-versicolor
-//   1             5.1            3.5             1.4            0.2       Iris-setosa
-//  91             5.5            2.6             4.4            1.2   Iris-versicolor
-//   2             4.9            3.0             1.4            0.2       Iris-setosa
-//  90             5.5            2.5             4.0            1.3   Iris-versicolor
+  final shuffled = dataframe.shuffle(); // keep in mind that `shuffle` like other methods returns a new dataframe, the method doesn't mutate the source dataframe 
+
+  print(shuffled);
+  // DataFrame (5 x 6)
+  //  Id   SepalLengthCm   SepalWidthCm   PetalLengthCm   PetalWidthCm           Species
+  //  89             5.6            3.0             4.1            1.3   Iris-versicolor
+  //   1             5.1            3.5             1.4            0.2       Iris-setosa
+  //  91             5.5            2.6             4.4            1.2   Iris-versicolor
+  //   2             4.9            3.0             1.4            0.2       Iris-setosa
+  //  90             5.5            2.5             4.0            1.3   Iris-versicolor
+}
 ````
 
 One can use `seed` parameter to keep the order of rows disregard the number of `shuffle` calls:   
@@ -236,13 +385,46 @@ dataframe.shuffle(seed: 10);
 ### Get a json-serializable representation
 
 ```dart
-final json = dataframe.toJson(); // json contains a serializable map
+import 'package:ml_dataframe/ml_dataframe.dart';
+
+void main() {
+  final dataframe = DataFrame([
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+  ]);
+  final json = dataframe.toJson(); // json contains a serializable map
+}
 ```
 
 ### Convert a dataframe to a matrix:
 
 ```dart
-dataframe.toMatrix();
+import 'package:ml_dataframe/ml_dataframe.dart';
+
+void main() {
+  final dataframe = DataFrame([
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm'],
+    [   1,             5.1,            3.5,             1.4,            0.2],
+    [   2,             4.9,            3.0,             1.4,            0.2],
+    [  89,             5.6,            3.0,             4.1,            1.3],
+    [  90,             5.5,            2.5,             4.0,            1.3],
+    [  91,             5.5,            2.6,             4.4,            1.2],
+  ]);
+  
+  final matrix = dataframe.toMatrix();
+  
+  print(matrix); // because of internal representation of Float32 numbers there are some round-off errors in the output
+  // Matrix 5 x 5:
+  // (1.0, 5.099999904632568, 3.5, 1.399999976158142, 0.20000000298023224)
+  // (2.0, 4.900000095367432, 3.0, 1.399999976158142, 0.20000000298023224)
+  // (89.0, 5.599999904632568, 3.0, 4.099999904632568, 1.2999999523162842)
+  // (90.0, 5.5, 2.5, 4.0, 1.2999999523162842)
+  // (91.0, 5.5, 2.5999999046325684, 4.400000095367432, 1.2000000476837158)
+}
 ```
 
 the method throws an error if there are inconvertible to a number values in the dataframe.
@@ -250,19 +432,43 @@ the method throws an error if there are inconvertible to a number values in the 
 ### Get a series by its index
 
 ```dart
-final series = dataframe[0];
+import 'package:ml_dataframe/ml_dataframe.dart';
 
-print(series);
-// Id: [1, 2, 89, 90, 91]
+void main() {
+  final dataframe = DataFrame([
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+  ]);
+  final series = dataframe[0];
+
+  print(series);
+  // Id: [1, 2, 89, 90, 91]
+}
 ```
 
 ### Get a series by its name
 
 ```dart
-final series = dataframe['Id'];
+import 'package:ml_dataframe/ml_dataframe.dart';
 
-print(series);
-// Id: [1, 2, 89, 90, 91]
+void main() {
+  final dataframe = DataFrame([
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+  ]);
+  final series = dataframe['Id'];
+
+  print(series);
+  // Id: [1, 2, 89, 90, 91]
+}
 ```
 
 ### Map values of a dataframe
@@ -320,33 +526,39 @@ void main() {
 ```dart
 import 'package:ml_dataframe/ml_dataframe.dart';
 
-final data = [
-  ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
-  [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
-  [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
-  [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
-  [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
-  [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
-];
+void main() {
+  final data = [
+    ['Id', 'SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm',         'Species'],
+    [   1,             5.1,            3.5,             1.4,            0.2,     'Iris-setosa'],
+    [   2,             4.9,            3.0,             1.4,            0.2,     'Iris-setosa'],
+    [  89,             5.6,            3.0,             4.1,            1.3, 'Iris-versicolor'],
+    [  90,             5.5,            2.5,             4.0,            1.3, 'Iris-versicolor'],
+    [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
+  ];
 
-final dataframe = DataFrame(data);
+  final dataframe = DataFrame(data);
+}
 ```
 
 By default, the very first row is considered a header. If the data does not have a header, one can use autogenerated 
 header by providing `headerExists: false` config to the constructor:  
 
 ```dart
-final data = [
-  [1, 5.1, 3.5, 1.4, 0.2, 'Iris-setosa'],
-  [2, 4.9, 3.0, 1.4, 0.2, 'Iris-setosa'],
-  [89, 5.6, 3.0, 4.1, 1.3, 'Iris-versicolor'],
-  [90, 5.5, 2.5, 4.0, 1.3, 'Iris-versicolor'],
-  [91, 5.5, 2.6, 4.4, 1.2, 'Iris-versicolor'],
-];
+import 'package:ml_dataframe/ml_dataframe.dart';
 
-final dataframe = DataFrame(data, headerExists: false);
+void main() {
+  final data = [
+    [1, 5.1, 3.5, 1.4, 0.2, 'Iris-setosa'],
+    [2, 4.9, 3.0, 1.4, 0.2, 'Iris-setosa'],
+    [89, 5.6, 3.0, 4.1, 1.3, 'Iris-versicolor'],
+    [90, 5.5, 2.5, 4.0, 1.3, 'Iris-versicolor'],
+    [91, 5.5, 2.6, 4.4, 1.2, 'Iris-versicolor'],
+  ];
 
-print(dataframe.header);
+  final dataframe = DataFrame(data, headerExists: false);
+
+  print(dataframe.header);
+}
 ```
 
 It outputs `['col_1', 'col_2', 'col_3', 'col_4', 'col_5', 'col_6']`. `col_` is a default prefix for the autogenerated 
@@ -355,15 +567,19 @@ columns.
 Also, if there are no header row in the data, one can use a predefined header:
 
 ```dart
-final data = [
-  [1, 5.1, 3.5, 1.4, 0.2, 'Iris-setosa'],
-  [2, 4.9, 3.0, 1.4, 0.2, 'Iris-setosa'],
-  [89, 5.6, 3.0, 4.1, 1.3, 'Iris-versicolor'],
-  [90, 5.5, 2.5, 4.0, 1.3, 'Iris-versicolor'],
-  [91, 5.5, 2.6, 4.4, 1.2, 'Iris-versicolor'],
-];
+import 'package:ml_dataframe/ml_dataframe.dart';
 
-final dataframe = DataFrame(data, header: ['feature_1', 'feature_2', 'feature_3', 'feature_4', 'feature_5', 'feature_6']);
+void main() {
+  final data = [
+    [1, 5.1, 3.5, 1.4, 0.2, 'Iris-setosa'],
+    [2, 4.9, 3.0, 1.4, 0.2, 'Iris-setosa'],
+    [89, 5.6, 3.0, 4.1, 1.3, 'Iris-versicolor'],
+    [90, 5.5, 2.5, 4.0, 1.3, 'Iris-versicolor'],
+    [91, 5.5, 2.6, 4.4, 1.2, 'Iris-versicolor'],
+  ];
+
+  final dataframe = DataFrame(data, header: ['feature_1', 'feature_2', 'feature_3', 'feature_4', 'feature_5', 'feature_6']);
+}
 ```
 
 ### `fromCsv` function
@@ -371,23 +587,29 @@ final dataframe = DataFrame(data, header: ['feature_1', 'feature_2', 'feature_3'
 ```dart
 import 'package:ml_dataframe/ml_dataframe.dart';
 
-final data = await fromCsv('path/to/csv/file.csv');
+void main() async {
+  final data = await fromCsv('path/to/csv/file.csv');
+}
 ```
 
-If the `csv` file doe not have a header row, it's needed to provide the corresponding flag:
+If the `csv` file does not have a header row, it's needed to provide the corresponding flag:
 
 ```dart
 import 'package:ml_dataframe/ml_dataframe.dart';
 
-final data = await fromCsv('path/to/csv/file.csv', headerExists: false);
+void main() async {
+  final data = await fromCsv('path/to/csv/file.csv', headerExists: false);
+}
 ```
 
-### Restore previously persisted as a json file dataframe - `fromJson` function
+### Restore a dataframe previously persisted as a json file  - `fromJson` function
 
 ```dart
 import 'package:ml_dataframe/ml_dataframe.dart';
 
-final data = await fromJson('path/to/json/file.json');
+void main() async {
+  final data = await fromJson('path/to/json/file.json');
+}
 ```
 
 This function works in conjunction with DataFrame `saveAsJson` method.
@@ -396,15 +618,15 @@ This function works in conjunction with DataFrame `saveAsJson` method.
 
 In order to test data processing algorithms, one can use "toy" datasets. The library exposes several of them:
 
-### Iris dataset - function `getIrisDataset`
+### Iris dataset - function `getIrisDataFrame`
 
 One can create a dataframe filled with [Iris](https://www.kaggle.com/datasets/uciml/iris) data: 
 
 ```dart
 import 'package:ml_dataframe/ml_dataframe.dart';
 
-void main() async {
-  final data = await getIrisDataset();
+void main() {
+  final data = getIrisDataFrame();
 
   print(data);
   // DataFrame (150 x 6)

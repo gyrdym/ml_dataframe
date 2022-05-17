@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.1
+- Corrected typos and examples in README.md
+
 ## 1.5.0
 - `getWineQualityDataFrame` function added
 - `loadIrisDataset`, `loadPimaIndiansDiabetesDataset` deprecated, `getIrisDataFrame`, `getPimaIndiansDiabetesDataFrame` added instead
