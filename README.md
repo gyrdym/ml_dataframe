@@ -186,9 +186,9 @@ void main() {
     [  91,             5.5,            2.6,             4.4,            1.2, 'Iris-versicolor'],
   ]);
 
-  dataframe.addSeries([firstSeries]);
+  final modifiedDataframe = dataframe.addSeries([firstSeries]); // The method doesn't mutate the original dataframe
 
-  print(dataframe.series.last);
+  print(modifiedDataframe.series.first);
   // 'super_series': [1, 2, 3, 4, 5, 6]
 }
 ```
@@ -211,9 +211,9 @@ void main() {
   print(dataframe.shape);
   // [5, 6] - 6 rows, 6 columns 
 
-  dataframe.dropSeries(names: ['Id']);
+  final modifiedDataframe = dataframe.dropSeries(names: ['Id']); // The method doesn't mutate the original dataframe
 
-  print(dataframe.shape);
+  print(modifiedDataframe.shape);
   // [5, 5] -  after a series had been dropped, the number of columns became one lesser
 } 
 ````
@@ -235,9 +235,9 @@ void main() {
   print(dataframe.shape);
   // [5, 6] - 5 rows, 6 columns 
 
-  dataframe.dropSeries(indices: [0]);
+  final modifiedDataframe = dataframe.dropSeries(indices: [0]); // The method doesn't mutate the original dataframe
 
-  print(dataframe.shape);
+  print(modifiedDataframe.shape);
   // [5, 5] -  after a series had been dropped, the number of columns became one lesser
 } 
 ````
