@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.6.0
+- `getHousingDataFrame` function added
+
 ## 1.5.1
 - Corrected typos and examples in README.md
 
