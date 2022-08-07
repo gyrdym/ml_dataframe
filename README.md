@@ -38,6 +38,7 @@ The library exposes in-memory storage for dynamically typed data. The storage is
     - [Iris dataset](#iris-dataset---function-getirisdataframe)
     - [Pima Indians diabetes dataset](#pima-indians-diabetes-dataset---function-getpimaindiansdiabetesdataframe)
     - [Red wine quality dataset](#red-wine-quality-dataset---function-getwinequalitydataframe)
+    - [Boston housing dataset](#boston-housing-dataset---function-gethousingdataframe)
 - [Contacts](#contacts)
 
 ## Usage example:
@@ -666,6 +667,33 @@ void main() {
   // DataFrame (1599 x 12)
   // fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality
   // ...
+}
+```
+
+### Boston housing dataset - function `getHousingDataframe`
+
+One can create a dataframe filled with [Boston housing](http://lib.stat.cmu.edu/datasets/boston) data: 
+
+```dart
+import 'package:ml_dataframe/ml_dataframe.dart';
+
+void main() {
+  final data = getHousingDataframe();
+
+  print(data);
+  // DataFrame (506 x 14)
+  //    CRIM     ZN   INDUS   CHAS     NOX      RM   ...   MEDV
+  // 0.00632   18.0    2.31      0   0.538   6.575   ...   24.0
+  // 0.02731    0.0    7.07      0   0.469   6.421   ...   21.6
+  // 0.02729    0.0    7.07      0   0.469   7.185   ...   34.7
+  // 0.03237    0.0    2.18      0   0.458   6.998   ...   33.4
+  // 0.06905    0.0    2.18      0   0.458   7.147   ...   36.2
+  //     ...    ...     ...    ...     ...     ...   ...    ...
+  // 0.06263    0.0   11.93      0   0.573   6.593   ...   22.4
+  // 0.04527    0.0   11.93      0   0.573    6.12   ...   20.6
+  // 0.06076    0.0   11.93      0   0.573   6.976   ...   23.9
+  // 0.10959    0.0   11.93      0   0.573   6.794   ...   22.0
+  // 0.04741    0.0   11.93      0   0.573    6.03   ...   11.9
 }
 ```
 
